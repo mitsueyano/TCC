@@ -73,14 +73,22 @@
                 <div class="container-info">
                     <span id="infoId"></span>
                     <span id="infoNome"></span>
-                    <span id="infoDono"></span>       
+                    <span id="infoDono"></span>      
+                    <button id="btn-modal" onclick="abrirModal()" class="btn-open-modal">abrir modal</button>    
                 </div>
                 <div class="data">
                     <div class="dia" id="data-atual"></div> 
                     <div class="hora" id="hora-atual"></div>
                 </div>
             </div>
+            <div id="modal" class="modal">
+                <div class="modal-content" id="modal-content">
+                    <div class="btn-close"><span class="close" onclick="fecharModal()">&times;</span></div>
+                    <span>Texto do modal</span>
+                </div>
+            </div>
         </div>
+        <div id="modalBackdrop"></div>
         <script>
             function atualizarHora() {
                 var elementoHora = document.getElementById('hora-atual');
@@ -125,6 +133,27 @@
                         document.querySelector("#infoDono").innerHTML = g[2];
                     }
                 })
+            }
+            function abrirModal(){
+                var btn = document.getElementById("btn-modal");
+                var modalBackdrop = document.getElementById("modalBackdrop");
+                modal.style.display = "block";
+                modalBackdrop.style.display = "block";
+            }
+            function fecharModal(){
+                var span = document.getElementsByClassName("close");
+                var modalBackdrop = document.getElementById("modalBackdrop");
+                modal.style.display = "none";
+                modalBackdrop.style.display = "none";
+            }
+            var modal = document.getElementById("modal");
+            var botao = document.getElementById("btn-modal");
+            var modalContent = document.getElementById("modal-content");
+            window.onclick = function(event) {
+                if (!event.target.closest("#modal, #botao, #modalContent") && event.target !== botao) {
+                    modal.style.display = "none";
+                    modalBackdrop.style.display = "none";
+                }
             }
         </script>
     </body>

@@ -188,3 +188,66 @@ background: #c5d6ed;
 .more-list-container{
     width: 10px;
 }
+.modal{
+    display: none;
+    box-sizing: border-box;
+    position: absolute;
+    z-index: 4;
+    width: 30%;
+    height: 20%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: auto;
+    background-color: #fff;
+}
+.modal-content{
+    background-color: #fff;
+    padding: 5px;
+    box-sizing: border-box;
+    border: 1px solid #97a9d1;
+    width: 100%;
+    height: 100%;
+}
+.btn-open-modal{
+    border: 1px solid #97a9d1;
+    background-color: #fff;
+    width: 50%;
+    text-decoration: none;
+    font-size: 18px;
+    color: black;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;     
+}
+.btn-close{
+    display: flex;
+    justify-content: end;
+}
+.close{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 30px;
+    box-sizing: border-box;
+    background-color: #c5d6ed;
+    text-decoration: none;
+    font-size: 18px;
+    color: black;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;       
+}
+.close:hover{
+    background-color: #97a9d1;
+    transition: .5s;
+    text-decoration: none;
+    cursor: pointer;
+}
+#modalBackdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    z-index: 2;
+}
