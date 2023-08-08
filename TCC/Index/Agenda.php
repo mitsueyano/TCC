@@ -8,7 +8,7 @@ include 'conectaBD.php';
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Nova Consulta</title>
-        <link rel="stylesheet" href="./Agenda.css">
+        <link rel="stylesheet" href="../Css/Agenda.css">
     </head>
     <body>
         <div class="border-page"></div>

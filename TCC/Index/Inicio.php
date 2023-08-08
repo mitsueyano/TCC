@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Início</title>
-        <link rel="stylesheet" href="./Inicio.css">
+        <link rel="stylesheet" href="../Css/Inicio.css">
     </head>
     <body>
         <div class="border-page"></div>
@@ -52,7 +52,7 @@
                                 </td>
                                 <td class="more-list-container"> 
                                     <div class="list-box">
-                                        <button class="more-btn">...</button>
+                                        <button class="more-btn" onclick="abrirModal(<?php echo $array[0]; ?>)">...</button>
                                     </div>
                                 </td>
                             </tr>
@@ -74,7 +74,6 @@
                     <span id="infoId"></span>
                     <span id="infoNome"></span>
                     <span id="infoDono"></span>      
-                    <button id="btn-modal" onclick="abrirModal()" class="btn-open-modal">abrir modal</button>    
                 </div>
                 <div class="data">
                     <div class="dia" id="data-atual"></div> 
@@ -83,8 +82,11 @@
             </div>
             <div id="modal" class="modal">
                 <div class="modal-content" id="modal-content">
-                    <div class="btn-close"><span class="close" onclick="fecharModal()">&times;</span></div>
+                    <div class="btn-close" id="btn-close"><span class="close" onclick="fecharModal()">&times;</span></div>
                     <span>Texto do modal</span>
+                    <span id="infoIdModal"></span>
+                    <span id="infoNomeModal"></span>
+                    <span id="infoDonoModal"></span>     
                 </div>
             </div>
         </div>
@@ -131,11 +133,32 @@
                         document.querySelector("#infoId").innerHTML = g[0];
                         document.querySelector("#infoNome").innerHTML = g[1];
                         document.querySelector("#infoDono").innerHTML = g[2];
+
                     }
                 })
             }
-            function abrirModal(){
-                var btn = document.getElementById("btn-modal");
+
+            <?php
+                include 'conectaBD.php';
+                $query = "select * From agenda";
+                $result = mysqli_query($conexao, $query);
+                $linhas = [];
+                while($linha = $result->fetch_row()) {
+                    $linhas[] = $linha;
+                } 
+                $agenda = json_encode($linhas);
+                echo "var agenda = " . $agenda . ";\n";
+            ?>
+
+            function abrirModal(id){
+                agenda.forEach(g=>{
+                    if (g[0] == id){
+                        document.querySelector("#infoIdModal").innerHTML = g[0];
+                        document.querySelector("#infoNomeModal").innerHTML = g[1];
+                        document.querySelector("#infoDonoModal").innerHTML = g[2];
+                    }
+                })
+                var btn = document.querySelector(".more-btn");
                 var modalBackdrop = document.getElementById("modalBackdrop");
                 modal.style.display = "block";
                 modalBackdrop.style.display = "block";
@@ -146,14 +169,22 @@
                 modal.style.display = "none";
                 modalBackdrop.style.display = "none";
             }
-            var modal = document.getElementById("modal");
-            var botao = document.getElementById("btn-modal");
-            var modalContent = document.getElementById("modal-content");
+
             window.onclick = function(event) {
-                if (!event.target.closest("#modal, #botao, #modalContent") && event.target !== botao) {
-                    modal.style.display = "none";
-                    modalBackdrop.style.display = "none";
+                if (!event.target.closest("#modal, .more-btn, #modalContent")) {
+
+                    const divTremor = document.getElementById('modal');
+
+                    function startTremor() {
+                        divTremor.classList.add('shake');
+                    }
+
+                    function stopTremor() {
+                        divTremor.classList.remove('shake');
+                    }
                 }
+                startTremor();
+                setTimeout(stopTremor, 500);
             }
         </script>
     </body>
