@@ -17,29 +17,33 @@ body{
     border-radius: 2px;
 }
 .login-box{
+    position: relative;
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
 }
 .input-form{
     margin-bottom: 40px;
     border: none;
     border-bottom: 1px black solid;
-    width: 70%;
-    height: 25px;
-    font-size: 2vh;
+    width: 100%;
+    height: 100%;
+    font-size: 1.3vw;
+    position: relative;
+    padding-left: 6%;
+    box-sizing: border-box;
 }
 .input-form:focus{
     outline: 0;
     border-bottom: 1px #c5d6ed solid;
 }
 .span-form{
-    font-size: 2.5vh;
+    font-size: 1.5vw;
     width: 70%;
+    margin-bottom: 5px;
 }
 .submit-form{
     margin-top: 12px;
@@ -56,5 +60,43 @@ body{
     border: 2px #c5d6ed solid;
     box-shadow: 2px 2px;
 }
+.msg{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 5px; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2vw;
+    color: #FF0000;
+    width: 100%;
+}
+input::placeholder{
+    color: #FF0000;
+    font-size: 1vw;
+    width: 100%;
+    text-align: end;   
+}
+.warning {
+    width: 20px;
+    position: absolute;
+    left: 15%;
+    bottom: 2%;
+    transform: translateY(-50%);
+}
 
+.input-with-image{
+    margin-bottom: 40px;
+    width: 70%;
+    height: 25px;
+    position: relative;
+}
 
+.img-input{
+    width: 5%;
+    position: absolute;
+    left: 0;
+    top: 2px;
+    z-index: 2;
+}
