@@ -83,10 +83,13 @@
             <div id="modal" class="modal">
                 <div class="modal-content" id="modal-content">
                     <div class="btn-close" id="btn-close"><span class="close" onclick="fecharModal()">&times;</span></div>
-                    <span>Texto do modal</span>
                     <span id="infoIdModal"></span>
                     <span id="infoNomeModal"></span>
-                    <span id="infoDonoModal"></span>     
+                    <span id="infoDonoModal"></span>   
+                    <div class="btn-modal-div">
+                        <span class="btn-modal">Agendar retorno</span>
+                        <span class="btn-modal">Registros</span>
+                    </div>  
                 </div>
             </div>
         </div>
@@ -153,9 +156,9 @@
             function abrirModal(id){
                 agenda.forEach(g=>{
                     if (g[0] == id){
-                        document.querySelector("#infoIdModal").innerHTML = g[0];
-                        document.querySelector("#infoNomeModal").innerHTML = g[1];
-                        document.querySelector("#infoDonoModal").innerHTML = g[2];
+
+                        document.querySelector("#infoNomeModal").innerHTML = "Nome do animal: " + g[1];
+                        document.querySelector("#infoDonoModal").innerHTML = "Dono: " + g[2];
                     }
                 })
                 var btn = document.querySelector(".more-btn");

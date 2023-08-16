@@ -97,7 +97,7 @@ table{
     height: 100%;
     width: 100%;
     font-family:Arial, Helvetica, sans-serif;      
-    font-size: 16px;
+    font-size: 2.5vh;
     border-collapse:collapse;
 }
 table .table-rows{
@@ -152,6 +152,7 @@ tbody>tr:hover {
     left: 20px;
     bottom: 4%;
     border-bottom: none;
+    font-size: 1.3vw;
 }
 ::-webkit-scrollbar {
     width: 6px;
@@ -194,7 +195,7 @@ background: #c5d6ed;
     position: absolute;
     z-index: 4;
     width: 30%;
-    height: 20%;
+    height: 30%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -202,6 +203,7 @@ background: #c5d6ed;
     background-color: #fff;
 }
 .modal-content{
+    position: relative;
     background-color: #fff;
     padding: 5px;
     box-sizing: border-box;
@@ -210,6 +212,7 @@ background: #c5d6ed;
     height: 100%;
     display: flex;
     flex-direction: column;
+    font-size: 1.3vw;
 }
 .btn-open-modal{
     border: 1px solid #97a9d1;
@@ -242,6 +245,36 @@ background: #c5d6ed;
     transition: .5s;
     text-decoration: none;
     cursor: pointer;
+}
+.btn-modal-div{
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 20%;
+    width: 100%;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-size: 18px;
+    color: black;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;       
+}
+.btn-modal:hover{
+    background-color: #97a9d1;
+    transition: .5s;
+    text-decoration: none;
+    cursor: pointer;
+}
+.btn-modal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #c5d6ed;
+    width: 45%;
+    height: 100%;
 }
 #modalBackdrop {
     display: none;
