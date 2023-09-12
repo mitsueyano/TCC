@@ -12,7 +12,7 @@ body{
 .border-page{
     height: 100%;
     width: 100%;
-    border: #c5d6ed  15px solid;
+    border: #2c476e 15px solid;
     position: absolute;
     box-sizing: border-box;
     z-index: -1 ;
@@ -32,27 +32,55 @@ body{
     display: flex;
     justify-content: space-evenly;
 }
-.button>a{
+.button > a {
     height: 60px;
     width: 14vw;
     padding-top: 10px;
     box-sizing: border-box;
-    background-color: #c5d6ed;
+    background-color: #2c476e;
     display: flex;
     justify-content: center;
     align-items: center;
     text-decoration: none;
-    font-size: 18px;
-    color: black;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;       
-}
-a:hover{
-    background-color: #97a9d1;
-    transition: .5s;
-}
+    font-size: 2.5vh;
+    color: #ffffff;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+  
+  .button > a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    background-color: #fef5e4;
+    transition: height 0.5s;
+    z-index: -1;
+  }
+  
+  .button > a:hover::before {
+    height: 100%;
+  }
+  
+  .button > a:hover {
+    background-color: #2c476e;
+    color: #000000;
+    transition: background-color 0.5s, color 0.5s;
+  }
+  
 .selected>a{
-    background-color: #97a9d1;
+    background-color: #fef5e4;
+    color: #000000;
 }
+.selected > a:hover {
+    background-color: #fef5e4 !important ;
+    color: #000000 !important; 
+}
+
 .page{
     height: 100%;
     width: 100%;
@@ -69,32 +97,32 @@ a:hover{
     margin-top: 50px;
 }
 .tablebar-button>a{
-    height: 45px;
+    height: 50px;
     width: 15vw;
     box-sizing: border-box;
-    background-color: #c5d6ed;
+    background-color: #2c476e;
     display: flex;
     justify-content: center;
     align-items: center;
     text-decoration: none;
-    font-size: 17px;
-    color: black;
+    font-size: 2.5vh;
+    color: #ffffff;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;       
     margin-right: 5px;
+    margin-bottom: 4px;
 }
 .tablebar-button>a:hover{
-    background-color: #97a9d1;
-    transition: .5s;
+    box-shadow: 3px 3px #000000;
+    transition: .2s;
 }
 .table-container{
     border: 1px solid #97a9d1;
     width: 80%;
-    height: 60%;
+    height:60%;
     overflow-y: auto;
 }
 table{
     text-align: left;
-    height: 100%;
     width: 100%;
     font-family:Arial, Helvetica, sans-serif;      
     font-size: 2.5vh;
@@ -116,26 +144,34 @@ th{
     padding: 5px;
 }
 tbody>tr:hover {
-    background-color: #c5d6ed;
+    background-color: #fef5e4;
 }   
 .checkout{
-    background-color: #b9b9b9;
+    background-color: #2c476e;
     padding: 5px;
-    color: black;
+    color: #ffffff;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;   
     text-decoration: none;
 }
 .more-btn{
-    background-color: #b9b9b9;
+    background-color: #2c476e;
     padding: 5px;
-    color: black;
+    color: #ffffff;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;   
     text-decoration: none;
     cursor: pointer;
     border: none;
 }
+.more-btn:hover{
+    box-shadow: 3px 3px #000000;
+    transition: .2s;
+}
 .checkout-btn{
     width: 120px;
+}
+.checkout-btn>a:hover{
+    box-shadow: 3px 3px #000000;
+    transition: .2s;
 }
 .container-info {
     position: absolute;
@@ -144,8 +180,8 @@ tbody>tr:hover {
     display: flex;
     flex-direction: column;
     gap: 3px;
-    background-color: #fff;
-    border-left: 1px solid #97a9d1;
+    background-color: #ffffff;
+    border-left: 1px solid #2c476e;
     z-index: 2;
     width: 50%;
     height: 15%;
@@ -158,13 +194,13 @@ tbody>tr:hover {
     width: 6px;
 }
 ::-webkit-scrollbar-track {
-    background: #fff; 
+    background: #ffffff; 
 }
-    ::-webkit-scrollbar-thumb {
-background: #97a9d1; 
+::-webkit-scrollbar-thumb {
+    background: #2c476e; 
 }
-    ::-webkit-scrollbar-thumb:hover {
-background: #c5d6ed; 
+::-webkit-scrollbar-thumb:hover {
+    background-color: #fef5e4;
 }
 .data{
     padding: 3px;
@@ -200,11 +236,11 @@ background: #c5d6ed;
     left: 50%;
     transform: translate(-50%, -50%);
     overflow: auto;
-    background-color: #fff;
+    background-color: #ffffff;
 }
 .modal-content{
     position: relative;
-    background-color: #fff;
+    background-color: #ffffff;
     padding: 5px;
     box-sizing: border-box;
     border: 1px solid #97a9d1;
@@ -213,15 +249,6 @@ background: #c5d6ed;
     display: flex;
     flex-direction: column;
     font-size: 1.3vw;
-}
-.btn-open-modal{
-    border: 1px solid #97a9d1;
-    background-color: #fff;
-    width: 50%;
-    text-decoration: none;
-    font-size: 18px;
-    color: black;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;     
 }
 .btn-close{
     display: flex;
@@ -234,17 +261,17 @@ background: #c5d6ed;
     height: 30px;
     width: 30px;
     box-sizing: border-box;
-    background-color: #c5d6ed;
+    background-color: #2c476e;
     text-decoration: none;
     font-size: 18px;
-    color: black;
+    color: #ffffff;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;       
 }
 .close:hover{
-    background-color: #97a9d1;
-    transition: .5s;
+    transition: .2s;
     text-decoration: none;
     cursor: pointer;
+    box-shadow: 2px 2px #000000;
 }
 .btn-modal-div{
     position: absolute;
@@ -259,12 +286,12 @@ background: #c5d6ed;
     box-sizing: border-box;
     text-decoration: none;
     font-size: 18px;
-    color: black;
+    color: #ffffff;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;       
 }
 .btn-modal:hover{
-    background-color: #97a9d1;
-    transition: .5s;
+    box-shadow: 3px 3px #000000;
+    transition: .2s;
     text-decoration: none;
     cursor: pointer;
 }
@@ -272,10 +299,11 @@ background: #c5d6ed;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #c5d6ed;
+    background-color: #2c476e;
     width: 45%;
     height: 100%;
 }
+
 #modalBackdrop {
     display: none;
     position: fixed;

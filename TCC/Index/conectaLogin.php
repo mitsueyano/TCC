@@ -10,7 +10,7 @@
         exit();
     }
 
-    $consulta = "SELECT senha, nome, loginusuario FROM usuarios WHERE loginusuario = '$login'";
+    $consulta = "SELECT senha, nome, loginusuario FROM UserLogin WHERE loginusuario = '$login'";
     $resultado = mysqli_query($conexao, $consulta);
 
     if ($resultado && mysqli_num_rows($resultado) === 1) {

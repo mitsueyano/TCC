@@ -17,7 +17,7 @@
             </div>
             <div class="container">     
                 <div class="tablebar">
-                    <div class="tablebar-button selected"><a href="./Inicio.php">ESCANEAR QR CODE</a></div>
+                    <div class="tablebar-button"><a href="./Inicio.php">ESCANEAR QR CODE</a></div>
                     <div class="tablebar-button"><a href="./Agenda.php">NOVA CONSULTA</a></div>  
                 </div>  
                 <div class="table-container">
@@ -25,10 +25,10 @@
                         <thead>
                             <tr>
                                 <th scope="col">id</th>
-                                <th scope="col">Nome</th>
-                                <th scope="col">Dono</th>
+                                <th scope="col">Data</th>
+                                <th scope="col">Veterinário</th>
                                 <th scope="col">Animal</th>
-                                <th scope="col">Situação</th>
+                                <th scope="col">Descrição</th>
                                 <th scope="col">Saída</th>
                                 <th scope="col"></th>
                             </tr>
@@ -36,7 +36,7 @@
                         <tbody>
                             <?php         
                                 include 'conectaBD.php';
-                                $query = "select * From agenda";
+                                $query = "select * From Agenda";
                                 $result = mysqli_query($conexao, $query);                    
                                 if ($result->num_rows>0):
                                     while($array = mysqli_fetch_row($result)):
@@ -83,8 +83,8 @@
             <div id="modal" class="modal">
                 <div class="modal-content" id="modal-content">
                     <div class="btn-close" id="btn-close"><span class="close" onclick="fecharModal()">&times;</span></div>
-                    <span id="infoIdModal"></span>
                     <span id="infoNomeModal"></span>
+                    <span id="infoRacaModal"></span>
                     <span id="infoDonoModal"></span>   
                     <div class="btn-modal-div">
                         <span class="btn-modal">Agendar retorno</span>
@@ -121,7 +121,7 @@
             atualizarData();
             <?php
                 include 'conectaBD.php';
-                $query = "select * From agenda";
+                $query = "select * From Animais";
                 $result = mysqli_query($conexao, $query);
                 $linhas = [];
                 while($linha = $result->fetch_row()) {
@@ -143,7 +143,7 @@
 
             <?php
                 include 'conectaBD.php';
-                $query = "select * From agenda";
+                $query = "select * From Animais";
                 $result = mysqli_query($conexao, $query);
                 $linhas = [];
                 while($linha = $result->fetch_row()) {
@@ -158,7 +158,8 @@
                     if (g[0] == id){
 
                         document.querySelector("#infoNomeModal").innerHTML = "Nome do animal: " + g[1];
-                        document.querySelector("#infoDonoModal").innerHTML = "Dono: " + g[2];
+                        document.querySelector("#infoRacaModal").innerHTML = "Animal: " + g[2];
+                        document.querySelector("#infoDonoModal").innerHTML = "Dono: " + g[5];
                     }
                 })
                 var btn = document.querySelector(".more-btn");
