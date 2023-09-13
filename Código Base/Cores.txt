@@ -1,0 +1,6 @@
+Cor Principal: #2c476e (Azul escuro)
+Cor Secundária: #fef5e4 (Bege)
+
+Outras:
+#ffffff (Branco)
+#000000 (Preto)
