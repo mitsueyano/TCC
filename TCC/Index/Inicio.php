@@ -25,7 +25,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">id</th>
-                                <th scope="col">Data</th>
+                                <th scope="col">Hora</th>
                                 <th scope="col">Veterinário</th>
                                 <th scope="col">Animal</th>
                                 <th scope="col">Descrição</th>
@@ -43,9 +43,9 @@
                             ?>
                             <tr class="table-rows" id="<?php echo $array[0];?>" onmouseenter="mostrarInfo(this.id)">
                                 <td><?php echo $array[0];?></td>
-                                <td><?php echo $array[1];?></td>
                                 <td><?php echo $array[2];?></td>
                                 <td><?php echo $array[3];?></td>
+                                <td><?php echo $array[5];?></td>
                                 <td><?php echo $array[4];?></td>
                                 <td class="checkout-btn"> 
                                     <a href="editar.php" class="checkout">Check-out</a>

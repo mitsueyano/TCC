@@ -60,6 +60,8 @@ body{
     box-shadow: 3px 3px #2c476e;
     transition: .2s;
 }
+
+/* Mensagens de erro */
 .msg{
     position: absolute;
     display: flex;
@@ -86,13 +88,13 @@ input::placeholder{
     transform: translateY(-50%);
 }
 
+/* Imagens do input (user e password)*/
 .input-with-image{
     margin-bottom: 40px;
     width: 70%;
     height: 25px;
     position: relative;
 }
-
 .img-input{
     width: 5%;
     position: absolute;
