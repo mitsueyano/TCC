@@ -32,10 +32,6 @@ body{
     display: flex;
     justify-content: space-evenly;
 }
-.corner-button{
-    position: absolute;
-    right: 45px;
-}
 .button > a {
     height: 7vh;
     width: 14vw;

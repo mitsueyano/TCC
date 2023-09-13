@@ -33,7 +33,7 @@ body{
     justify-content: space-evenly;
 }
 .button > a {
-    height: 60px;
+    height: 7vh;
     width: 14vw;
     padding-top: 10px;
     box-sizing: border-box;
@@ -116,7 +116,7 @@ body{
     transition: .2s;
 }
 .table-container{
-    border: 1px solid #97a9d1;
+    border: 1px solid #2c476e;
     width: 80%;
     height:60%;
     overflow-y: auto;
@@ -220,7 +220,7 @@ tbody>tr:hover {
 }
 .dia{
     padding: 2px;
-    border-right: 1px solid #97a9d1;
+    border-right: 1px solid #2c476e;
 }
 .more-list-container{
     width: 10px;

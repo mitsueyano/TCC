@@ -13,7 +13,7 @@
             <div class="bar">
                 <div class="button selected"><a href="./Inicio.php">INÍCIO</a></div>
                 <div class="button"><a href="./Agenda.php">AGENDA</a></div>
-                <div class="button"><a href="aqui">CADASTRO</a></div>
+                <div class="button"><a href="./cadastro.php">CADASTRO</a></div>
             </div>
             <div class="container">     
                 <div class="tablebar">
