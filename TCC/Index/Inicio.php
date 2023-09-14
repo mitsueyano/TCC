@@ -18,7 +18,6 @@
             <div class="container">     
                 <div class="tablebar">
                     <div class="tablebar-button"><a href="./Inicio.php">ESCANEAR QR CODE</a></div>
-                    <div class="tablebar-button"><a href="./Agenda.php">NOVA CONSULTA</a></div>  
                 </div>  
                 <div class="table-container">
                     <table>
@@ -29,6 +28,7 @@
                                 <th scope="col">Veterinário</th>
                                 <th scope="col">Animal</th>
                                 <th scope="col">Descrição</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Saída</th>
                                 <th scope="col"></th>
                             </tr>
@@ -36,23 +36,29 @@
                         <tbody>
                             <?php         
                                 include 'conectaBD.php';
-                                $query = "select * From Agenda";
-                                $result = mysqli_query($conexao, $query);                    
-                                if ($result->num_rows>0):
-                                    while($array = mysqli_fetch_row($result)):
+                                $queryAgenda = "select Agenda.*, Usuarios.nome, Animais.nome, statusConsulta.statusConsulta
+                                                from Animais
+                                                inner join Agenda on Animais.idAnimal = Agenda.idAnimal
+                                                inner join Usuarios on Agenda.veterinario = Usuarios.idUsuario
+                                                inner join statusConsulta on Agenda.idStatus = statusConsulta.idStatus
+                                                group by Agenda.dataConsulta, Agenda.horaConsulta;";
+                                $resultAgenda = mysqli_query($conexao, $queryAgenda);                  
+                                if ($resultAgenda->num_rows>0):
+                                    while($arrayAgenda = mysqli_fetch_row($resultAgenda) ):
                             ?>
-                            <tr class="table-rows" id="<?php echo $array[0];?>" onmouseenter="mostrarInfo(this.id)">
-                                <td><?php echo $array[0];?></td>
-                                <td><?php echo $array[2];?></td>
-                                <td><?php echo $array[3];?></td>
-                                <td><?php echo $array[5];?></td>
-                                <td><?php echo $array[4];?></td>
+                            <tr class="table-rows" id="<?php echo $arrayAgenda[0];?>" onmouseenter="mostrarInfo(this.id)">
+                                <td><?php echo $arrayAgenda[0];?></td>
+                                <td><?php echo $arrayAgenda[2];?></td>
+                                <td><?php echo $arrayAgenda[7];?></td>
+                                <td><?php echo $arrayAgenda[8];?></td>
+                                <td><?php echo $arrayAgenda[4];?></td>
+                                <td><?php echo $arrayAgenda[9];?></td>
                                 <td class="checkout-btn"> 
                                     <a href="editar.php" class="checkout">Check-out</a>
                                 </td>
                                 <td class="more-list-container"> 
                                     <div class="list-box">
-                                        <button class="more-btn" onclick="abrirModal(<?php echo $array[0]; ?>)">...</button>
+                                        <button class="more-btn" onclick="abrirModal(<?php echo $arrayAgenda[5]; ?>)">...</button>
                                     </div>
                                 </td>
                             </tr>
@@ -65,7 +71,7 @@
                             </tr>
                             <?php 
                                 endif;
-                                mysqli_free_result($result);
+                                mysqli_free_result($resultAgenda);
                             ?>
                         </tbody>
                     </table>     
@@ -83,9 +89,15 @@
             <div id="modal" class="modal">
                 <div class="modal-content" id="modal-content">
                     <div class="btn-close" id="btn-close"><span class="close" onclick="fecharModal()">&times;</span></div>
-                    <span id="infoNomeModal"></span>
-                    <span id="infoRacaModal"></span>
-                    <span id="infoDonoModal"></span>   
+
+                        <span id="infoidConsultaModal"></span>
+                        <span id="infoNomeModal"></span>
+                        <span id="infoEspecieModal"></span>
+                        <span id="infoRacaModal"></span>  
+                        <span id="infoDonoModal"></span> 
+                        <span id="infoVeterinarioModal"></span>
+                        <span id="infoDescricaoModal"></span>
+
                     <div class="btn-modal-div">
                         <span class="btn-modal">Agendar retorno</span>
                         <span class="btn-modal">Registros</span>
@@ -121,21 +133,25 @@
             atualizarData();
             <?php
                 include 'conectaBD.php';
-                $query = "select * From Animais";
-                $result = mysqli_query($conexao, $query);
+                $queryAnimalInfo = "select Agenda.*, Usuarios.nome, Animais.nome
+                                    from Animais
+                                    inner join Agenda on Animais.idAnimal = Agenda.idAnimal
+                                    inner join Usuarios on Agenda.veterinario = Usuarios.idUsuario
+                                    group by Agenda.dataConsulta, Agenda.horaConsulta;";
+                $result = mysqli_query($conexao, $queryAnimalInfo);
                 $linhas = [];
                 while($linha = $result->fetch_row()) {
                     $linhas[] = $linha;
                 } 
-                $agenda = json_encode($linhas);
-                echo "var agenda = " . $agenda . ";\n";
+                $animal = json_encode($linhas);
+                echo "var animal = " . $animal . ";\n";
             ?>
             function mostrarInfo(id){
-                agenda.forEach(g=>{
+                animal.forEach(g=>{
                     if (g[0] == id){
                         document.querySelector("#infoId").innerHTML = g[0];
-                        document.querySelector("#infoNome").innerHTML = g[1];
-                        document.querySelector("#infoDono").innerHTML = g[2];
+                        document.querySelector("#infoNome").innerHTML = g[7];
+                        document.querySelector("#infoDono").innerHTML = g[4];
 
                     }
                 })
@@ -143,7 +159,12 @@
 
             <?php
                 include 'conectaBD.php';
-                $query = "select * From Animais";
+                $query = "select Agenda.idConsulta, Agenda.descricao, Usuarios.nome as veterinario, Animais.nome as nomeanimal, Animais.especie, Animais.raca, Clientes.nome as nomecliente
+                        from Animais
+                        inner join Agenda on Animais.idAnimal = Agenda.idAnimal
+                        inner join Usuarios on Agenda.veterinario = Usuarios.idUsuario
+                        inner join Clientes on Animais.idCliente = Clientes.idCliente
+                        group by Agenda.dataConsulta, Agenda.horaConsulta;";
                 $result = mysqli_query($conexao, $query);
                 $linhas = [];
                 while($linha = $result->fetch_row()) {
@@ -157,9 +178,14 @@
                 agenda.forEach(g=>{
                     if (g[0] == id){
 
-                        document.querySelector("#infoNomeModal").innerHTML = "Nome do animal: " + g[1];
-                        document.querySelector("#infoRacaModal").innerHTML = "Animal: " + g[2];
-                        document.querySelector("#infoDonoModal").innerHTML = "Dono: " + g[5];
+                        document.querySelector("#infoidConsultaModal").innerHTML = "ID da consulta: " + g[0];
+                        document.querySelector("#infoNomeModal").innerHTML = "Nome do animal: " + g[3];
+                        document.querySelector("#infoEspecieModal").innerHTML = "Espécie: " + g[4];
+                        document.querySelector("#infoRacaModal").innerHTML = "Raça: " + g[5];
+                        document.querySelector("#infoDonoModal").innerHTML = "Dono: " + g[6];
+                        document.querySelector("#infoVeterinarioModal").innerHTML = "Veterinário: " + g[2];
+                        document.querySelector("#infoDescricaoModal").innerHTML = "Descrição: " + g[1];
+                        
                     }
                 })
                 var btn = document.querySelector(".more-btn");

@@ -16,6 +16,7 @@
                 <div class="button selected"><a href="./cadastro.php">CADASTRO</a></div>
             </div>
             <div class="container">     
+                <div class="buttonOptions"><a href="./novoCadastro.php">ADICIONAR</a></div>
             </div>
     </body>
 </html>

@@ -64,6 +64,7 @@ create table Animais
  especie varchar(50) not null,
  raca varchar(50) not null,
  datanascto date,
+ proprietario int,
  idCliente int,
 foreign key (idCliente) references Clientes(idCliente)
 );

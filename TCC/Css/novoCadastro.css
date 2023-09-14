@@ -23,20 +23,17 @@ body{
     padding: 25px;
     padding-top: 0;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
 }
 .container{
     width: 100%;
-    height: 90%;
     background-color: #ffffff;
     display: flex;
+    justify-content: center;
     box-sizing: border-box;
-    flex-direction: column;
-    align-items: center;
 }
 
-/* Barra de navegação*/
+/*Barra de navegação*/
+
 .bar{
     height: 10%;
     width: 50%;
@@ -59,10 +56,6 @@ body{
     position: relative;
     overflow: hidden;
     z-index: 1;
-}
-.corner-button{
-    position: absolute;
-    right: 20vw;
 }
 .button > a::before {
     content: '';
@@ -90,4 +83,54 @@ body{
 .selected > a:hover {
     background-color: #fef5e4 !important ;
     color: #000000 !important; 
+}
+
+/* Formulário */
+.flex{
+    display: flex;
+    justify-content: space-between;
+}
+.form-cadastro{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    gap: 5px;
+    width: 100%;
+    padding: 20px;
+    background-color: #fef5e4
+}
+.form-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    
+}
+.titulo{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+    font-size: 3vh;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.label-form{
+    width: 45%;
+}
+.input-form{
+    width: 55%;
+    display: flex;
+    justify-content: start;
+}
+.container-cliente{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border-bottom: #2c476e 1px solid;
+    padding: 15px;
+}
+.container-animal{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border-bottom: #2c476e 1px solid;
+    padding: 15px;
 }

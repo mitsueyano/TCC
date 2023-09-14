@@ -15,6 +15,7 @@
                 <div class="button selected"><a href="./Agenda.php">AGENDA</a></div>
                 <div class="button"><a href="./cadastro.php">CADASTRO</a></div>
                 <div class="button corner-button"><a href="aqui">REGISTROS</a></div>
+                <div class="button corner-button"><a href="aqui">REGISTROS</a></div>
             </div>
             <div class="container">     
             </div>

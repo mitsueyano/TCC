@@ -70,7 +70,7 @@ body{
     bottom: 5px; 
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 1.2vw;
+    font-size: 2.5vh;
     color: #FF0000;
     width: 100%;
 }
@@ -83,7 +83,7 @@ input::placeholder{
 .warning {
     width: 20px;
     position: absolute;
-    left: 15%;
+    left: 9vh;
     bottom: 2%;
     transform: translateY(-50%);
 }
