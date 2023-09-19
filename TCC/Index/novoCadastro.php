@@ -11,9 +11,7 @@
         <div class="border-page"></div>
         <div class="page">
             <div class="bar">
-                <div class="button"><a href="./Inicio.php">INÍCIO</a></div>
-                <div class="button"><a href="./Agenda.php">AGENDA</a></div>
-                <div class="button"><a href="./cadastro.php">CADASTRO</a></div>
+                <div class="button"><a href="./cadastro.php">VOLTAR</a></div>
             </div>
             <div class="container">     
                 <div class="form-container">
@@ -36,7 +34,7 @@
                                     <input type="text">
                                 </div>
                             </div>
-                            <div class="flex">
+                            <div class="flex" style="margin-bottom: 20px">
                                 <div class="label-form">
                                     <label>Contato:</label>
                                 </div>
@@ -46,10 +44,48 @@
                             </div>
                             <div class="flex">
                                 <div class="label-form">
-                                    <label>Endereço:</label>
+                                    <label>Estado:</label>
+                                </div>
+                                <div class="input-form">
+                                    <select name="" id="">
+                                        <option value="SP">SP</option>
+                                        <option value="SC">SC</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>Cidade:</label>
+                                </div>
+                                <div class="input-form">
+                                <select name="" id="">
+                                        <option value="São Paulo">São Paulo</option>
+                                        <option value="Indaiatuba">Indaiatuba</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>Bairro:</label>
                                 </div>
                                 <div class="input-form">
                                     <input type="text">
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>Rua:</label>
+                                </div>
+                                <div class="input-form">
+                                    <input type="text">
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>Número:</label>
+                                </div>
+                                <div class="input-form">
+                                    <input type="text" style="width: 30px">
                                 </div>
                             </div>
                         </div>

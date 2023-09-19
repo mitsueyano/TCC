@@ -37,8 +37,6 @@ body{
 .bar{
     height: 10%;
     width: 50%;
-    display: flex;
-    justify-content: space-evenly;
 }
 .button > a {
     height: 7vh;
@@ -109,7 +107,7 @@ body{
     display: flex;
     justify-content: center;
     margin-bottom: 5px;
-    font-size: 3vh;
+    font-size: 4vh;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 .label-form{
