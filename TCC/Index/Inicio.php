@@ -35,7 +35,7 @@
                         </thead>
                         <tbody>
                             <?php         
-                                include 'conectaBD.php';
+                                include '../php/conectaBD.php';
                                 $queryAgenda = "select Agenda.*, Usuarios.nome, Animais.nome, statusConsulta.statusConsulta
                                                 from Animais
                                                 inner join Agenda on Animais.idAnimal = Agenda.idAnimal

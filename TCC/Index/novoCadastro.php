@@ -15,15 +15,16 @@
             </div>
             <div class="container">     
                 <div class="form-container">
-                    <label class="titulo">Novo Cadastro</label>
-                    <form action="" method="post" class="form-cadastro">
+                <label class="titulo">Novo Cadastro</label>
+                    <form action="../php/cadastrarCliente.php" method="post">
+                        
                         <div class="container-cliente">
                             <div class="flex">
                                 <div class="label-form">
                                     <label>Nome do cliente:</label>
                                 </div>
                                 <div class="input-form">
-                                    <input type="text">
+                                    <input type="text" name="nome">
                                 </div>
                             </div>
                             <div class="flex">
@@ -31,7 +32,7 @@
                                     <label>E-mail:</label>
                                 </div>
                                 <div class="input-form">
-                                    <input type="text">
+                                    <input type="text" name="email">
                                 </div>
                             </div>
                             <div class="flex" style="margin-bottom: 20px">
@@ -39,7 +40,16 @@
                                     <label>Contato:</label>
                                 </div>
                                 <div class="input-form">
-                                    <input type="text">
+                                <input type="text" name="contato"/>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>CEP:</label>
+                                </div>
+                                <div class="input-form">
+                                    <input type="text" style="width: 65px" name="cep" id="cep">
+                                    <button type="button" onclick="pesquisarCEP()" class="form-btn pesquisar">Pesquisar CEP</button>
                                 </div>
                             </div>
                             <div class="flex">
@@ -47,10 +57,7 @@
                                     <label>Estado:</label>
                                 </div>
                                 <div class="input-form">
-                                    <select name="" id="">
-                                        <option value="SP">SP</option>
-                                        <option value="SC">SC</option>
-                                    </select>
+                                    <input type="text" id="estado">
                                 </div>
                             </div>
                             <div class="flex">
@@ -58,10 +65,7 @@
                                     <label>Cidade:</label>
                                 </div>
                                 <div class="input-form">
-                                <select name="" id="">
-                                        <option value="São Paulo">São Paulo</option>
-                                        <option value="Indaiatuba">Indaiatuba</option>
-                                    </select>
+                                    <input type="text" id="cidade">
                                 </div>
                             </div>
                             <div class="flex">
@@ -69,7 +73,7 @@
                                     <label>Bairro:</label>
                                 </div>
                                 <div class="input-form">
-                                    <input type="text">
+                                    <input type="text" id="bairro">
                                 </div>
                             </div>
                             <div class="flex">
@@ -77,7 +81,7 @@
                                     <label>Rua:</label>
                                 </div>
                                 <div class="input-form">
-                                    <input type="text">
+                                    <input type="text" id="rua">
                                 </div>
                             </div>
                             <div class="flex">
@@ -123,9 +127,35 @@
                                     <input type="date">
                                 </div>
                             </div>
+                            <button type="button"class="form-btn pesquisar">Adicionar Animal</button>
+                        </div>
+                        <div class="submit-container">
+                            <input type="submit" value="CADASTRAR" class="submit form-btn">
                         </div>
                     </form>
                 </div>
             </div>
     </body>
 </html>
+<script>
+    function pesquisarCEP(){
+        const cepElemento = document.getElementById("cep");
+        const cepValor = cepElemento.value;
+        fetch(`https://viacep.com.br/ws/${cepValor}/json/`, {method:'GET'})
+        .then(response => response.json())
+        .then (endereco =>{
+            const Estado = document.getElementById("estado");
+            Estado.value = endereco.uf;
+
+            const Cidade = document.getElementById("cidade");
+            Cidade.value = endereco.localidade;
+
+            const Bairro = document.getElementById("bairro");
+            Bairro.value = endereco.bairro
+
+            const Rua = document.getElementById("rua");
+            Rua.value = logradouro.uf;
+        })
+        .catch(err => console.error(err))
+    }
+</script>

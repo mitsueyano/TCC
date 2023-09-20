@@ -14,7 +14,7 @@
 </head>
 <body>
     <div class="container">
-        <form action="conectaLogin.php" method="post" class="login-box">
+        <form action="../php/conectaLogin.php" method="post" class="login-box">
             <?php
             if (isset($_GET['msg']) && $_GET['msg'] === $msg1):
             ?>
