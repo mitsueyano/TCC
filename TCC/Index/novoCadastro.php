@@ -152,9 +152,9 @@
 
             const Bairro = document.getElementById("bairro");
             Bairro.value = endereco.bairro
-
+            
             const Rua = document.getElementById("rua");
-            Rua.value = logradouro.uf;
+            Rua.value = endereco.logradouro;
         })
         .catch(err => console.error(err))
     }
