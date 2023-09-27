@@ -183,3 +183,19 @@ input{
     box-shadow: 1px 1px #000000;
     transition: .2s;
 }
+.containerAnimaisCad{
+    background-color : #fef5e4;
+    color : #000000;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding: 10px;
+    margin: 20px;
+    position: absolute;
+    right: -50%;
+    top: -15px;
+}
+.titulo-AnimaisCad{
+    font-size: 18px !important;
+}
+.containerAnimaisCad > span{
+font-size: 10px;
+}

@@ -13,9 +13,9 @@
             <div class="bar">
                 <div class="button"><a href="./cadastro.php">VOLTAR</a></div>
             </div>
-            <div class="container">     
+            <div class="container" id="container">     
                 <div class="form-container">
-                <label class="titulo">Novo Cadastro</label>
+                    <label class="titulo">Novo Cadastro</label>
                     <form action="../php/cadastrarCliente.php" method="post">
                         
                         <div class="container-cliente">
@@ -24,7 +24,7 @@
                                     <label>Nome do cliente:</label>
                                 </div>
                                 <div class="input-form">
-                                    <input type="text" name="nome">
+                                    <input type="text" name="nome" required= "true">
                                 </div>
                             </div>
                             <div class="flex">
@@ -40,7 +40,7 @@
                                     <label>Contato:</label>
                                 </div>
                                 <div class="input-form">
-                                <input type="text" name="contato"/>
+                                <input type="text" name="contato" required= "true"/>
                                 </div>
                             </div>
                             <div class="flex">
@@ -48,7 +48,7 @@
                                     <label>CEP:</label>
                                 </div>
                                 <div class="input-form">
-                                    <input type="text" style="width: 65px" name="cep" id="cep">
+                                    <input type="text" style="width: 65px" id="cep" required= "true">
                                     <button type="button" onclick="pesquisarCEP()" class="form-btn pesquisar">Pesquisar CEP</button>
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                                     <label>Estado:</label>
                                 </div>
                                 <div class="input-form">
-                                    <input type="text" id="estado">
+                                    <input type="text" id="estado" name="estado" required= "true">
                                 </div>
                             </div>
                             <div class="flex">
@@ -65,7 +65,7 @@
                                     <label>Cidade:</label>
                                 </div>
                                 <div class="input-form">
-                                    <input type="text" id="cidade">
+                                    <input type="text" id="cidade" name="cidade" required= "true">
                                 </div>
                             </div>
                             <div class="flex">
@@ -73,7 +73,7 @@
                                     <label>Bairro:</label>
                                 </div>
                                 <div class="input-form">
-                                    <input type="text" id="bairro">
+                                    <input type="text" id="bairro" name="bairro" required= "true">
                                 </div>
                             </div>
                             <div class="flex">
@@ -81,7 +81,7 @@
                                     <label>Rua:</label>
                                 </div>
                                 <div class="input-form">
-                                    <input type="text" id="rua">
+                                    <input type="text" id="rua" name="rua" required= "true">
                                 </div>
                             </div>
                             <div class="flex">
@@ -89,7 +89,7 @@
                                     <label>Número:</label>
                                 </div>
                                 <div class="input-form">
-                                    <input type="text" style="width: 30px">
+                                    <input type="text" name="numero" style="width: 30px" required= "true">
                                 </div>
                             </div>
                         </div>
@@ -99,7 +99,7 @@
                                     <label>Nome do animal:</label>
                                 </div>
                                 <div class="input-form">
-                                    <input type="text">
+                                    <input type="text" name="nomeAnimal" id="nomeAnimal" required= "true">
                                 </div>
                             </div>
                             <div class="flex">
@@ -107,7 +107,7 @@
                                     <label>Espécie:</label>
                                 </div>
                                 <div class="input-form">
-                                    <select name="" id="">                                
+                                    <select name="especie" id="especie">                                
                                         <option value="">Gato</option>
                                         <option value="">Cachorro</option>
                                     </select>
@@ -118,22 +118,24 @@
                                     <label>Raça:</label>
                                 </div>
                                 <div class="input-form">
-                                    <input type="text">
+                                    <input type="text" name="raca" id="raca" required= "true">
                                 </div>
                             </div>
                             <div class="flex">
                                 <label>Data de nascimento:</label>
                                 <div class="input-form">
-                                    <input type="date">
+                                    <input type="date" name="dataNascto" id="dataNascto" required= "true">
                                 </div>
                             </div>
-                            <button type="button"class="form-btn pesquisar">Adicionar Animal</button>
+                            <button type="button"class="form-btn pesquisar" onclick="addAnimal()">Adicionar Animal</button>
                         </div>
                         <div class="submit-container">
                             <input type="submit" value="CADASTRAR" class="submit form-btn">
                         </div>
                     </form>
+                    <div class="containerAnimaisCad" id="containerAnimaisCad"><span class="titulo-AnimaisCad">Animais Cadastrados: </span></div>
                 </div>
+        
             </div>
     </body>
 </html>
@@ -156,6 +158,34 @@
             const Rua = document.getElementById("rua");
             Rua.value = endereco.logradouro;
         })
-        .catch(err => console.error(err))
+        .catch(err => console.error(err))   
     }
+
+    let animais = [];
+    
+    function addAnimal()
+    {
+        
+        const nomeAnimal = document.getElementById("nomeAnimal").value;
+        const especie = document.getElementById("especie").value;
+        const raca = document.getElementById("raca").value;
+        const dataNascto = document.getElementById("dataNascto").value;
+
+        animais.push([nomeAnimal, especie, raca, dataNascto]);
+        
+        var div = document.createElement('div');
+
+        div.style.display = "flex";
+        div.style.flexDirection = "column";
+
+        var container = document.getElementById('containerAnimaisCad');
+
+        div.innerHTML = `
+            <span>${nomeAnimal}</span>
+        `;
+        container.appendChild(div);
+
+}
+
+
 </script>
