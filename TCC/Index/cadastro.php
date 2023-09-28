@@ -15,8 +15,27 @@
                 <div class="button"><a href="./Agenda.php">AGENDA</a></div>
                 <div class="button selected"><a href="./cadastro.php">CADASTRO</a></div>
             </div>
-            <div class="container">     
-                <div class="buttonOptions"><a href="./novoCadastro.php">ADICIONAR</a></div>
+            <div class="container"> 
+                <div class="options-container">  
+                    <div class="btnOptionsDiv">
+                        <div class="buttonOptions"><a href="./novoCadastro.php">ADICIONAR ANIMAL</a></div>
+                    </div>
+                    <div class="btnOptionsDiv">
+                        <div class="buttonOptions"><a href="./novoCadastro.php">NOVO CADASTRO</a></div>
+                    </div>
+                </div>  
+                <div class="gerenciamento-container">
+                    <div class="search-container">
+                        <div class="search-items">
+                            <input type="text" placeholder="Procurar Cliente / Animal / ID">
+                            <div class="search-btn">
+                                <span>Pesquisar</span>
+                                <img src="../img/searchWhite.png" alt="Imagem 1" class="imagem-normal">
+                                <img src="../img/search.png" alt="Imagem 2" class="imagem-hover">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
     </body>
 </html>
