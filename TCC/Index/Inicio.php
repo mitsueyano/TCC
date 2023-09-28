@@ -19,6 +19,7 @@
                 <div class="tablebar">
                     <div class="tablebar-button"><a href="./Inicio.php">ESCANEAR QR CODE</a></div>
                 </div>  
+                <!-- Seção TABELA -->
                 <div class="table-container">
                     <table>
                         <thead>
@@ -42,7 +43,7 @@
                                                 inner join Usuarios on Agenda.veterinario = Usuarios.idUsuario
                                                 inner join statusConsulta on Agenda.idStatus = statusConsulta.idStatus
                                                 group by Agenda.dataConsulta, Agenda.horaConsulta;";
-                                $resultAgenda = mysqli_query($conexao, $queryAgenda);                  
+                                $resultAgenda = mysqli_query($conexao, $queryAgenda);        
                                 if ($resultAgenda->num_rows>0):
                                     while($arrayAgenda = mysqli_fetch_row($resultAgenda) ):
                             ?>
@@ -66,9 +67,9 @@
                                 endwhile;
                                 else:
                             ?>
-                            <tr>
-                                <td colspan="3"> Nenhuma entrada cadastrada.</td>
-                            </tr>
+                            <div class="center">
+                                <span> Nenhuma entrada cadastrada.</span>
+                            </div>
                             <?php 
                                 endif;
                                 mysqli_free_result($resultAgenda);
@@ -76,28 +77,29 @@
                         </tbody>
                     </table>     
                 </div>
+                <!-- Seção INFORMAÇÕES ADICIONAIS -->
                 <div class="container-info">
                     <span id="infoId"></span>
                     <span id="infoNome"></span>
                     <span id="infoDono"></span>      
                 </div>
+                <!-- Seção - DATA E HORA -->
                 <div class="data">
                     <div class="dia" id="data-atual"></div> 
                     <div class="hora" id="hora-atual"></div>
                 </div>
             </div>
+            <!-- Seção MODAL -->
             <div id="modal" class="modal">
                 <div class="modal-content" id="modal-content">
-                    <div class="btn-close" id="btn-close"><span class="close" onclick="fecharModal()">&times;</span></div>
-
-                        <span id="infoidConsultaModal"></span>
-                        <span id="infoNomeModal"></span>
-                        <span id="infoEspecieModal"></span>
-                        <span id="infoRacaModal"></span>  
-                        <span id="infoDonoModal"></span> 
-                        <span id="infoVeterinarioModal"></span>
-                        <span id="infoDescricaoModal"></span>
-
+                <div class="btn-close" id="btn-close"><span class="close" onclick="fecharModal()">&times;</span></div>
+                    <span id="infoidConsultaModal"></span>
+                    <span id="infoNomeModal"></span>
+                    <span id="infoEspecieModal"></span>
+                    <span id="infoRacaModal"></span>  
+                    <span id="infoDonoModal"></span> 
+                    <span id="infoVeterinarioModal"></span>
+                    <span id="infoDescricaoModal"></span>
                     <div class="btn-modal-div">
                         <span class="btn-modal">Agendar retorno</span>
                         <span class="btn-modal">Registros</span>
@@ -107,6 +109,7 @@
         </div>
         <div id="modalBackdrop"></div>
         <script>
+            // Script para data e hora em tempo real
             function atualizarHora() {
                 var elementoHora = document.getElementById('hora-atual');
                 var Horario = new Date();
@@ -131,6 +134,8 @@
             }
             atualizarHora();
             atualizarData();
+
+            // Script para informações adicionais - Campo inferior esquerdo da tela
             <?php
                 include 'conectaBD.php';
                 $queryAnimalInfo = "select Agenda.*, Usuarios.nome, Animais.nome
@@ -146,6 +151,7 @@
                 $animal = json_encode($linhas);
                 echo "var animal = " . $animal . ";\n";
             ?>
+
             function mostrarInfo(id){
                 animal.forEach(g=>{
                     if (g[0] == id){
@@ -157,6 +163,7 @@
                 })
             }
 
+            // Script para o modal
             <?php
                 include 'conectaBD.php';
                 $query = "select Agenda.idConsulta, Agenda.descricao, Usuarios.nome as veterinario, Animais.nome as nomeanimal, Animais.especie, Animais.raca, Clientes.nome as nomecliente
@@ -173,7 +180,7 @@
                 $agenda = json_encode($linhas);
                 echo "var agenda = " . $agenda . ";\n";
             ?>
-
+            // Abre o modal com as informações
             function abrirModal(id){
                 agenda.forEach(g=>{
                     if (g[0] == id){
@@ -193,13 +200,14 @@
                 modal.style.display = "block";
                 modalBackdrop.style.display = "block";
             }
+            // Fecha o modal
             function fecharModal(){
                 var span = document.getElementsByClassName("close");
                 var modalBackdrop = document.getElementById("modalBackdrop");
                 modal.style.display = "none";
                 modalBackdrop.style.display = "none";
             }
-
+            //Animação do modal
             window.onclick = function(event) {
                 if (!event.target.closest("#modal, .more-btn, #modalContent")) {
 

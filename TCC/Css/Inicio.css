@@ -147,6 +147,18 @@ th{
 tbody>tr:hover {
     background-color: #fef5e4;
 }   
+.center{
+    position:fixed;
+    top: 50%;
+    right: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3vh;
+    font-weight: bold;
+    text-decoration:underline;
+}
 
 /* Botões da tabela */
 .checkout{

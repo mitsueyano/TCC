@@ -1,9 +1,9 @@
-drop database VetDataBaseTeste;
+drop database VetDataBase;
 
  
 
-create database VetDataBaseTeste;
-use VetDataBaseTeste;
+create database VetDataBase;
+use VetDataBase;
 
  
 
@@ -223,4 +223,4 @@ select * from HistoricoMedico;
 select * from Acesso;
 select * from statusConsulta;
 
-delete from Clientes where idCliente = 2;
+

@@ -2,7 +2,7 @@
 $server = 'localhost';
 $user = 'root';
 $password = '';
-$banco = 'VetDataBaseTeste';
+$banco = 'VetDataBase';
 $conexao = mysqli_connect($server, $user, $password, $banco);
 if(!$conexao)
 {
