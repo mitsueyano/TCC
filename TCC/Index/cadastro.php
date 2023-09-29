@@ -26,16 +26,69 @@
                 </div>  
                 <div class="gerenciamento-container">
                     <div class="search-container">
-                        <div class="search-items">
-                            <input type="text" placeholder="Procurar Cliente / Animal / ID">
-                            <div class="search-btn">
-                                <span>Pesquisar</span>
+                        <form method="post" action="cadastro.php" class="search-items">
+                            <input type="text" name="termo_pesquisa" placeholder="Procurar Cliente / Animal / ID">
+                            <button type="submit" class="search-btn">
                                 <img src="../img/searchWhite.png" alt="Imagem 1" class="imagem-normal">
                                 <img src="../img/search.png" alt="Imagem 2" class="imagem-hover">
-                            </div>
-                        </div>
+                            </button>
+                        </form>
+                    </div>  
+                    <?php
+                    include '../php/conectaBD.php';
+                    if (isset($_POST["termo_pesquisa"])) {
+                        $termo_pesquisa = $_POST["termo_pesquisa"];
+                        // Consulta SQL para buscar animais com base no termo de pesquisa
+                        $sql = "SELECT animais.nome AS nome_animal, animais.idAnimal AS id_animal, clientes.nome AS nome_dono, clientes.idCliente AS id_dono 
+                                FROM animais
+                                JOIN clientes ON animais.idCliente = clientes.idCliente
+                                WHERE animais.nome LIKE '%$termo_pesquisa%'
+                                OR clientes.nome LIKE '%$termo_pesquisa%'
+                                OR animais.idAnimal = '$termo_pesquisa'
+                                OR clientes.idCliente = '$termo_pesquisa'";
+                        $result = $conexao->query($sql);
+                        if ($result->num_rows > 0):
+                    ?>
+                    <div class="table-container">
+                        <table>
+                            <tr class="table-rows">
+                                <th>ID do Animal</th>
+                                <th>Nome do Animal</th>
+                                <th>Nome do Dono</th>
+                                <th>ID do Dono</th> 
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            <?php while ($array = $result->fetch_assoc()): ?>
+                            <tr class="table-rows">
+                                <td><?php echo $array["id_animal"]; ?></td>
+                                <td><?php echo $array["nome_animal"]; ?></td>
+                                <td><?php echo $array["nome_dono"]; ?></td>
+                                <td><?php echo $array["id_dono"]; ?></td>
+                                <td class="btnTabelacontainer"> 
+                                    <a href="editar.php?id=<?php echo $array["id_dono"]; ?>" class="btn-tabela">
+                                        <img src="../img/editar.png" alt="">
+                                    </a>
+                                </td>
+                                <td class="btnTabelaContainer"> 
+                                    <a href="editar.php" class="btn-tabela">
+                                    <img src="../img/lixo.png" alt="">
+                                    </a>
+                                </td>
+                            </tr>
+                            <?php endwhile; ?>
+                        </table>
                     </div>
+                    <?php
+                        else:
+                            echo "Nenhum resultado encontrado.";
+                        endif;
+                        $conexao->close();
+                        }
+                    ?>
                 </div>
             </div>
     </body>
 </html>
+
+

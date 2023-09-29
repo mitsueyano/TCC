@@ -24,7 +24,7 @@
                     <table>
                         <thead>
                             <tr>
-                                <th scope="col">id</th>
+                                <th scope="col">ID</th>
                                 <th scope="col">Hora</th>
                                 <th scope="col">Veterinário</th>
                                 <th scope="col">Animal</th>
