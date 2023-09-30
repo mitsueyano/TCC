@@ -129,6 +129,7 @@
                                         while ($row = $resultadoAnimais->fetch_assoc()):
                                             $nome = $row['nome'];
                                             $raca = $row['raca'];
+                                            $especie = $row['especie'];
                                             $dataNascto = $row['datanascto'];
                                 ?>      
                                     <!-- Formulário - Seção ANIMAL -->
@@ -148,8 +149,9 @@
                                                 </div>
                                                 <div class="input-form">
                                                     <select name="especie" id="especie">                                
-                                                        <option value="Gato" <?php if ($row['especie'] === 'Gato') echo 'selected'; ?>>Gato</option>
-                                                        <option value="Cachorro" <?php if ($row['especie'] === 'Cachorro') echo 'selected'; ?>>Cachorro</option>
+                                                        <option value="Gato" <?php if ($especie === 'Gato') echo "selected"; ?>>Gato</option>
+                                                        <option value="Cachorro" <?php if ($especie === 'Cão') echo "selected"; ?>>Cão</option>
+                                                        <option value="Cachorro" <?php if ($especie === 'Pássaro') echo "selected"; ?>>Pássaro</option>
                                                     </select>
                                                 </div>
                                             </div>
