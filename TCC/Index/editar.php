@@ -64,7 +64,7 @@
                                         <label>Contato:</label>
                                     </div>
                                     <div class="input-form">
-                                    <input type="text" name="contato" id="contato" value="<?php echo $contato?>"/>
+                                    <input type="text" name="contato" id="contato" value="<?php echo $contato?>" maxlength="15"/>
                                     </div>
                                 </div>
                                 <div class="flex">
@@ -191,6 +191,16 @@
     </body>
 </html>
 <script>
+    // Script para formatar o número de telefone com parênteses "()"
+    const contatoInput = document.getElementById("contato");
+
+    contatoInput.addEventListener("input", function() {
+    let valor = contatoInput.value.replace(/\D/g, ''); // Remove todos os não dígitos
+    if (valor.length > 0) {
+        valor = `(${valor.slice(0, 2)}) ${valor.slice(2)}`;
+        }
+        contatoInput.value = valor;
+    });
 
     // Script para desabilitar os campos de entrada ao carregar a página
     document.addEventListener("DOMContentLoaded", function() {
@@ -200,16 +210,16 @@
         const Rua = document.getElementById("rua");
         
         if (Estado.value.trim() !== "") {
-        Estado.disabled = true;
+        Estado.readOnly = true;
         }
         if (cidade.value.trim() !== "") {
-        Cidade.disabled = true;
+        Cidade.readOnly = true;
         }
         if (Bairro.value.trim() !== "") {
-        Bairro.disabled = true;
+        Bairro.readOnly = true;
         }
         if (Rua.value.trim() !== "") {
-        Rua.disabled = true;
+        Rua.readOnly = true;
         }
     });
 
@@ -261,6 +271,22 @@
         .catch(err =>{
             window.alert("CEP inválido");
             document.getElementById("cep").value = "";
+            const Estado = document.getElementById("estado");
+            Estado.value = "";
+            Estado.readOnly = false;
+
+            const Cidade = document.getElementById("cidade");
+            Cidade.value = "";
+            Cidade.readOnly = false;
+
+            const Bairro = document.getElementById("bairro");
+            Bairro.value = "";
+            Bairro.readOnly = false;
+            
+            const Rua = document.getElementById("rua");
+            Rua.value = "";
+            Rua.readOnly = false;
+
         })
     }
 </script>

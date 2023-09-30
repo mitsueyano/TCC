@@ -32,7 +32,7 @@
                                     <label>E-mail:</label>
                                 </div>
                                 <div class="input-form">
-                                    <input type="text" name="email">
+                                    <input type="email" name="email">
                                 </div>
                             </div>
                             <div class="flex" style="margin-bottom: 20px">
@@ -40,7 +40,7 @@
                                     <label>Contato:</label>
                                 </div>
                                 <div class="input-form">
-                                <input type="text" name="contato" id="contato" maxlength="15"/>
+                                <input type="text" name="contato" id="contato" maxlength="14"/>
                                 </div>
                             </div>
                             <div class="flex">
@@ -108,7 +108,7 @@
                                     <label>Espécie:</label>
                                 </div>
                                 <div class="input-form">
-                                    <select name="especie" id="especie">                                
+                                    <select name="especie" id="especie" onChange="raca()">                                
                                         <option value="Gato">Gato</option>
                                         <option value="Cachorro">Cachorro</option>
                                     </select>
@@ -119,7 +119,32 @@
                                     <label>Raça:</label>
                                 </div>
                                 <div class="input-form">
-                                    <input type="text" name="raca" id="raca">
+                                    <!-- Script raças de gatos -->
+                                    <select name="" id="racasGato" >
+                                        <?php
+                                            $json = file_get_contents('../racasGatos.json');
+        
+                                            $json_data = json_decode($json,true);
+                                            foreach ($json_data as $raca):
+                                        ?>
+                                        <option value="<?php echo $raca?>"><?php echo $raca?> </option>                                   
+                                        <?php
+                                            endforeach;
+                                        ?>
+                                    </select>
+                                    <!-- Script raças de cachorros -->
+                                    <select name="" id="racasCachorro" class="escondido">
+                                        <?php
+                                            $json = file_get_contents('../racasCachorros.json');
+        
+                                            $json_data = json_decode($json,true);
+                                            foreach ($json_data as $raca):
+                                        ?>
+                                        <option value="<?php echo $raca?>"><?php echo $raca?> </option>                                    
+                                        <?php
+                                            endforeach;
+                                        ?>
+                                    </select>
                                 </div>
                             </div>
                             <div class="flex">
@@ -135,9 +160,11 @@
                             <div class="containerAnimaisCad" id="containerAnimaisCad"><span class="titulo-AnimaisCad">Animais adiconados:&nbsp</span></div>  
                             <input type="hidden" name="animaisJson" id="animaisJson" value=""> <!-- Cria um elemento invisível para ser enviado junto com o formulário -->
                         </div>
-                        <div class="submit-container">
-                            <input type="submit" value="CADASTRAR" class="submit form-btn">
-                        </div>
+                        <div class="submit-container">  
+                            <div class="btnSubmitDiv">
+                                <div class="buttonOptions"><button type="submit" class="submit">CADASTRAR</button></div>
+                            </div>
+                        </div>  
 
                     </form> 
                 </div>
@@ -145,7 +172,21 @@
     </body>
 </html>
 <script>
-    
+
+    function raca(){
+        const especie = document.getElementById("especie").value;
+        if (especie == "Gato"){
+            document.getElementById("racasCachorro").classList.add("escondido");
+            document.getElementById("racasGato").classList.remove("escondido");
+
+        }
+        else if (especie == "Cachorro"){
+            document.getElementById("racasGato").classList.add("escondido");
+            document.getElementById("racasCachorro").classList.remove("escondido");
+        }
+    }
+
+
     // Script para adicionar "-" no CEP
     const cepInput = document.getElementById("cep");
     const antes = 5;
@@ -187,6 +228,23 @@
                 Cidade.value = "";
                 Bairro.value = "";
                 Rua.value = "";
+            }
+            if (endereco.bairro == "" && endereco.logradouro == ""){
+                const Estado = document.getElementById("estado");
+                Estado.value = endereco.uf;
+                Estado.readOnly = true;
+
+                const Cidade = document.getElementById("cidade");
+                Cidade.value = endereco.localidade;
+                Cidade.readOnly = true;
+
+                const Bairro = document.getElementById("bairro");
+                Bairro.value = "";
+                Bairro.readOnly = false;
+                
+                const Rua = document.getElementById("rua");
+                Rua.value = "";
+                Rua.readOnly = false;
             }
             else{
                 const Estado = document.getElementById("estado");
@@ -236,7 +294,9 @@
     {
         const nomeAnimal = document.getElementById("nomeAnimal").value;
         const especie = document.getElementById("especie").value;
-        const raca = document.getElementById("raca").value;
+        const raca = document.getElementById("racas" + especie).value;
+
+        
         const dataNascto = document.getElementById("dataNascto").value;
 
         // Tratamento de erros

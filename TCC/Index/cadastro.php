@@ -26,10 +26,13 @@
                             </button>
                         </form>
                         <div class="options-container">  
-                    <div class="btnOptionsDiv">
-                        <div class="buttonOptions"><a href="./novoCadastro.php">NOVO CADASTRO</a></div>
-                    </div>
-                </div>  
+                            <div class= "btnOptionsDiv">
+                                <div class="buttonOptions"><a href="./novoCadastro.php">NOVO CADASTRO</a></div>
+                            </div>
+                        </div>  
+                    </div>  
+                    <div class="filtro-Div">
+
                     </div>  
                     <?php
                         include '../php/conectaBD.php';
