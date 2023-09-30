@@ -17,7 +17,7 @@
                 <div class="separa-form">
                     <!-- Script para os valores pré estabelecidos -->
                     <?php
-                        include 'conectaBD.php';
+                        include '../php/conectaBD.php';
                         $clienteId = $_GET['id'];
                         $queryClientes = "SELECT * FROM Clientes WHERE idCliente = " . $clienteId;
                         $resultadoClientes = mysqli_query($conexao, $queryClientes);

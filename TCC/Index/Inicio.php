@@ -137,7 +137,7 @@
 
             // Script para informações adicionais - Campo inferior esquerdo da tela
             <?php
-                include 'conectaBD.php';
+                include '../php/conectaBD.php';
                 $queryAnimalInfo = "select Agenda.*, Usuarios.nome, Animais.nome
                                     from Animais
                                     inner join Agenda on Animais.idAnimal = Agenda.idAnimal

@@ -119,6 +119,7 @@ img{
     padding: 2px;
     width: 50px;
     background-color: #2c476e;
+    border-left: none;
 }
 .search-btn:hover{
     background-color: #fef5e4;
