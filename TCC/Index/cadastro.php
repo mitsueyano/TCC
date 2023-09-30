@@ -16,14 +16,6 @@
                 <div class="button selected"><a href="./cadastro.php">CADASTRO</a></div>
             </div>
             <div class="container"> 
-                <div class="options-container">  
-                    <div class="btnOptionsDiv">
-                        <div class="buttonOptions"><a href="./novoCadastro.php">ADICIONAR ANIMAL</a></div>
-                    </div>
-                    <div class="btnOptionsDiv">
-                        <div class="buttonOptions"><a href="./novoCadastro.php">NOVO CADASTRO</a></div>
-                    </div>
-                </div>  
                 <div class="gerenciamento-container">
                     <div class="search-container">
                         <form method="post" action="cadastro.php" class="search-items">
@@ -33,6 +25,11 @@
                                 <img src="../img/search.png" alt="Imagem 2" class="imagem-hover">
                             </button>
                         </form>
+                        <div class="options-container">  
+                    <div class="btnOptionsDiv">
+                        <div class="buttonOptions"><a href="./novoCadastro.php">NOVO CADASTRO</a></div>
+                    </div>
+                </div>  
                     </div>  
                     <?php
                     include '../php/conectaBD.php';
