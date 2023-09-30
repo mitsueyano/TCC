@@ -37,12 +37,12 @@
                         <tbody>
                             <?php         
                                 include '../php/conectaBD.php';
-                                $queryAgenda = "select Agenda.*, Usuarios.nome, Animais.nome, statusConsulta.statusConsulta
-                                                from Animais
-                                                inner join Agenda on Animais.idAnimal = Agenda.idAnimal
-                                                inner join Usuarios on Agenda.veterinario = Usuarios.idUsuario
-                                                inner join statusConsulta on Agenda.idStatus = statusConsulta.idStatus
-                                                group by Agenda.dataConsulta, Agenda.horaConsulta;";
+                                $queryAgenda = "SELECT Agenda.*, Usuarios.nome, Animais.nome, statusConsulta.statusConsulta
+                                                FROM Animais
+                                                INNER JOIN Agenda ON Animais.idAnimal = Agenda.idAnimal
+                                                INNER JOIN Usuarios ON Agenda.veterinario = Usuarios.idUsuario
+                                                INNER JOIN statusConsulta ON Agenda.idStatus = statusConsulta.idStatus
+                                                GROUP BY Agenda.dataConsulta, Agenda.horaConsulta;";
                                 $resultAgenda = mysqli_query($conexao, $queryAgenda);        
                                 if ($resultAgenda->num_rows>0):
                                     while($arrayAgenda = mysqli_fetch_row($resultAgenda) ):
@@ -138,11 +138,11 @@
             // Script para informações adicionais - Campo inferior esquerdo da tela
             <?php
                 include '../php/conectaBD.php';
-                $queryAnimalInfo = "select Agenda.*, Usuarios.nome, Animais.nome
-                                    from Animais
-                                    inner join Agenda on Animais.idAnimal = Agenda.idAnimal
-                                    inner join Usuarios on Agenda.veterinario = Usuarios.idUsuario
-                                    group by Agenda.dataConsulta, Agenda.horaConsulta;";
+                $queryAnimalInfo = "SELECT Agenda.*, Usuarios.nome, Animais.nome
+                                    FROM Animais
+                                    INNER JOIN Agenda ON Animais.idAnimal = Agenda.idAnimal
+                                    INNER JOIN Usuarios ON Agenda.veterinario = Usuarios.idUsuario
+                                    GROUP BY Agenda.dataConsulta, Agenda.horaConsulta;";
                 $result = mysqli_query($conexao, $queryAnimalInfo);
                 $linhas = [];
                 while($linha = $result->fetch_row()) {
@@ -166,12 +166,12 @@
             // Script para o modal
             <?php
                 include 'conectaBD.php';
-                $query = "select Agenda.idConsulta, Agenda.descricao, Usuarios.nome as veterinario, Animais.nome as nomeanimal, Animais.especie, Animais.raca, Clientes.nome as nomecliente
-                        from Animais
-                        inner join Agenda on Animais.idAnimal = Agenda.idAnimal
-                        inner join Usuarios on Agenda.veterinario = Usuarios.idUsuario
-                        inner join Clientes on Animais.idCliente = Clientes.idCliente
-                        group by Agenda.dataConsulta, Agenda.horaConsulta;";
+                $query = "SELECT Agenda.idConsulta, Agenda.descricao, Usuarios.nome AS veterinario, Animais.nome AS nomeanimal, Animais.especie, Animais.raca, Clientes.nome AS nomecliente
+                        FROM Animais
+                        INNER JOIN Agenda ON Animais.idAnimal = Agenda.idAnimal
+                        INNER JOIN Usuarios ON Agenda.veterinario = Usuarios.idUsuario
+                        INNER JOIN Clientes ON Animais.idCliente = Clientes.idCliente
+                        GROUP BY Agenda.dataConsulta, Agenda.horaConsulta;";
                 $result = mysqli_query($conexao, $query);
                 $linhas = [];
                 while($linha = $result->fetch_row()) {

@@ -123,7 +123,7 @@
                         <span>ANIMAIS</span>
                         <div class="lista-animais">           
                                 <?php
-                                    $queryAnimais = "Select * from Animais where idCliente = " . $clienteId;
+                                    $queryAnimais = "SELECT * FROM Animais WHERE idCliente = " . $clienteId;
                                     $resultadoAnimais = mysqli_query($conexao, $queryAnimais);
                                     if ($resultadoAnimais) {
                                         while ($row = $resultadoAnimais->fetch_assoc()):
@@ -191,24 +191,76 @@
     </body>
 </html>
 <script>
+
+    // Script para desabilitar os campos de entrada ao carregar a página
+    document.addEventListener("DOMContentLoaded", function() {
+        const Estado = document.getElementById("estado");
+        const Cidade = document.getElementById("cidade");
+        const Bairro = document.getElementById("bairro");
+        const Rua = document.getElementById("rua");
+        
+        if (Estado.value.trim() !== "") {
+        Estado.disabled = true;
+        }
+        if (cidade.value.trim() !== "") {
+        Cidade.disabled = true;
+        }
+        if (Bairro.value.trim() !== "") {
+        Bairro.disabled = true;
+        }
+        if (Rua.value.trim() !== "") {
+        Rua.disabled = true;
+        }
+    });
+
+
+    // Script para adicionar "-" no CEP
+    const cepInput = document.getElementById("cep");
+    const antes = 5;
+
+    cepInput.addEventListener("input", function() {
+        const stringSemTraco = cepInput.value.replace(/-/g, "");
+
+        let antesDoTraco = stringSemTraco.slice(0, antes);
+        let depoisDoTraco = stringSemTraco.slice(antes);
+
+        if (antesDoTraco && depoisDoTraco) {
+            cepInput.value = antesDoTraco + "-" + depoisDoTraco;
+        } else {
+            cepInput.value = stringSemTraco;
+        }
+    });
+
+
+    // Script para preencher valores de endereço pelo CEP automaticamente
     function pesquisarCEP(){
         const cepElemento = document.getElementById("cep");
         const cepValor = cepElemento.value;
         fetch(`https://viacep.com.br/ws/${cepValor}/json/`, {method:'GET'})
         .then(response => response.json())
         .then (endereco =>{
-            const Estado = document.getElementById("estado");
-            Estado.value = endereco.uf;
+            if (endereco.erro == true){
+                document.getElementById("cep").value = "";
+                throw error('erro');
+            }
+            else{
+                const Estado = document.getElementById("estado");
+                Estado.value = endereco.uf;
 
-            const Cidade = document.getElementById("cidade");
-            Cidade.value = endereco.localidade;
+                const Cidade = document.getElementById("cidade");
+                Cidade.value = endereco.localidade;
 
-            const Bairro = document.getElementById("bairro");
-            Bairro.value = endereco.bairro
-            
-            const Rua = document.getElementById("rua");
-            Rua.value = endereco.logradouro;
+                const Bairro = document.getElementById("bairro");
+                Bairro.value = endereco.bairro
+                
+                const Rua = document.getElementById("rua");
+                Rua.value = endereco.logradouro;
+            }   
+
         })
-        .catch(err => console.error(err))   
+        .catch(err =>{
+            window.alert("CEP inválido");
+            document.getElementById("cep").value = "";
+        })
     }
 </script>

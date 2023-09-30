@@ -40,7 +40,7 @@
                                     <label>Contato:</label>
                                 </div>
                                 <div class="input-form">
-                                <input type="text" name="contato" id="contato"/>
+                                <input type="text" name="contato" id="contato" maxlength="15"/>
                                 </div>
                             </div>
                             <div class="flex">
@@ -48,7 +48,7 @@
                                     <label>CEP:</label>
                                 </div>
                                 <div class="input-form">
-                                    <input type="text" style="width: 65px" id="cep">
+                                    <input type="text" maxlength="9" style="width: 65px" id="cep">
                                     <button type="button" onclick="pesquisarCEP()" class="pesquisar">Pesquisar CEP</button>
                                 </div>
                             </div>
@@ -145,26 +145,89 @@
     </body>
 </html>
 <script>
-    // Script para preencher valores de endereço pelo CEP automáticamente
+    
+    // Script para adicionar "-" no CEP
+    const cepInput = document.getElementById("cep");
+    const antes = 5;
+
+    cepInput.addEventListener("input", function() {
+        const stringSemTraco = cepInput.value.replace(/-/g, "");
+
+        let antesDoTraco = stringSemTraco.slice(0, antes);
+        let depoisDoTraco = stringSemTraco.slice(antes);
+
+        if (antesDoTraco && depoisDoTraco) {
+            cepInput.value = antesDoTraco + "-" + depoisDoTraco;
+        } else {
+            cepInput.value = stringSemTraco;
+        }
+    });
+
+    // Script para formatar o número de telefone com parênteses "()"
+    const contatoInput = document.getElementById("contato");
+
+    contatoInput.addEventListener("input", function() {
+    let valor = contatoInput.value.replace(/\D/g, ''); // Remove todos os não dígitos
+    if (valor.length > 0) {
+        valor = `(${valor.slice(0, 2)}) ${valor.slice(2)}`;
+        }
+        contatoInput.value = valor;
+    });
+
+    // Script para preencher valores de endereço pelo CEP automaticamente
     function pesquisarCEP(){
         const cepElemento = document.getElementById("cep");
         const cepValor = cepElemento.value;
         fetch(`https://viacep.com.br/ws/${cepValor}/json/`, {method:'GET'})
         .then(response => response.json())
         .then (endereco =>{
+            if (endereco.erro == true){
+                document.getElementById("cep").value = "";
+                Estado.value = "";
+                Cidade.value = "";
+                Bairro.value = "";
+                Rua.value = "";
+            }
+            else{
+                const Estado = document.getElementById("estado");
+                Estado.value = endereco.uf;
+                Estado.readOnly = true;
+
+                const Cidade = document.getElementById("cidade");
+                Cidade.value = endereco.localidade;
+                Cidade.readOnly = true;
+
+                const Bairro = document.getElementById("bairro");
+                Bairro.value = endereco.bairro
+                Bairro.readOnly = true;
+                
+                const Rua = document.getElementById("rua");
+                Rua.value = endereco.logradouro;
+                Rua.readOnly = true;
+
+            }
+        })
+        .catch(err =>{
+            window.alert("CEP inválido");
+            document.getElementById("cep").value = "";
+
             const Estado = document.getElementById("estado");
-            Estado.value = endereco.uf;
+            Estado.value = "";
+            Estado.readOnly = false;
 
             const Cidade = document.getElementById("cidade");
-            Cidade.value = endereco.localidade;
+            Cidade.value = "";
+            Cidade.readOnly = false;
 
             const Bairro = document.getElementById("bairro");
-            Bairro.value = endereco.bairro
+            Bairro.value = "";
+            Bairro.readOnly = false;
             
             const Rua = document.getElementById("rua");
-            Rua.value = endereco.logradouro;
+            Rua.value = "";
+            Rua.readOnly = false;
+
         })
-        .catch(err => console.error(err))   
     }
 
     // Script para adicionar quantos animais desejar
@@ -205,69 +268,78 @@
 
     // Função para tratamento de erros onsubmit
     function confirmarCadastro() {
-    const nomeCliente = document.getElementById("nome").value;
-    const contato = document.getElementById("contato").value;
-    const estado = document.getElementById("estado").value;
-    const cidade = document.getElementById("cidade").value;
-    const bairro = document.getElementById("bairro").value;
-    const rua = document.getElementById("rua").value;
-    const numero = document.getElementById("numero").value;
-    let verificar = false;
-    if (nomeCliente.trim() === "") {
-        document.getElementById("nome").placeholder = "Campo obrigatório.";
-        verificar = true;
-    }
-    if (contato.trim() === "") {
-        document.getElementById("contato").placeholder = "Campo obrigatório.";
-        verificar = true;
-    }
-    if (estado.trim() === "") {
-        document.getElementById("estado").placeholder = "Campo obrigatório.";
-        verificar = true;
-    }
-    if (cidade.trim() === "") {
-        document.getElementById("cidade").placeholder = "Campo obrigatório.";
-        verificar = true;
-    }
-    if (bairro.trim() === "") {
-        document.getElementById("bairro").placeholder = "Campo obrigatório.";
-        verificar = true;
-    }
-    if (rua.trim() === "") {
-        document.getElementById("rua").placeholder = "Campo obrigatório.";
-        verificar = true;
-    }
-    if (numero.trim() === "") {
-        document.getElementById("numero").placeholder = "Campo obrigatório.";
-        document.getElementById("numero").style.width = "110px"
-        verificar = true;
-    }
-    if (verificar) {
-        window.alert("Dados incompletos.");
-        return false;
-    }
-    const animaisJson = document.getElementById("animaisJson").value;
-    if (animaisJson.trim() === "") {
-        window.alert("Nenhum animal adicionado.");
-        return false;
-    }
-    const nomeAnimal = document.getElementById("nomeAnimal").value;
-    if (nomeAnimal.trim() !== "") {
-        const confirmacao = confirm(nomeAnimal.toUpperCase() + " não será cadastrado pois não foi adicionado. Deseja continuar?");
-        if (confirmacao) {
-            const especie = document.getElementById("especie").value;
-            const raca = document.getElementById("raca").value;
-            const dataNascto = document.getElementById("dataNascto").value;
+        
+        const nomeCliente = document.getElementById("nome").value;
+        const contato = document.getElementById("contato").value;
+        const estado = document.getElementById("estado").value;
+        const cidade = document.getElementById("cidade").value;
+        const bairro = document.getElementById("bairro").value;
+        const rua = document.getElementById("rua").value;
+        const numero = document.getElementById("numero").value;
 
-            const novoAnimal = [nomeAnimal, especie, raca, dataNascto];
-            animais.push(novoAnimal); // Adiciona o animal à matriz
-
-            document.getElementById("animaisJson").value = JSON.stringify(animais); // Converte o objeto JavaScript em uma string JSON
-            return true;
-        } else {
+        let verificar = false;
+        if (nomeCliente.trim() === "") {
+            document.getElementById("nome").placeholder = "Campo obrigatório.";
+            verificar = true;
+        }
+        if (contato.trim() === "") {
+            document.getElementById("contato").placeholder = "Campo obrigatório.";
+            verificar = true;
+        }
+        if(contato.length != 14){
+            window.alert("Número de telefone inválido");
+        }
+        if (estado.trim() === "") {
+            document.getElementById("estado").placeholder = "Campo obrigatório.";
+            verificar = true;
+        }
+        if (cidade.trim() === "") {
+            document.getElementById("cidade").placeholder = "Campo obrigatório.";
+            verificar = true;
+        }
+        if (bairro.trim() === "") {
+            document.getElementById("bairro").placeholder = "Campo obrigatório.";
+            verificar = true;
+        }
+        if (rua.trim() === "") {
+            document.getElementById("rua").placeholder = "Campo obrigatório.";
+            verificar = true;
+        }
+        if (numero.trim() === "") {
+            document.getElementById("numero").placeholder = "Campo obrigatório.";
+            document.getElementById("numero").style.width = "110px"
+            verificar = true;
+        }
+        if (verificar) {
+            window.alert("Dados incompletos.");
             return false;
         }
+        const animaisJson = document.getElementById("animaisJson").value;
+        if (animaisJson.trim() === "") {
+            window.alert("Nenhum animal adicionado.");
+            return false;
+        }
+        const nomeAnimal = document.getElementById("nomeAnimal").value;
+        if (nomeAnimal.trim() !== "") {
+            const confirmacao = confirm(nomeAnimal.toUpperCase() + " não será cadastrado pois não foi adicionado. Deseja continuar?");
+            if (confirmacao) {
+                const especie = document.getElementById("especie").value;
+                const raca = document.getElementById("raca").value;
+                const dataNascto = document.getElementById("dataNascto").value;
+
+                const novoAnimal = [nomeAnimal, especie, raca, dataNascto];
+                animais.push(novoAnimal); // Adiciona o animal à matriz
+
+                document.getElementById("animaisJson").value = JSON.stringify(animais); // Converte o objeto JavaScript em uma string JSON
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return true; // Envia o formulário se os campos estiverem vazios
+        estado.readOnly = false;
+        cidade.readOnly = false;
+        bairro.readOnly = false;
+        rua.readOnly = false;
     }
-    return true; // Envia o formulário se os campos estiverem vazios
-}
 </script>
