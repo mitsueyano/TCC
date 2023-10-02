@@ -40,7 +40,11 @@
                                     <label>Contato:</label>
                                 </div>
                                 <div class="input-form">
-                                <input type="text" name="contato" id="contato" maxlength="14"/>
+                                    <input type="text" name="contato" id="contato" maxlength="13"/>
+                                    <div class="radio-div">
+                                        <input type="radio" name="contatoTipo" id="contatoTipoTelefone" checked="true" onchange="atualizarMaxlength()"> <span>Telefone</span>
+                                        <input type="radio" name="contatoTipo" id="contatoTipoCelular" onchange="atualizarMaxlength()"> <span>Celular</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="flex">
@@ -108,9 +112,11 @@
                                     <label>Espécie:</label>
                                 </div>
                                 <div class="input-form">
+                                    <input type="text" id="outraEspecie" class="escondido">
                                     <select name="especie" id="especie" onChange="raca()">                                
                                         <option value="Gato">Gato</option>
                                         <option value="Cachorro">Cachorro</option>
+                                        <option value="Outras">Outras</option>
                                     </select>
                                 </div>
                             </div>
@@ -145,6 +151,8 @@
                                             endforeach;
                                         ?>
                                     </select>
+                                    <!-- Outras raças -->
+                                    <input type="text" id="outraRaca" class="escondido">
                                 </div>
                             </div>
                             <div class="flex">
@@ -172,19 +180,6 @@
     </body>
 </html>
 <script>
-
-    function raca(){
-        const especie = document.getElementById("especie").value;
-        if (especie == "Gato"){
-            document.getElementById("racasCachorro").classList.add("escondido");
-            document.getElementById("racasGato").classList.remove("escondido");
-
-        }
-        else if (especie == "Cachorro"){
-            document.getElementById("racasGato").classList.add("escondido");
-            document.getElementById("racasCachorro").classList.remove("escondido");
-        }
-    }
 
 
     // Script para adicionar "-" no CEP
@@ -288,24 +283,56 @@
         })
     }
 
+    // Script para listar raças de acordo com a espécie
+    function raca(){
+        const especie = document.getElementById("especie").value;
+        if (especie == "Gato"){
+            document.getElementById("racasCachorro").classList.add("escondido");
+            document.getElementById("outraRaca").classList.add("escondido");
+            document.getElementById("outraEspecie").classList.add("escondido");
+            document.getElementById("racasGato").classList.remove("escondido");
+        }
+        else if (especie == "Cachorro"){
+            document.getElementById("racasGato").classList.add("escondido");
+            document.getElementById("outraRaca").classList.add("escondido");
+            document.getElementById("outraEspecie").classList.add("escondido");
+            document.getElementById("racasCachorro").classList.remove("escondido");
+        }
+        else if (especie == "Outras"){
+            document.getElementById("racasCachorro").classList.add("escondido");
+            document.getElementById("racasGato").classList.add("escondido");
+            document.getElementById("outraEspecie").classList.remove("escondido");
+            document.getElementById("outraRaca").classList.remove("escondido");
+        }
+    }
     // Script para adicionar quantos animais desejar
     let animais = [];
     function addAnimal()
     {
         const nomeAnimal = document.getElementById("nomeAnimal").value;
-        const especie = document.getElementById("especie").value;
-        const raca = document.getElementById("racas" + especie).value;
-
-        
         const dataNascto = document.getElementById("dataNascto").value;
 
+        var especie = document.getElementById("especie").value;
+        if (especie == "Outras") {
+            especie = document.getElementById("outraEspecie").value;
+            var raca = document.getElementById("outraRaca").value;
+        } else {
+            var raca = document.getElementById("racas" + especie).value;
+        }
+
         // Tratamento de erros
+        if (especie != "Gato" && especie != "Cachorro"){
+            if(especie.trim() === ""){
+                document.getElementById("outraEspecie").placeholder = "Insira a espécie do animal";
+            }
+            if(raca.trim() === ""){
+                document.getElementById("outraRaca").placeholder = "Insira a raça do animal";
+            }
+        }
         if (nomeAnimal.trim() === "") {
            document.getElementById("nomeAnimal").placeholder = "Insira o nome do animal";
         }
-        if (raca.trim() === "") {
-            document.getElementById("raca").placeholder = "Insira a raça do animal";
-        }
+
         // Script addAnimal
         else{
             animais.push([nomeAnimal, especie, raca, dataNascto]); //Cria o array dentro do array "animais" (matriz)
@@ -321,9 +348,31 @@
             
             // Limpa input ao adicionar o animal
             document.getElementById("nomeAnimal").value = "";
-            document.getElementById("raca").value = "";
             document.getElementById("dataNascto").value = "";
+            
         }
+        
+    }
+
+    function atualizarMaxlength(){
+        var tipoCelular = document.getElementById("contatoTipoCelular");
+        var tipoTelefone = document.getElementById("contatoTipoTelefone");
+        var contatoInput = document.getElementById("contato");
+
+        if (tipoCelular.checked) {
+                contatoInput.setAttribute("maxlength", "15");
+        } else if (tipoTelefone.checked) {
+            let valor = contatoInput.value;
+            if (valor.length > 13) {
+                valor = valor.slice(0, -1); // Remove o último caractere caso seja maior que 13
+            }
+            contatoInput.setAttribute("maxlength", "14");
+
+            contatoInput.value = valor;
+        } else {
+            contatoInput.removeAttribute("maxlength");
+        } 
+
     }
 
     // Função para tratamento de erros onsubmit
@@ -345,9 +394,6 @@
         if (contato.trim() === "") {
             document.getElementById("contato").placeholder = "Campo obrigatório.";
             verificar = true;
-        }
-        if(contato.length != 14){
-            window.alert("Número de telefone inválido");
         }
         if (estado.trim() === "") {
             document.getElementById("estado").placeholder = "Campo obrigatório.";
@@ -379,6 +425,18 @@
             window.alert("Nenhum animal adicionado.");
             return false;
         }
+        var contatoTipo = document.getElementById("contatoTipo");
+        if (document.getElementById("contatoTipoTelefone").checked){  
+            if(contato.length != 13){
+            window.alert("Número de contato inválido");
+            return false;
+        }}
+        if (document.getElementById("contatoTipoCelular").checked){  
+            if(contato.length != 14){
+            window.alert("Número de contato inválido");
+            return false;
+        }}
+
         const nomeAnimal = document.getElementById("nomeAnimal").value;
         if (nomeAnimal.trim() !== "") {
             const confirmacao = confirm(nomeAnimal.toUpperCase() + " não será cadastrado pois não foi adicionado. Deseja continuar?");

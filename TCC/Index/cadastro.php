@@ -32,18 +32,28 @@
                         </div>  
                     </div>  
                     <div class="filtro-Div">
-
+                        <span class="filtro-span filtrarPor">Filtrar por: </span>
+                        <div class="cb-div">
+                            <input type="checkbox" name="cbCliente" id="cbCliente" class="cb">
+                            <span class="filtro-span">Cliente</span>
+                        </div>
+                        <div class="cb-div">
+                            <input type="checkbox" name="cbAnimal" id="cbAnimal" class="cb">
+                            <span class="filtro-span">Animal</span>
+                        </div>
                     </div>  
                     <?php
                         include '../php/conectaBD.php';
                         if (isset($_POST["termo_pesquisa"])) {
                             $termo_pesquisa = $_POST["termo_pesquisa"];
                             // Consulta SQL para buscar animais com base no termo de pesquisa
-                            $sql = "SELECT animais.nome AS nome_animal, animais.idAnimal AS id_animal, clientes.nome AS nome_dono, clientes.idCliente AS id_dono 
+                            $sql = "SELECT animais.nome AS nome_animal, animais.especie AS animal_especie, animais.raca AS animal_raca, animais.idAnimal AS id_animal, clientes.nome AS nome_dono, clientes.idCliente AS id_dono 
                                     FROM animais
                                     JOIN clientes ON animais.idCliente = clientes.idCliente
                                     WHERE animais.nome LIKE '%$termo_pesquisa%'
                                     OR clientes.nome LIKE '%$termo_pesquisa%'
+                                    OR animais.especie LIKE '%$termo_pesquisa%'
+                                    OR animais.raca LIKE '%$termo_pesquisa%'
                                     OR animais.idAnimal = '$termo_pesquisa'
                                     OR clientes.idCliente = '$termo_pesquisa'";
                             $result = $conexao->query($sql);
@@ -54,6 +64,8 @@
                             <tr class="table-rows">
                                 <th>ID do Animal</th>
                                 <th>Nome do Animal</th>
+                                <th>Espécie</th>
+                                <th>Raça</th>
                                 <th>Nome do Dono</th>
                                 <th>ID do Dono</th> 
                                 <th></th>
@@ -63,6 +75,8 @@
                             <tr class="table-rows">
                                 <td><?php echo $array["id_animal"]; ?></td>
                                 <td><?php echo $array["nome_animal"]; ?></td>
+                                <td><?php echo $array["animal_especie"]; ?></td>
+                                <td><?php echo $array["animal_raca"]; ?></td>
                                 <td><?php echo $array["nome_dono"]; ?></td>
                                 <td><?php echo $array["id_dono"]; ?></td>
                                 <td class="btnTabelacontainer"> 

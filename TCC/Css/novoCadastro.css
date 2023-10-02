@@ -145,6 +145,14 @@ input{
 .escondido{
     display: none;
 }
+.radio-div{
+    font-size: 70%;
+    display: flex;      
+    align-items: center;
+}
+.radio-div input:hover{
+    cursor: pointer;
+}
 
 /* Botões do formulário */
 .center{

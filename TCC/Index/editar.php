@@ -64,8 +64,12 @@
                                         <label>Contato:</label>
                                     </div>
                                     <div class="input-form">
-                                    <input type="text" name="contato" id="contato" value="<?php echo $contato?>" maxlength="15"/>
+                                    <input type="text" name="contato" id="contato" value="<?php echo $contato   ?>"/>
+                                    <div class="radio-div">
+                                        <input type="radio" name="contatoTipo" id="contatoTipoTelefone"  onchange="atualizarMaxlength()"> <span>Telefone</span>
+                                        <input type="radio" name="contatoTipo" id="contatoTipoCelular" onchange="atualizarMaxlength()"> <span>Celular</span>
                                     </div>
+                                </div>
                                 </div>
                                 <div class="flex">
                                     <div class="label-form">
@@ -127,10 +131,12 @@
                                     $resultadoAnimais = mysqli_query($conexao, $queryAnimais);
                                     if ($resultadoAnimais) {
                                         while ($row = $resultadoAnimais->fetch_assoc()):
+                                            $idAnimal = $row['idAnimal'];
                                             $nome = $row['nome'];
-                                            $raca = $row['raca'];
-                                            $especie = $row['especie'];
                                             $dataNascto = $row['datanascto'];
+                                            $especie = $row['especie'];
+                                            $raca = $row['raca'];
+                                            
                                 ?>      
                                     <!-- Formulário - Seção ANIMAL -->
                                     <form>
@@ -148,20 +154,48 @@
                                                     <label>Espécie:</label>
                                                 </div>
                                                 <div class="input-form">
-                                                    <select name="especie" id="especie">                                
-                                                        <option value="Gato" <?php if ($especie === 'Gato') echo "selected"; ?>>Gato</option>
-                                                        <option value="Cachorro" <?php if ($especie === 'Cão') echo "selected"; ?>>Cão</option>
-                                                        <option value="Cachorro" <?php if ($especie === 'Pássaro') echo "selected"; ?>>Pássaro</option>
+                                                    <input type="text" id="outraEspecie" class="escondido">
+                                                    <select name="especie" id="especie_<?php echo $idAnimal?>" onChange="raca()" >                  
+                                                        <option value="Gato">Gato</option>
+                                                        <option value="Cachorro">Cachorro</option>
+                                                        <option value="Outras">Outras</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="flex">
-                                                <div class="label-form">
-                                                    <label>Raça:</label>
-                                                </div>
-                                                <div class="input-form">
-                                                    <input type="text" name="raca" id="raca" value="<?php echo $raca?>">
-                                                </div>
+                                            <div class="label-form">
+                                                <label>Raça:</label>
+                                            </div>
+                                            <div class="input-form">
+                                                <!-- Script raças de gatos -->
+                                                <select name="racasGato" id="racasGato">
+                                                <?php
+                                                    $json = file_get_contents('../racasGatos.json');
+
+                                                    $json_data = json_decode($json,true);
+                                                    foreach ($json_data as $raca):
+                                                ?>
+                                                <option value="<?php echo $raca?>"><?php echo $raca?> </option>                                   
+                                                <?php
+                                                    endforeach;
+                                                ?>
+                                                </select>
+                                                <!-- Script raças de cachorros -->
+                                                <select name="" id="racasCachorro" class="escondido">
+                                                    <?php
+                                                        $json = file_get_contents('../racasCachorros.json');
+
+                                                        $json_data = json_decode($json,true);
+                                                        foreach ($json_data as $raca):
+                                                    ?>
+                                                    <option value="<?php echo $raca?>"><?php echo $raca?> </option>                                    
+                                                    <?php
+                                                        endforeach;
+                                                    ?>
+                                                </select>
+                                                <!-- Outras raças -->
+                                                <input type="text" id="outraRaca" class="escondido">
+                                            </div>
                                             </div>
                                             <div class="flex">
                                                 <label>Data de nascimento:</label>
@@ -190,7 +224,7 @@
             </div>
     </body>
 </html>
-<script>
+<script> 
     // Script para formatar o número de telefone com parênteses "()"
     const contatoInput = document.getElementById("contato");
 
@@ -221,7 +255,74 @@
         if (Rua.value.trim() !== "") {
         Rua.readOnly = true;
         }
+
+        const contatoInput = document.getElementById("contato");
+        const tipoCelular = document.getElementById("contatoTipoCelular");
+        const tipoTelefone = document.getElementById("contatoTipoTelefone");
+
+        if (contatoInput.value.length === 13) {
+            tipoTelefone.checked = true;
+        } else {
+            tipoCelular.checked = true;
+        }
+
+
+        <?php
+        $queryAnimais = "SELECT * FROM Animais WHERE idCliente = " . $clienteId;
+        $resultadoAnimais = mysqli_query($conexao, $queryAnimais);
+        while ($row = $resultadoAnimais->fetch_assoc()):
+            $idAnimal = $row['idAnimal'];
+            $nome = $row['nome'];
+            $dataNascto = $row['datanascto'];
+        ?>
+        
+
+        var string = "especie_<?php echo $idAnimal?>";
+        var separa = "_";
+        var stringSeparada = string.split(separa);
+            
+        var especieSplit = stringSeparada[0];
+        var idSplit = stringSeparada[1];
+        
+        <?php
+        $queryEspecie = "SELECT especie FROM Animais WHERE idAnimal = " . $idAnimal;
+        $resultadoEspecie = mysqli_query($conexao, $queryEspecie);
+            while ($row = $resultadoEspecie->fetch_assoc()){
+                $especie = $row['especie'];
+            }  
+        $queryRaca = "SELECT raca FROM Animais WHERE idAnimal = " . $idAnimal;
+        $resultadoRaca = mysqli_query($conexao, $queryRaca);
+            while ($row = $resultadoRaca->fetch_assoc()){
+                $raca = $row['raca'];
+            }      
+        ?>
+
+        console.log("<?php echo $especie?>");
+        console.log("<?php echo $raca?>");
+
+
+        var animalCorrespondente = document.getElementById("especie_<?php echo $idAnimal?>");
+
+        if ("<?php echo $especie?>" == "Cachorro"){
+            animalCorrespondente.value = "<?php echo $especie?>";
+            document.getElementById("racasCachorro").value = "<?php echo $raca?>";
+
+        }
+        else if ("<?php echo $especie?>" == "Gato"){
+            animalCorrespondente.value = "<?php echo $especie?>";
+            document.getElementById("racasGato").value = "<?php echo $raca?>";
+
+        }
+        else {
+            animalCorrespondente.value = "Outras";
+            document.getElementById("outraRaca").value = "<?php echo $raca?>";
+        }
+        <?php 
+            endwhile;
+        ?>
+
     });
+
 
 
     // Script para adicionar "-" no CEP
@@ -242,6 +343,7 @@
     });
 
 
+
     // Script para preencher valores de endereço pelo CEP automaticamente
     function pesquisarCEP(){
         const cepElemento = document.getElementById("cep");
@@ -252,6 +354,23 @@
             if (endereco.erro == true){
                 document.getElementById("cep").value = "";
                 throw error('erro');
+            }
+            if (endereco.bairro == "" && endereco.logradouro == ""){
+                const Estado = document.getElementById("estado");
+                Estado.value = endereco.uf;
+                Estado.readOnly = true;
+
+                const Cidade = document.getElementById("cidade");
+                Cidade.value = endereco.localidade;
+                Cidade.readOnly = true;
+
+                const Bairro = document.getElementById("bairro");
+                Bairro.value = "";
+                Bairro.readOnly = false;
+                
+                const Rua = document.getElementById("rua");
+                Rua.value = "";
+                Rua.readOnly = false;
             }
             else{
                 const Estado = document.getElementById("estado");
@@ -288,5 +407,53 @@
             Rua.readOnly = false;
 
         })
+    }
+
+    function atualizarMaxlength(){
+        var tipoCelular = document.getElementById("contatoTipoCelular");
+        var tipoTelefone = document.getElementById("contatoTipoTelefone");
+        var contatoInput = document.getElementById("contato");
+
+        if (tipoCelular.checked) {
+                contatoInput.setAttribute("maxlength", "14");
+        } else if (tipoTelefone.checked) {
+            let valor = contatoInput.value;
+            if (valor.length > 13) {
+                valor = valor.slice(0, -1); // Remove o último caractere caso seja maior que 13
+            }
+            contatoInput.setAttribute("maxlength", "13");
+
+            contatoInput.value = valor;
+        } else {
+            contatoInput.removeAttribute("maxlength");
+        } 
+
+    }
+
+     // Script para listar raças de acordo com a espécie
+     function raca(){
+
+
+        const especie = document.getElementById("especie").value;
+        if (especie == "Gato"){
+            document.getElementById("racasCachorro").classList.add("escondido");
+            document.getElementById("outraRaca").classList.add("escondido");
+            document.getElementById("outraEspecie").classList.add("escondido");
+            document.getElementById("racasGato").classList.remove("escondido");
+        }
+        else if (especie == "Cachorro"){
+            document.getElementById("racasGato").classList.add("escondido");
+            document.getElementById("outraRaca").classList.add("escondido");
+            document.getElementById("outraEspecie").classList.add("escondido");
+            document.getElementById("racasCachorro").classList.remove("escondido");
+        }
+        else {
+            document.getElementById("racasCachorro").classList.add("escondido");
+            document.getElementById("racasGato").classList.add("escondido");
+            document.getElementById("outraEspecie").classList.remove("escondido");
+            document.getElementById("outraRaca").classList.remove("escondido");
+        }
+
+
     }
 </script>
