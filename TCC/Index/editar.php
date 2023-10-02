@@ -154,7 +154,7 @@
                                                     <label>Espécie:</label>
                                                 </div>
                                                 <div class="input-form">
-                                                    <input type="text" id="outraEspecie" class="escondido">
+                                                    <input type="text" id="outraEspecie_<?php echo $idAnimal?>" class="escondido">
                                                     <select name="especie" id="especie_<?php echo $idAnimal?>" onChange="raca()" >                  
                                                         <option value="Gato">Gato</option>
                                                         <option value="Cachorro">Cachorro</option>
@@ -168,7 +168,7 @@
                                             </div>
                                             <div class="input-form">
                                                 <!-- Script raças de gatos -->
-                                                <select name="racasGato" id="racasGato">
+                                                <select name="racasGato" id="racasGato_<?php echo $idAnimal?>">
                                                 <?php
                                                     $json = file_get_contents('../racasGatos.json');
 
@@ -181,7 +181,7 @@
                                                 ?>
                                                 </select>
                                                 <!-- Script raças de cachorros -->
-                                                <select name="" id="racasCachorro" class="escondido">
+                                                <select name="" id="racasCachorro_<?php echo $idAnimal?>" class="escondido">
                                                     <?php
                                                         $json = file_get_contents('../racasCachorros.json');
 
@@ -194,7 +194,7 @@
                                                     ?>
                                                 </select>
                                                 <!-- Outras raças -->
-                                                <input type="text" id="outraRaca" class="escondido">
+                                                <input type="text" id="outraRaca_<?php echo $idAnimal?>" class="escondido">
                                             </div>
                                             </div>
                                             <div class="flex">
@@ -304,18 +304,37 @@
         var animalCorrespondente = document.getElementById("especie_<?php echo $idAnimal?>");
 
         if ("<?php echo $especie?>" == "Cachorro"){
+
+            document.getElementById("racasCachorro_<?php echo $idAnimal?>").classList.remove("escondido");
+            document.getElementById("outraRaca_<?php echo $idAnimal?>").classList.add("escondido");
+            document.getElementById("outraEspecie_<?php echo $idAnimal?>").classList.add("escondido");
+            document.getElementById("racasGato_<?php echo $idAnimal?>").classList.add("escondido");
+
             animalCorrespondente.value = "<?php echo $especie?>";
-            document.getElementById("racasCachorro").value = "<?php echo $raca?>";
+            document.getElementById("racasCachorro_<?php echo $idAnimal?>").value = "<?php echo $raca?>";
 
         }
         else if ("<?php echo $especie?>" == "Gato"){
-            animalCorrespondente.value = "<?php echo $especie?>";
-            document.getElementById("racasGato").value = "<?php echo $raca?>";
 
+            document.getElementById("racasCachorro_<?php echo $idAnimal?>").classList.add("escondido");
+            document.getElementById("outraRaca_<?php echo $idAnimal?>").classList.add("escondido");
+            document.getElementById("outraEspecie_<?php echo $idAnimal?>").classList.add("escondido");
+            document.getElementById("racasGato_<?php echo $idAnimal?>").classList.remove("escondido");
+
+
+            animalCorrespondente.value = "<?php echo $especie?>";
+            document.getElementById("racasGato_<?php echo $idAnimal?>").value = "<?php echo $raca?>";
         }
         else {
+
+            document.getElementById("racasCachorro_<?php echo $idAnimal?>").classList.add("escondido");
+            document.getElementById("outraRaca_<?php echo $idAnimal?>").classList.remove("escondido");
+            document.getElementById("outraEspecie_<?php echo $idAnimal?>").classList.remove("escondido");
+            document.getElementById("racasGato_<?php echo $idAnimal?>").classList.add("escondido");
+
             animalCorrespondente.value = "Outras";
-            document.getElementById("outraRaca").value = "<?php echo $raca?>";
+            document.getElementById("outraEspecie_<?php echo $idAnimal?>").value = "<?php echo $especie?>";
+            document.getElementById("outraRaca_<?php echo $idAnimal?>").value = "<?php echo $raca?>";
         }
         <?php 
             endwhile;
