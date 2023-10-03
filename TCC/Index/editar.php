@@ -40,7 +40,7 @@
                     ?>
                     <div class="form-container">
                         <span>CLIENTE</span>
-                        <form action="../php/cadastrarCliente.php" method="post" onsubmit="return confirmarCadastro()">
+                        <form action="../php/cadastrarCliente.php" method="post" id="formCliente" onsubmit="return confirmarCadastro()">
                             <div class="container-cliente"> 
                                 <div class="flex">
                                     <div class="label-form">
@@ -139,7 +139,7 @@
                                             
                                 ?>      
                                     <!-- Formulário - Seção ANIMAL -->
-                                    <form>
+                                    <form id="formAnimal_<?php echo $nome?>">
                                         <div class="container-animal">
                                             <div class="flex">
                                                 <div class="label-form">
@@ -215,11 +215,11 @@
                         </div>     
                     </div>       
                 </div>
-                <div class="options-container">  
-                    <div class="btnOptionsDiv">
-                        <div class="buttonOptions"><a href="./novoCadastro.php">SALVAR ALTERAÇÕES</a></div>
+                <div class="submit-container">  
+                    <div class="btnSubmitDiv">
+                        <div class="buttonOptions"><button type="submit" class="submit">SALVAR ALTERAÇÕES</button></div>
                     </div>
-                </div>       
+                </div>  
             </div>  
             </div>
     </body>
@@ -314,6 +314,7 @@
         else {
             animalCorrespondente.value = "Outras";
             document.getElementById("outraRaca_<?php echo $idAnimal; ?>").value = "<?php echo $raca?>";
+            document.getElementById("outraEspecie_<?php echo $idAnimal; ?>").value = "<?php echo $especie?>"
             document.getElementById("racasCachorro_<?php echo $idAnimal; ?>").classList.add("escondido");
             document.getElementById("racasGato_<?php echo $idAnimal; ?>").classList.add("escondido");
             document.getElementById("outraEspecie_<?php echo $idAnimal; ?>").classList.remove("escondido");
@@ -451,6 +452,20 @@
             outraEspecieElemento.classList.remove("escondido");
 
         }
+
+        // Script para enviar os formulários
+        var formCliente = document.getElementById("formCliente");
+        var formAnimal = document.getElementById("formAnimal_<?php echo $nome?>")
+        var botaoSubmit = document.getElementById("meuBotaoSubmit");
+
+        botaoSubmit.addEventListener("click", function (event) {
+            event.preventDefault();
+
+
+
+            formulario.submit();
+        });
+
     }
 
 </script>

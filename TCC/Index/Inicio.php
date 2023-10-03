@@ -165,7 +165,7 @@
 
             // Script para o modal
             <?php
-                include 'conectaBD.php';
+                include '../php/conectaBD.php';
                 $query = "SELECT Agenda.idConsulta, Agenda.descricao, Usuarios.nome AS veterinario, Animais.nome AS nomeanimal, Animais.especie, Animais.raca, Clientes.nome AS nomecliente
                         FROM Animais
                         INNER JOIN Agenda ON Animais.idAnimal = Agenda.idAnimal
