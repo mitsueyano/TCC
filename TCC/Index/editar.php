@@ -277,13 +277,6 @@
             $dataNascto = $row['datanascto'];
         ?>
         
-
-        var string = "especie_<?php echo $idAnimal?>";
-        var separa = "_";
-        var stringSeparada = string.split(separa);
-            
-        var especieSplit = stringSeparada[0];
-        var idSplit = stringSeparada[1];
         
         <?php
         $queryEspecie = "SELECT especie FROM Animais WHERE idAnimal = " . $idAnimal;
@@ -298,25 +291,33 @@
             }      
         ?>
 
-        console.log("<?php echo $especie?>");
-        console.log("<?php echo $raca?>");
-
 
         var animalCorrespondente = document.getElementById("especie_<?php echo $idAnimal?>");
 
         if ("<?php echo $especie?>" == "Cachorro"){
             animalCorrespondente.value = "<?php echo $especie?>";
             document.getElementById("racasCachorro_<?php echo $idAnimal; ?>").value = "<?php echo $raca?>";
+            document.getElementById("racasGato_<?php echo $idAnimal; ?>").classList.add("escondido");
+            document.getElementById("outraRaca_<?php echo $idAnimal; ?>").classList.add("escondido");
+            document.getElementById("outraEspecie_<?php echo $idAnimal; ?>").classList.add("escondido");
+            document.getElementById("racasCachorro_<?php echo $idAnimal; ?>").classList.remove("escondido");
 
         }
         else if ("<?php echo $especie?>" == "Gato"){
             animalCorrespondente.value = "<?php echo $especie?>";
             document.getElementById("racasGato_<?php echo $idAnimal; ?>").value = "<?php echo $raca?>";
-
+            document.getElementById("racasCachorro_<?php echo $idAnimal; ?>").classList.add("escondido");
+            document.getElementById("outraRaca_<?php echo $idAnimal; ?>").classList.add("escondido");
+            document.getElementById("outraEspecie_<?php echo $idAnimal; ?>").classList.add("escondido");
+            document.getElementById("racasGato_<?php echo $idAnimal; ?>").classList.remove("escondido");
         }
         else {
             animalCorrespondente.value = "Outras";
             document.getElementById("outraRaca_<?php echo $idAnimal; ?>").value = "<?php echo $raca?>";
+            document.getElementById("racasCachorro_<?php echo $idAnimal; ?>").classList.add("escondido");
+            document.getElementById("racasGato_<?php echo $idAnimal; ?>").classList.add("escondido");
+            document.getElementById("outraEspecie_<?php echo $idAnimal; ?>").classList.remove("escondido");
+            document.getElementById("outraRaca_<?php echo $idAnimal; ?>").classList.remove("escondido");
         }
         <?php 
             endwhile;
