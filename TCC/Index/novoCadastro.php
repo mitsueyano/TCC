@@ -360,13 +360,13 @@
         var contatoInput = document.getElementById("contato");
 
         if (tipoCelular.checked) {
-                contatoInput.setAttribute("maxlength", "15");
+                contatoInput.setAttribute("maxlength", "14");
         } else if (tipoTelefone.checked) {
             let valor = contatoInput.value;
             if (valor.length > 13) {
                 valor = valor.slice(0, -1); // Remove o último caractere caso seja maior que 13
             }
-            contatoInput.setAttribute("maxlength", "14");
+            contatoInput.setAttribute("maxlength", "13");
 
             contatoInput.value = valor;
         } else {

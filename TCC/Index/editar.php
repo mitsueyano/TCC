@@ -1,229 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Início</title>
-        <link rel="stylesheet" href="../Css/editar.css">
-    </head>
-    <body>
-        <div class="border-page"></div>
-        <div class="page">
-            <div class="bar">
-                <div class="button"><a href="./cadastro.php">VOLTAR</a></div>
-            </div>
-            <div class="container" id="container">  
-                <div class="separa-form">
-                    <!-- Script para os valores pré estabelecidos -->
-                    <?php
-                        include '../php/conectaBD.php';
-                        $clienteId = $_GET['id'];
-                        $queryClientes = "SELECT * FROM Clientes WHERE idCliente = " . $clienteId;
-                        $resultadoClientes = mysqli_query($conexao, $queryClientes);
-                        if ($resultadoClientes) {
-                            while ($row = $resultadoClientes->fetch_assoc()) {
-                                $nomeCliente = $row['nome'];
-                                $email = $row['email'];
-                                $contato = $row['contato'];
-                                $estado = $row['enderecoE'];
-                                $cidade = $row['enderecoC'];
-                                $bairro = $row['enderecoB'];
-                                $enderecoRN = $row['enderecoRN'];
-                                $separarRN = explode(", ", $enderecoRN);
-                                $rua = $separarRN[0];
-                                $numero = $separarRN[1];
-                            }
-                        } else {
-                            echo "Erro na consulta: " . $conexao->error;
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Início</title>
+    <link rel="stylesheet" href="../Css/editar.css">
+</head>
+<body>
+    <div class="border-page"></div>
+    <div class="page">
+        <div class="bar">
+            <div class="button"><a href="./cadastro.php">VOLTAR</a></div>
+        </div>
+        <div class="container" id="container">  
+            <div class="separa-form">
+                <!-- Script para os valores pré estabelecidos -->
+                <?php
+                    include '../php/conectaBD.php';
+                    $clienteId = $_GET['id'];
+                    $queryClientes = "SELECT * FROM Clientes WHERE idCliente = " . $clienteId;
+                    $resultadoClientes = mysqli_query($conexao, $queryClientes);
+                    if ($resultadoClientes) {
+                        while ($row = $resultadoClientes->fetch_assoc()) {
+                            $nomeCliente = $row['nome'];
+                            $email = $row['email'];
+                            $contato = $row['contato'];
+                            $estado = $row['enderecoE'];
+                            $cidade = $row['enderecoC'];
+                            $bairro = $row['enderecoB'];
+                            $enderecoRN = $row['enderecoRN'];
+                            $separarRN = explode(", ", $enderecoRN);
+                            $rua = $separarRN[0];
+                            $numero = $separarRN[1];
                         }
-                    ?>
-                    <div class="form-container">
-                        <span>CLIENTE</span>
-                        <form action="../php/cadastrarCliente.php" method="post" id="formCliente" onsubmit="return confirmarCadastro()">
-                            <div class="container-cliente"> 
+                    } else {
+                        echo "Erro na consulta: " . $conexao->error;
+                    }
+                ?>
+                <form action="../Index/novoCadastro.php" method="post" id="formCliente" name="submit">
+                    <div class="form-containerCliente">
+                        <span class="form-title">CLIENTE</span>
+                        <div class="container-cliente"> 
+                            <div class="flex">
+                                <div class="label-form">
+                                    <!-- Formulário - seção CLIENTE -->
+                                    <label>Nome do cliente:</label>
+                                </div>
+                                <div class="input-form">
+                                    <input type="text" name="nome" id="nome" value="<?php echo $nomeCliente?>">
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>E-mail:</label>
+                                </div>
+                                <div class="input-form">
+                                    <input type="text" name="email" value="<?php echo $email?>">
+                                </div>
+                            </div>
+                            <div class="flex" style="margin-bottom: 20px">
+                                <div class="label-form">
+                                    <label>Contato:</label>
+                                </div>
+                                <div class="input-form">
+                                <input type="text" name="contato" id="contato" value="<?php echo $contato   ?>"/>
+                                <div class="radio-div">
+                                    <input type="radio" name="contatoTipo" id="contatoTipoTelefone"  onchange="atualizarMaxlength()"> <span>Telefone</span>
+                                    <input type="radio" name="contatoTipo" id="contatoTipoCelular" onchange="atualizarMaxlength()"> <span>Celular</span>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>CEP:</label>
+                                </div>
+                                <div class="input-form">
+                                    <input type="text" style="width: 65px" id="cep">
+                                    <button type="button" onclick="pesquisarCEP()" class="pesquisar">Pesquisar CEP</button>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>Estado:</label>
+                                </div>
+                                <div class="input-form">
+                                    <input type="text" id="estado" name="estado" value="<?php echo $estado?>">
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>Cidade:</label>
+                                </div>
+                                <div class="input-form">
+                                    <input type="text" id="cidade" name="cidade" value="<?php echo $cidade?>">
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>Bairro:</label>
+                                </div>
+                                <div class="input-form">
+                                    <input type="text" id="bairro" name="bairro" value="<?php echo $bairro?>">
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>Rua:</label>
+                                </div>
+                                <div class="input-form">
+                                    <input type="text" id="rua" name="rua" value="<?php echo $rua?>">
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>Número:</label>
+                                </div>
+                                <div class="input-form">
+                                    <input type="text" id="numero" name="numero" style="width: 30px" value="<?php echo $numero?>">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="form-containerAnimais">  
+                        <span class="form-title">ANIMAIS</span>
+                        <div class="lista-animais">           
+                            <?php
+                                $queryAnimais = "SELECT * FROM Animais WHERE idCliente = " . $clienteId;
+                                $resultadoAnimais = mysqli_query($conexao, $queryAnimais);
+                                if ($resultadoAnimais) {
+                                    while ($row = $resultadoAnimais->fetch_assoc()):
+                                        $idAnimal = $row['idAnimal'];
+                                        $nome = $row['nome'];
+                                        $dataNascto = $row['datanascto'];
+                                        $especie = $row['especie'];
+                                        $raca = $row['raca'];
+                            ?>      
+                            <!-- Formulário - Seção ANIMAL -->
+                            <div class="container-animal">
                                 <div class="flex">
                                     <div class="label-form">
-                                        <!-- Formulário - seção CLIENTE -->
-                                        <label>Nome do cliente:</label>
+                                        <label>Nome do animal:</label>
                                     </div>
                                     <div class="input-form">
-                                        <input type="text" name="nome" id="nome" value="<?php echo $nomeCliente?>">
+                                        <input type="text" name="nomeAnimal_<?php echo $idAnimal?>" id="nomeAnimal_<?php echo $idAnimal?>" value="<?php echo $nome?>">
                                     </div>
                                 </div>
                                 <div class="flex">
                                     <div class="label-form">
-                                        <label>E-mail:</label>
+                                        <label>Espécie:</label>
                                     </div>
                                     <div class="input-form">
-                                        <input type="text" name="email" value="<?php echo $email?>">
-                                    </div>
-                                </div>
-                                <div class="flex" style="margin-bottom: 20px">
-                                    <div class="label-form">
-                                        <label>Contato:</label>
-                                    </div>
-                                    <div class="input-form">
-                                    <input type="text" name="contato" id="contato" value="<?php echo $contato   ?>"/>
-                                    <div class="radio-div">
-                                        <input type="radio" name="contatoTipo" id="contatoTipoTelefone"  onchange="atualizarMaxlength()"> <span>Telefone</span>
-                                        <input type="radio" name="contatoTipo" id="contatoTipoCelular" onchange="atualizarMaxlength()"> <span>Celular</span>
-                                    </div>
-                                </div>
-                                </div>
-                                <div class="flex">
-                                    <div class="label-form">
-                                        <label>CEP:</label>
-                                    </div>
-                                    <div class="input-form">
-                                        <input type="text" style="width: 65px" id="cep">
-                                        <button type="button" onclick="pesquisarCEP()" class="pesquisar">Pesquisar CEP</button>
+                                        <input type="text" id="outraEspecie_<?php echo $idAnimal?>" class="escondido">
+                                        <select name="especie_<?php echo $idAnimal?>" id="especie_<?php echo $idAnimal?>" onChange="atualizarRaca(<?php echo $idAnimal; ?>)" >                  
+                                            <option value="Gato" <?php if ($especie === 'Gato') echo 'selected="selected"'; ?>>Gato</option>
+                                            <option value="Cachorro" <?php if ($especie === 'Cachorro') echo 'selected="selected"'; ?>>Cachorro</option>
+                                            <option value="Outras" <?php if ($especie !== 'Gato' && $especie !== 'Cachorro') echo 'selected="selected"'; ?>>Outras</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="flex">
-                                    <div class="label-form">
-                                        <label>Estado:</label>
-                                    </div>
-                                    <div class="input-form">
-                                        <input type="text" id="estado" name="estado" value="<?php echo $estado?>">
-                                    </div>
+                                <div class="label-form">
+                                    <label>Raça:</label>
+                                </div>
+                                <div class="input-form">
+                                    <!-- Script raças de gatos -->
+                                    <select name="racasGato_<?php echo $idAnimal?>" id="racasGato_<?php echo $idAnimal?>">
+                                    <?php
+                                        $json = file_get_contents('../racasGatos.json');
+
+                                        $json_data = json_decode($json,true);
+                                        foreach ($json_data as $racaGato):
+                                    ?>
+                                    <option value="<?php echo $racaGato?>" <?php if ($especie === 'Gato' && $raca === $racaGato) echo 'selected="selected"'; ?>><?php echo $racaGato?> </option>                                   
+                                    <?php
+                                        endforeach;
+                                    ?>
+                                    </select>
+                                    <!-- Script raças de cachorros -->
+                                    <select name="racasCachorro_<?php echo $idAnimal?>" id="racasCachorro_<?php echo $idAnimal?>" class="escondido">
+                                        <?php
+                                            $json = file_get_contents('../racasCachorros.json');
+
+                                            $json_data = json_decode($json,true);
+                                            foreach ($json_data as $racaCachorro):
+                                        ?>
+                                        <option value="<?php echo $racaCachorro?>" <?php if ($especie === 'Cachorro' && $raca === $racaCachorro) echo 'selected="selected"'; ?>><?php echo $racaCachorro?> </option>                                    
+                                        <?php
+                                            endforeach;
+                                        ?>
+                                    </select>
+                                    <!-- Outras raças -->
+                                    <input type="text" name="outraRaca_<?php echo $idAnimal; ?>" id="outraRaca_<?php echo $idAnimal; ?>" class="escondido" value="<?php if ($especie !== 'Gato' && $especie !== 'Cachorro') echo $raca; ?>">
+                                </div>
                                 </div>
                                 <div class="flex">
-                                    <div class="label-form">
-                                        <label>Cidade:</label>
-                                    </div>
+                                    <label>Data de nascimento:</label>
                                     <div class="input-form">
-                                        <input type="text" id="cidade" name="cidade" value="<?php echo $cidade?>">
-                                    </div>
-                                </div>
-                                <div class="flex">
-                                    <div class="label-form">
-                                        <label>Bairro:</label>
-                                    </div>
-                                    <div class="input-form">
-                                        <input type="text" id="bairro" name="bairro" value="<?php echo $bairro?>">
-                                    </div>
-                                </div>
-                                <div class="flex">
-                                    <div class="label-form">
-                                        <label>Rua:</label>
-                                    </div>
-                                    <div class="input-form">
-                                        <input type="text" id="rua" name="rua" value="<?php echo $rua?>">
-                                    </div>
-                                </div>
-                                <div class="flex">
-                                    <div class="label-form">
-                                        <label>Número:</label>
-                                    </div>
-                                    <div class="input-form">
-                                        <input type="text" id="numero" name="numero" style="width: 30px" value="<?php echo $numero?>">
+                                        <input type="date" name="dataNascto_<?php echo $idAnimal?>" id="dataNascto_<?php echo $idAnimal?>" value="<?php echo $dataNascto?>">
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                    </div> 
-                    <div class="form-container">  
-                        <span>ANIMAIS</span>
-                        <div class="lista-animais">           
-                                <?php
-                                    $queryAnimais = "SELECT * FROM Animais WHERE idCliente = " . $clienteId;
-                                    $resultadoAnimais = mysqli_query($conexao, $queryAnimais);
-                                    if ($resultadoAnimais) {
-                                        while ($row = $resultadoAnimais->fetch_assoc()):
-                                            $idAnimal = $row['idAnimal'];
-                                            $nome = $row['nome'];
-                                            $dataNascto = $row['datanascto'];
-                                            $especie = $row['especie'];
-                                            $raca = $row['raca'];
-                                            
-                                ?>      
-                                    <!-- Formulário - Seção ANIMAL -->
-                                    <form id="formAnimal_<?php echo $nome?>">
-                                        <div class="container-animal">
-                                            <div class="flex">
-                                                <div class="label-form">
-                                                    <label>Nome do animal:</label>
-                                                </div>
-                                                <div class="input-form">
-                                                    <input type="text" name="nomeAnimal" id="nomeAnimal" value="<?php echo $nome?>">
-                                                </div>
-                                            </div>
-                                            <div class="flex">
-                                                <div class="label-form">
-                                                    <label>Espécie:</label>
-                                                </div>
-                                                <div class="input-form">
-                                                    <input type="text" id="outraEspecie_<?php echo $idAnimal?>" class="escondido">
-                                                    <select name="especie" id="especie_<?php echo $idAnimal?>" onChange="atualizarRaca(<?php echo $idAnimal; ?>)" >                  
-                                                        <option value="Gato">Gato</option>
-                                                        <option value="Cachorro">Cachorro</option>
-                                                        <option value="Outras">Outras</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="flex">
-                                            <div class="label-form">
-                                                <label>Raça:</label>
-                                            </div>
-                                            <div class="input-form">
-                                                <!-- Script raças de gatos -->
-                                                <select name="racasGato" id="racasGato_<?php echo $idAnimal?>">
-                                                <?php
-                                                    $json = file_get_contents('../racasGatos.json');
-
-                                                    $json_data = json_decode($json,true);
-                                                    foreach ($json_data as $raca):
-                                                ?>
-                                                <option value="<?php echo $raca?>"><?php echo $raca?> </option>                                   
-                                                <?php
-                                                    endforeach;
-                                                ?>
-                                                </select>
-                                                <!-- Script raças de cachorros -->
-                                                <select name="" id="racasCachorro_<?php echo $idAnimal?>" class="escondido">
-                                                    <?php
-                                                        $json = file_get_contents('../racasCachorros.json');
-
-                                                        $json_data = json_decode($json,true);
-                                                        foreach ($json_data as $raca):
-                                                    ?>
-                                                    <option value="<?php echo $raca?>"><?php echo $raca?> </option>                                    
-                                                    <?php
-                                                        endforeach;
-                                                    ?>
-                                                </select>
-                                                <!-- Outras raças -->
-                                                <input type="text" id="outraRaca_<?php echo $idAnimal; ?>" class="escondido">
-                                            </div>
-                                            </div>
-                                            <div class="flex">
-                                                <label>Data de nascimento:</label>
-                                                <div class="input-form">
-                                                    <input type="date" name="dataNascto" id="dataNascto" value="<?php echo $dataNascto?>">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form> 
-                                <?php
-                                    endwhile;
-                                    } else {
-                                        echo "Erro na consulta: " . $conexao->error;
-                                    }
-                                ?>     
-                            </div>   
-                        </div>     
+                            <?php
+                                endwhile;
+                                } else {
+                                    echo "Erro na consulta: " . $conexao->error;
+                                }
+                            ?>     
+                        </div>   
                     </div>       
                 </div>
                 <div class="submit-container">  
                     <div class="btnSubmitDiv">
-                        <div class="buttonOptions"><button type="submit" class="submit">SALVAR ALTERAÇÕES</button></div>
+                        <div class="buttonOptions"><button type="submit" class="submit" form="formCliente">SALVAR ALTERAÇÕES</button></div>
                     </div>
                 </div>  
             </div>  
-            </div>
-    </body>
+        </div>
+    </div>
+</body>
 </html>
+
 <script> 
     // Script para formatar o número de telefone com parênteses "()"
     const contatoInput = document.getElementById("contato");
@@ -452,20 +450,6 @@
             outraEspecieElemento.classList.remove("escondido");
 
         }
-
-        // Script para enviar os formulários
-        var formCliente = document.getElementById("formCliente");
-        var formAnimal = document.getElementById("formAnimal_<?php echo $nome?>")
-        var botaoSubmit = document.getElementById("meuBotaoSubmit");
-
-        botaoSubmit.addEventListener("click", function (event) {
-            event.preventDefault();
-
-
-
-            formulario.submit();
-        });
-
     }
 
 </script>
