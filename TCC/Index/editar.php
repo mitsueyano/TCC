@@ -314,6 +314,7 @@
         else {
             animalCorrespondente.value = "Outras";
             document.getElementById("outraRaca_<?php echo $idAnimal; ?>").value = "<?php echo $raca?>";
+            document.getElementById("outraEspecie_<?php echo $idAnimal; ?>").value = "<?php echo $especie?>"
             document.getElementById("racasCachorro_<?php echo $idAnimal; ?>").classList.add("escondido");
             document.getElementById("racasGato_<?php echo $idAnimal; ?>").classList.add("escondido");
             document.getElementById("outraEspecie_<?php echo $idAnimal; ?>").classList.remove("escondido");
