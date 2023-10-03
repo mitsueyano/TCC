@@ -93,9 +93,10 @@ create table Clientes
     enderecoRN varchar (100) 
 );
 insert into Clientes (nome, email, contato, enderecoE, enderecoC, enderecoB, enderecoRN)
-values ('Carlos Oliveira', 'carlos@example.com', '5555555555', 'SP', 'Mauá', 'Vila Noêmia', 'Rua Jasson Marques, 123' );
+values ('Carlos Oliveira', 'carlos@example.com', '(85) 3727-5073', 'SP', 'Mauá', 'Vila Noêmia', 'Rua Jasson Marques, 123' ),
+('Kaique Henrique', 'kaique@example.com', '(85) 99469-6139', 'SP', 'Mauá', 'Vila Noêmia', 'Rua Jasson Marques, 124' );
 
- 
+
 
  
 
@@ -115,9 +116,10 @@ create table Animais
  
 
 insert into Animais (nome, especie, raca, datanascto, idCliente)
-values ('Bumi', 'Cão', 'Golden Retriever', '2018-03-15', 1),
+values ('Bumi', 'Cachorro', 'Golden Retriever', '2018-03-15', 1),
 ('Sett', 'Gato', 'Siamês', '2019-06-10', 1),
-('Tico', 'Pássaro', 'Canário', '2020-02-01', 1);
+('Tico', 'Pássaro', 'Canário', '2020-02-01', 1),
+('Faisca', 'Gato', 'Siamês', '2019-05-10', 2);
 
  
 

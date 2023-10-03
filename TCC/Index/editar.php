@@ -155,7 +155,7 @@
                                                 </div>
                                                 <div class="input-form">
                                                     <input type="text" id="outraEspecie_<?php echo $idAnimal?>" class="escondido">
-                                                    <select name="especie" id="especie_<?php echo $idAnimal?>" onChange="raca()" >                  
+                                                    <select name="especie" id="especie_<?php echo $idAnimal?>" onChange="atualizarRaca(<?php echo $idAnimal; ?>)" >                  
                                                         <option value="Gato">Gato</option>
                                                         <option value="Cachorro">Cachorro</option>
                                                         <option value="Outras">Outras</option>
@@ -194,7 +194,7 @@
                                                     ?>
                                                 </select>
                                                 <!-- Outras raças -->
-                                                <input type="text" id="outraRaca_<?php echo $idAnimal?>" class="escondido">
+                                                <input type="text" id="outraRaca_<?php echo $idAnimal; ?>" class="escondido">
                                             </div>
                                             </div>
                                             <div class="flex">
@@ -266,6 +266,7 @@
             tipoCelular.checked = true;
         }
 
+        // Script para auto completar os dados dos animais
 
         <?php
         $queryAnimais = "SELECT * FROM Animais WHERE idCliente = " . $clienteId;
@@ -304,45 +305,24 @@
         var animalCorrespondente = document.getElementById("especie_<?php echo $idAnimal?>");
 
         if ("<?php echo $especie?>" == "Cachorro"){
-
-            document.getElementById("racasCachorro_<?php echo $idAnimal?>").classList.remove("escondido");
-            document.getElementById("outraRaca_<?php echo $idAnimal?>").classList.add("escondido");
-            document.getElementById("outraEspecie_<?php echo $idAnimal?>").classList.add("escondido");
-            document.getElementById("racasGato_<?php echo $idAnimal?>").classList.add("escondido");
-
             animalCorrespondente.value = "<?php echo $especie?>";
-            document.getElementById("racasCachorro_<?php echo $idAnimal?>").value = "<?php echo $raca?>";
+            document.getElementById("racasCachorro_<?php echo $idAnimal; ?>").value = "<?php echo $raca?>";
 
         }
         else if ("<?php echo $especie?>" == "Gato"){
-
-            document.getElementById("racasCachorro_<?php echo $idAnimal?>").classList.add("escondido");
-            document.getElementById("outraRaca_<?php echo $idAnimal?>").classList.add("escondido");
-            document.getElementById("outraEspecie_<?php echo $idAnimal?>").classList.add("escondido");
-            document.getElementById("racasGato_<?php echo $idAnimal?>").classList.remove("escondido");
-
-
             animalCorrespondente.value = "<?php echo $especie?>";
-            document.getElementById("racasGato_<?php echo $idAnimal?>").value = "<?php echo $raca?>";
+            document.getElementById("racasGato_<?php echo $idAnimal; ?>").value = "<?php echo $raca?>";
+
         }
         else {
-
-            document.getElementById("racasCachorro_<?php echo $idAnimal?>").classList.add("escondido");
-            document.getElementById("outraRaca_<?php echo $idAnimal?>").classList.remove("escondido");
-            document.getElementById("outraEspecie_<?php echo $idAnimal?>").classList.remove("escondido");
-            document.getElementById("racasGato_<?php echo $idAnimal?>").classList.add("escondido");
-
             animalCorrespondente.value = "Outras";
-            document.getElementById("outraEspecie_<?php echo $idAnimal?>").value = "<?php echo $especie?>";
-            document.getElementById("outraRaca_<?php echo $idAnimal?>").value = "<?php echo $raca?>";
+            document.getElementById("outraRaca_<?php echo $idAnimal; ?>").value = "<?php echo $raca?>";
         }
         <?php 
             endwhile;
         ?>
 
     });
-
-
 
     // Script para adicionar "-" no CEP
     const cepInput = document.getElementById("cep");
@@ -360,8 +340,6 @@
             cepInput.value = stringSemTraco;
         }
     });
-
-
 
     // Script para preencher valores de endereço pelo CEP automaticamente
     function pesquisarCEP(){
@@ -450,29 +428,28 @@
     }
 
      // Script para listar raças de acordo com a espécie
-     function raca(){
+     function atualizarRaca(idAnimal) {
+        var especieElemento = document.getElementById(`especie_${idAnimal}`);
+        var racasGatoElemento = document.getElementById(`racasGato_${idAnimal}`);
+        var racasCachorroElemento = document.getElementById(`racasCachorro_${idAnimal}`);
+        var outraRacaElemento = document.getElementById(`outraRaca_${idAnimal}`);
+        var outraEspecieElemento = document.getElementById(`outraEspecie_${idAnimal}`)
 
+        if (especieElemento.value == "Gato") {
+            racasGatoElemento.classList.remove("escondido");
+            racasCachorroElemento.classList.add("escondido");
+            outraRacaElemento.classList.add("escondido");
+        } else if (especieElemento.value == "Cachorro") {
+            racasGatoElemento.classList.add("escondido");
+            racasCachorroElemento.classList.remove("escondido");
+            outraRacaElemento.classList.add("escondido");
+        } else {
+            racasGatoElemento.classList.add("escondido");
+            racasCachorroElemento.classList.add("escondido");
+            outraRacaElemento.classList.remove("escondido");
+            outraEspecieElemento.classList.remove("escondido");
 
-        const especie = document.getElementById("especie").value;
-        if (especie == "Gato"){
-            document.getElementById("racasCachorro").classList.add("escondido");
-            document.getElementById("outraRaca").classList.add("escondido");
-            document.getElementById("outraEspecie").classList.add("escondido");
-            document.getElementById("racasGato").classList.remove("escondido");
         }
-        else if (especie == "Cachorro"){
-            document.getElementById("racasGato").classList.add("escondido");
-            document.getElementById("outraRaca").classList.add("escondido");
-            document.getElementById("outraEspecie").classList.add("escondido");
-            document.getElementById("racasCachorro").classList.remove("escondido");
-        }
-        else {
-            document.getElementById("racasCachorro").classList.add("escondido");
-            document.getElementById("racasGato").classList.add("escondido");
-            document.getElementById("outraEspecie").classList.remove("escondido");
-            document.getElementById("outraRaca").classList.remove("escondido");
-        }
-
-
     }
+
 </script>
