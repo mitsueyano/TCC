@@ -93,8 +93,8 @@ create table Clientes
     enderecoRN varchar (100) 
 );
 insert into Clientes (nome, email, contato, enderecoE, enderecoC, enderecoB, enderecoRN)
-values ('Carlos Oliveira', 'carlos@example.com', '(85) 3727-5073', 'SP', 'Mauá', 'Vila Noêmia', 'Rua Jasson Marques, 123' ),
-('Kaique Henrique', 'kaique@example.com', '(85) 99469-6139', 'SP', 'Mauá', 'Vila Noêmia', 'Rua Jasson Marques, 124' );
+values ('Carlos Oliveira', 'carlos@example.com', '(85) 37275073', 'SP', 'Mauá', 'Vila Noêmia', 'Rua Jasson Marques, 123' ),
+('Kaique Henrique', 'kaique@example.com', '(85) 994696139', 'SP', 'Mauá', 'Vila Noêmia', 'Rua Jasson Marques, 124' );
 
 
 

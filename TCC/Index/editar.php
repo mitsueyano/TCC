@@ -39,7 +39,7 @@
                             echo "Erro na consulta: " . $conexao->error;
                         }
                     ?>
-                    <form action="../php/atualizarBD.php" method="post" id="formCliente">
+                    <form action="../php/atualizarBD.php" method="post" id="formCliente" class="formTotal" onsubmit="return confirmarCadastro()">
                         <input type="hidden" name="idCliente" value="<?php echo $idCliente; ?>">
                         <div class="form-containerCliente">
                             <span class="form-title">CLIENTE</span>
@@ -78,7 +78,7 @@
                                         <label>CEP:</label>
                                     </div>
                                     <div class="input-form">
-                                        <input type="text" style="width: 65px" id="cep">
+                                        <input type="text" style="width: 65px" id="cep" maxlength="9">
                                         <button type="button" onclick="pesquisarCEP()" class="pesquisar">Pesquisar CEP</button>
                                     </div>
                                 </div>
@@ -154,10 +154,10 @@
                                             <label>Espécie:</label>
                                         </div>
                                         <div class="input-form">
-                                            <input type="text" id="outraEspecie_<?php echo $idAnimal?>" class="escondido">
+                                            <input type="text" name="outraEspecie_<?php echo $idAnimal?>" id="outraEspecie_<?php echo $idAnimal?>" class="escondido">
                                             <select name="especie_<?php echo $idAnimal?>" id="especie_<?php echo $idAnimal?>" onChange="atualizarRaca(<?php echo $idAnimal; ?>)" >                  
-                                                <option value="Gato" <?php if ($especie === 'Gato') echo 'selected="selected"'; ?>>Gato</option>
-                                                <option value="Cachorro" <?php if ($especie === 'Cachorro') echo 'selected="selected"'; ?>>Cachorro</option>
+                                                <option value="Gato" <?php if ($especie == 'Gato') echo 'selected="selected"'; ?>>Gato</option>
+                                                <option value="Cachorro" <?php if ($especie == 'Cachorro') echo 'selected="selected"'; ?>>Cachorro</option>
                                                 <option value="Outras" <?php if ($especie !== 'Gato' && $especie !== 'Cachorro') echo 'selected="selected"'; ?>>Outras</option>
                                             </select>
                                         </div>
@@ -175,7 +175,7 @@
                                             $json_data = json_decode($json,true);
                                             foreach ($json_data as $racaGato):
                                         ?>
-                                        <option value="<?php echo $racaGato?>" <?php if ($especie === 'Gato' && $raca === $racaGato) echo 'selected="selected"'; ?>><?php echo $racaGato?> </option>                                   
+                                        <option value="<?php echo $racaGato?>" <?php if ($especie == 'Gato' && $raca == $racaGato) echo 'selected="selected"'; ?>><?php echo $racaGato?> </option>                                   
                                         <?php
                                             endforeach;
                                         ?>
@@ -188,7 +188,7 @@
                                                 $json_data = json_decode($json,true);
                                                 foreach ($json_data as $racaCachorro):
                                             ?>
-                                            <option value="<?php echo $racaCachorro?>" <?php if ($especie === 'Cachorro' && $raca === $racaCachorro) echo 'selected="selected"'; ?>><?php echo $racaCachorro?> </option>                                    
+                                            <option value="<?php echo $racaCachorro?>" <?php if ($especie == 'Cachorro' && $raca == $racaCachorro) echo 'selected="selected"'; ?>><?php echo $racaCachorro?> </option>                                    
                                             <?php
                                                 endforeach;
                                             ?>
@@ -210,17 +210,91 @@
                                         echo "Erro na consulta: " . $conexao->error;
                                     }
                                 ?>     
-                            </div>   
-                            <div class="addButton">
-                                <div class="btnAddButtonDiv">
-                                    <div class="buttonAdd"><button type="button">+</button></div>
+                                <!-- Seção para adicionar novo animal-->
                             </div>
-                    </div>
-                        </div>       
+                            <div class="center">
+                                <div class="addButton">
+                                    <div class="btnAddButtonDiv">
+                                        <div class="buttonAdd"><button type="button" onclick="novoAnimal()">+</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="container-NovoAnimal" class="escondido  container-NovoAnimal">
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>Nome do animal:</label>
+                                </div>
+                                <div class="input-form">
+                                    <input type="text" name="nomeAnimal" id="nomeAnimal">
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>Espécie:</label>
+                                </div>
+                                <div class="input-form">
+                                    <input type="text" id="outraEspecie" class="escondido">
+                                    <select name="especie" id="especie" onChange="atualizarRacaNovoAnimal()">                                
+                                        <option value="Gato">Gato</option>
+                                        <option value="Cachorro">Cachorro</option>
+                                        <option value="Outras">Outras</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>Raça:</label>
+                                </div>
+                                <div class="input-form">
+                                    <!-- Script raças de gatos -->
+                                    <select name="" id="racasGato" >
+                                        <?php
+                                            $json = file_get_contents('../racasGatos.json');
+        
+                                            $json_data = json_decode($json,true);
+                                            foreach ($json_data as $raca):
+                                        ?>
+                                        <option value="<?php echo $raca?>"><?php echo $raca?> </option>                                   
+                                        <?php
+                                            endforeach;
+                                        ?>
+                                    </select>
+                                    <!-- Script raças de cachorros -->
+                                    <select name="" id="racasCachorro" class="escondido">
+                                        <?php
+                                            $json = file_get_contents('../racasCachorros.json');
+        
+                                            $json_data = json_decode($json,true);
+                                            foreach ($json_data as $raca):
+                                        ?>
+                                        <option value="<?php echo $raca?>"><?php echo $raca?> </option>                                    
+                                        <?php
+                                            endforeach;
+                                        ?>
+                                    </select>
+                                    <!-- Outras raças -->
+                                    <input type="text" id="outraRaca" class="escondido">
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <label>Data de nascimento:</label>
+                                <div class="input-form">
+                                    <input type="date" name="dataNascto" id="dataNascto">
+                                </div>
+                            </div>
+                            <div class="center">
+                              <button type="button"class="form-btn" onclick="addAnimal()">Adicionar Animal</button>
+                            </div>
+                            <!-- Container de animas já adicionados -->
+                            <div class="containerAnimaisCad" id="containerAnimaisCad"><span class="titulo-AnimaisCad">Animais adiconados:&nbsp</span></div>  
+                            <input type="hidden" name="animaisJson" id="animaisJson" value=""> <!-- Cria um elemento invisível para ser enviado junto com o formulário -->
+                        </div>
+                        </div>    
+                           
                     </form>
                     <div class="submit-container">  
                         <div class="btnSubmitDiv">
-                            <div class="buttonOptions"><button type="submit" " form="formCliente">SALVAR ALTERAÇÕES</button></div>
+                            <div class="buttonOptions"><button type="submit" form="formCliente">SALVAR ALTERAÇÕES</button></div>
                         </div>
                     </div>
                 </div>  
@@ -318,7 +392,7 @@
             document.getElementById("racasGato_<?php echo $idAnimal; ?>").classList.remove("escondido");
         }
         else {
-            animalCorrespondente.value = "Outras";
+            animalCorrespondente.value == "Outras";
             document.getElementById("outraRaca_<?php echo $idAnimal; ?>").value = "<?php echo $raca?>";
             document.getElementById("outraEspecie_<?php echo $idAnimal; ?>").value = "<?php echo $especie?>"
             document.getElementById("racasCachorro_<?php echo $idAnimal; ?>").classList.add("escondido");
@@ -436,12 +510,44 @@
     }
 
      // Script para listar raças de acordo com a espécie
-     function atualizarRaca(idAnimal) {
+    function atualizarRaca(idAnimal) {
         var especieElemento = document.getElementById(`especie_${idAnimal}`);
         var racasGatoElemento = document.getElementById(`racasGato_${idAnimal}`);
         var racasCachorroElemento = document.getElementById(`racasCachorro_${idAnimal}`);
         var outraRacaElemento = document.getElementById(`outraRaca_${idAnimal}`);
         var outraEspecieElemento = document.getElementById(`outraEspecie_${idAnimal}`)
+
+        if (especieElemento.value == "Gato") {
+            racasGatoElemento.classList.remove("escondido");
+            racasCachorroElemento.classList.add("escondido");
+            outraRacaElemento.classList.add("escondido");
+            outraEspecieElemento.classList.add("escondido");
+        } else if (especieElemento.value == "Cachorro") {
+            racasGatoElemento.classList.add("escondido");
+            racasCachorroElemento.classList.remove("escondido");
+            outraRacaElemento.classList.add("escondido");
+            outraEspecieElemento.classList.add("escondido");
+        } else {
+            racasGatoElemento.classList.add("escondido");
+            racasCachorroElemento.classList.add("escondido");
+            outraRacaElemento.classList.remove("escondido");
+            outraEspecieElemento.classList.remove("escondido");
+
+        }
+    }
+
+    function novoAnimal(){
+        caixaNovoAnimal = document.getElementById("container-NovoAnimal");
+
+        caixaNovoAnimal.classList.remove("escondido");
+    }
+
+    function atualizarRacaNovoAnimal() {
+        var especieElemento = document.getElementById(`especie`);
+        var racasGatoElemento = document.getElementById(`racasGato`);
+        var racasCachorroElemento = document.getElementById(`racasCachorro`);
+        var outraRacaElemento = document.getElementById(`outraRaca`);
+        var outraEspecieElemento = document.getElementById(`outraEspecie`)
 
         if (especieElemento.value == "Gato") {
             racasGatoElemento.classList.remove("escondido");
@@ -458,6 +564,133 @@
             outraEspecieElemento.classList.remove("escondido");
 
         }
+    }
+
+    let animais = [];
+    function addAnimal()
+    {
+        const nomeAnimal = document.getElementById("nomeAnimal").value;
+        const dataNascto = document.getElementById("dataNascto").value;
+
+        var especie = document.getElementById("especie").value;
+        if (especie == "Outras") {
+            especie = document.getElementById("outraEspecie").value;
+            var raca = document.getElementById("outraRaca").value;
+        } else {
+            var raca = document.getElementById("racas" + especie).value;
+        }
+
+        // Tratamento de erros
+        if (especie != "Gato" && especie != "Cachorro"){
+            if(especie.trim() === ""){
+                document.getElementById("outraEspecie").placeholder = "Insira a espécie do animal";
+            }
+            if(raca.trim() === ""){
+                document.getElementById("outraRaca").placeholder = "Insira a raça do animal";
+            }
+        }
+        if (nomeAnimal.trim() === "") {
+           document.getElementById("nomeAnimal").placeholder = "Insira o nome do animal";
+        }
+
+        // Script addAnimal
+        else{
+            animais.push([nomeAnimal, especie, raca, dataNascto]); //Cria o array dentro do array "animais" (matriz)
+            document.getElementById("animaisJson").value = JSON.stringify(animais); //Converte o objeto JavaScript em uma string JSON
+            
+            // Adiciona o nome do animal no containerAnimaisCad
+            var div = document.createElement('div');
+            div.style.display = "flex";
+            div.style.flexDirection = "column";
+            var container = document.getElementById('containerAnimaisCad');
+            div.innerHTML = `<span>${nomeAnimal}, &nbsp</span>`;
+            container.appendChild(div);
+            
+            // Limpa input ao adicionar o animal
+            document.getElementById("nomeAnimal").value = "";
+            document.getElementById("dataNascto").value = "";
+            
+        }
+        
+    }
+    function confirmarCadastro() {
+        
+        const nomeCliente = document.getElementById("nome").value;
+        const contato = document.getElementById("contato").value;
+        const estado = document.getElementById("estado").value;
+        const cidade = document.getElementById("cidade").value;
+        const bairro = document.getElementById("bairro").value;
+        const rua = document.getElementById("rua").value;
+        const numero = document.getElementById("numero").value;
+
+        let verificar = false;
+        if (nomeCliente.trim() === "") {
+            document.getElementById("nome").placeholder = "Campo obrigatório.";
+            verificar = true;
+        }
+        if (contato.trim() === "") {
+            document.getElementById("contato").placeholder = "Campo obrigatório.";
+            verificar = true;
+        }
+        if (estado.trim() === "") {
+            document.getElementById("estado").placeholder = "Campo obrigatório.";
+            verificar = true;
+        }
+        if (cidade.trim() === "") {
+            document.getElementById("cidade").placeholder = "Campo obrigatório.";
+            verificar = true;
+        }
+        if (bairro.trim() === "") {
+            document.getElementById("bairro").placeholder = "Campo obrigatório.";
+            verificar = true;
+        }
+        if (rua.trim() === "") {
+            document.getElementById("rua").placeholder = "Campo obrigatório.";
+            verificar = true;
+        }
+        if (numero.trim() === "") {
+            document.getElementById("numero").placeholder = "Campo obrigatório.";
+            document.getElementById("numero").style.width = "110px"
+            verificar = true;
+        }
+        if (verificar) {
+            window.alert("Dados incompletos.");
+            return false;
+        }
+        var contatoTipo = document.getElementById("contatoTipo");
+        if (document.getElementById("contatoTipoTelefone").checked){  
+            if(contato.length != 13){
+            window.alert("Número de contato inválido");
+            return false;
+        }}
+        if (document.getElementById("contatoTipoCelular").checked){  
+            if(contato.length != 14){
+            window.alert("Número de contato inválido");
+            return false;
+        }}
+
+        const nomeAnimal = document.getElementById("nomeAnimal").value;
+        if (nomeAnimal.trim() !== "") {
+            const confirmacao = confirm(nomeAnimal.toUpperCase() + " não será cadastrado pois não foi adicionado. Deseja continuar?");
+            if (confirmacao) {
+                const especie = document.getElementById("especie").value;
+                const raca = document.getElementById("raca").value;
+                const dataNascto = document.getElementById("dataNascto").value;
+
+                const novoAnimal = [nomeAnimal, especie, raca, dataNascto];
+                animais.push(novoAnimal); // Adiciona o animal à matriz
+
+                document.getElementById("animaisJson").value = JSON.stringify(animais); // Converte o objeto JavaScript em uma string JSON
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return true; // Envia o formulário se os campos estiverem vazios
+        estado.readOnly = false;
+        cidade.readOnly = false;
+        bairro.readOnly = false;
+        rua.readOnly = false;
     }
 
 </script>
