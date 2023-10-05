@@ -54,8 +54,7 @@
                                     WHERE animais.nome LIKE '%$termo_pesquisa%'
                                     OR animais.especie LIKE '%$termo_pesquisa%'
                                     OR animais.raca LIKE '%$termo_pesquisa%'
-                                    OR animais.idAnimal = '$termo_pesquisa'
-                                    OR clientes.idCliente = '$termo_pesquisa'";
+                                    OR animais.idAnimal = '$termo_pesquisa'";
                             $resultAnimais = $conexao->query($sqlAnimais);
                             if ($resultAnimais->num_rows > 0):
                     ?>
@@ -118,11 +117,9 @@
                                     WHERE idCliente LIKE'%$termo_pesquisa%'
                                     OR nome LIKE '%$termo_pesquisa%'
                                     OR email = '$termo_pesquisa'
-                                    OR contato LIKE '%$termo_pesquisa%'
                                     OR enderecoE = '$termo_pesquisa'
                                     OR enderecoC = '$termo_pesquisa'
                                     OR enderecoB = '$termo_pesquisa'
-                                    OR enderecoRN = '$termo_pesquisa'
                                     ";
                             $resultClientes = $conexao->query($sqlClientes);
                             if ($resultClientes->num_rows > 0):

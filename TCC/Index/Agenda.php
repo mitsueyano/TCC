@@ -20,7 +20,7 @@
                     <div class="search-container">
                     <div class="options-container">  
                         <div class= "btnOptionsDiv">
-                            <div class="buttonOptions"><a href="./novoCadastro.php">NOVA CONSULTA</a></div>
+                            <div class="buttonOptions"><a href="./novaConsulta.php">NOVA CONSULTA</a></div>
                         </div>
                         <div class= "btnOptionsDiv">
                             <div class="buttonOptions"><a href="./agendaCompleta.php">VER AGENDA COMPLETA</a></div>
