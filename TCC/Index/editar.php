@@ -18,7 +18,7 @@
                     <!-- Script para os valores pré estabelecidos -->
                     <?php
                         include '../php/conectaBD.php';
-                        $clienteId = $_GET['id'];
+                        $clienteId = $_POST['idCliente'];  
                         $queryClientes = "SELECT * FROM Clientes WHERE idCliente = " . $clienteId;
                         $resultadoClientes = mysqli_query($conexao, $queryClientes);
                         if ($resultadoClientes) {

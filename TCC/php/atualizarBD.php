@@ -102,5 +102,6 @@
             }
         }
     }
+    header("Location: ../index/cadastro.php?alteracao=sucesso");
     exit;
 ?>
