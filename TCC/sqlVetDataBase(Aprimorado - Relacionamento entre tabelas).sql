@@ -110,7 +110,7 @@ create table Animais
 	raca varchar(50) not null,
 	datanascto date,
 	idCliente int not null,
-	foreign key (idCliente) references Clientes(idCliente)
+	foreign key (idCliente) references Clientes(idCliente) on delete cascade
 );
 
  
@@ -140,7 +140,7 @@ create table HistoricoMedico (
     tratamento text,
     observacoes text,
     idAnimal int not null,
-    foreign key (idAnimal) references Animais(idAnimal)
+    foreign key (idAnimal) references Animais(idAnimal) on delete cascade
 );
 
  
@@ -178,7 +178,7 @@ create table Agenda
 	idAnimal int not null,
     idStatus int,
     foreign key (idStatus) references statusConsulta(idStatus),
-	foreign key (idAnimal) references Animais(idAnimal)
+	foreign key (idAnimal) references Animais(idAnimal) on delete cascade
 );
 insert into Agenda (dataConsulta, horaConsulta, veterinario, idAnimal, descricao, idStatus)
 values ('2023-08-20', '14:00:00', 1, 1, 'Exame de rotina', 1),
