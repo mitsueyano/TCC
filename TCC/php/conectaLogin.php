@@ -3,6 +3,7 @@
     $login = $_POST['login'];
     $senha = $_POST['senha'];
 
+    // Mensagem de erro - campos vazios
     if (empty($senha) || empty($login)) {
         $msg1 = "CampoVazio";
         $encoded = urlencode($msg1);
@@ -10,6 +11,7 @@
         exit();
     }
 
+    // Script SQL para verificação de login-senha
     $consulta = "SELECT Acesso.senha, loginusuario FROM Acesso WHERE loginusuario = '$login'";
     $resultado = mysqli_query($conexao, $consulta);
 
@@ -19,6 +21,7 @@
         $loginCorreto = $row['loginusuario'];
         $url = "../Index/Inicio.php";
 
+        // Mensagem de erro - Login-Senha incorretos
         if ($login === $loginCorreto && password_verify($senha, $senhaCriptografada)) {
             header("Location: " . $url);
             exit();

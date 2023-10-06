@@ -15,6 +15,7 @@
     $quant = 0;
     $i = 1;
 
+    // Script SQL para atualizar cliente
     $queryAtualizarCliente = "UPDATE Clientes SET 
         nome = '$nome',
         email = '$email',
@@ -25,16 +26,20 @@
         enderecoRN = '$enderecoRN'
         WHERE idCliente = $idCliente";
 
-
+    // Busca informações dos Animais
     $queryAnimais = "SELECT * FROM Animais WHERE idCliente = " . $idCliente;
     $resultadoAnimais = mysqli_query($conexao, $queryAnimais);
     $ids = [];
+
+    // Recebe os IDs dos animais em forma de array
     if ($resultadoAnimais){
         while ($row = $resultadoAnimais->fetch_assoc()){
             $quant++;
             $ids[] = $row['idAnimal'];
         }
     }
+
+    // Lista as especificações dos animais de acordo com seu respectivo ID
     while ($i <= $quant){
 
         if (isset($_POST['especie_' . $ids[$i - 1]])) {
@@ -65,25 +70,27 @@
         if (isset($_POST['dataNascto_' . $ids[$i - 1]])) {
             $dataNascto = $_POST['dataNascto_' . $ids[$i - 1]];
         }    
-        var_dump($especieAnimal);
+
+        // Script SQL para atualizar animais
         $queryAtualizarAnimal = "UPDATE Animais SET 
             nome = '$nomeAnimal',
             especie = '{$especieAnimal[$i - 1]}',
             raca = '{$racasAnimal[$i - 1]}',
             dataNascto = '$dataNascto'
             WHERE idAnimal = '{$ids[$i - 1]}'";
-        echo $ids[$i - 1];
         $i++;
         $resultadoAtualizarAnimal = mysqli_query($conexao, $queryAtualizarAnimal);
         if (!$resultadoAtualizarAnimal) {
             echo "ERRO AO CADASTRAR ANIMAL: ". $nomeAnimal . " - " . mysqli_error($conexao);
         }
     }
+    
     $resultadoAtualizarCliente = mysqli_query($conexao, $queryAtualizarCliente);
     if (!$resultadoAtualizarCliente) {
         echo "ERRO AO CADASTRAR CLIENTE: " . mysqli_error($conexao);
     }
     else {
+        // Identifica sae há animais novos para cadastrar
         if($animaisJson = $_POST["animaisJson"]){ // Recebe uma string JSON
             $animais = json_decode($animaisJson, true); // Transforma a string JSON recebida em uma esrutura PHP
 
@@ -93,6 +100,7 @@
                 $raca = $animal[2];
                 $dataNascto = $animal[3];
 
+                // Script para adicionar novo animal
                 $queryAddNovoAnimal = "INSERT INTO Animais (idCliente, nome, especie, raca, dataNascto) VALUES ($idCliente, '$nomeAnimal', '$especie', '$raca', '$dataNascto')"; //Query para cadastrar animal
                 $resultadoAnimal = mysqli_query($conexao, $queryAddNovoAnimal);
 
@@ -102,6 +110,7 @@
             }
         }
     }
+    // Redireciona para a página "cadastro.php" com a mensagem de sucesso
     header("Location: ../index/cadastro.php?alteracao=sucesso");
     exit;
 ?>

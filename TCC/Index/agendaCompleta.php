@@ -43,7 +43,7 @@
             </div>
     </body>
     <script>
-
+        //Calendário
         let elemento = document.querySelector('.numeroDias');
         let mesAtual = new Date().getMonth();
         let anoAtual = new Date().getFullYear();
@@ -61,7 +61,6 @@
             }
             document.getElementById('mes-atual').textContent = `${mes + 1}/${ano}`;
         }
-
 
         // Script para o mês anterior
         document.getElementById('mes-anterior').addEventListener('click', () => {

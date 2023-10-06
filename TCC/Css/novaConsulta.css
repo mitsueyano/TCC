@@ -38,7 +38,6 @@ body{
 }
 
 /*Barra de navegação*/
-
 .bar{
     height: 10%;
     width: 100%;
@@ -167,4 +166,8 @@ input{
     height: 1.5em;
     margin-left: 5px;
     border: 1px solid #000000;
+}
+
+.escondido{
+    display: none;
 }

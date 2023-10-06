@@ -235,6 +235,7 @@ input{
     justify-content: center;
     align-items: center;
 }
+
 /* Botões do formulário */
 .center {
     width: 100%;
@@ -342,11 +343,6 @@ input::placeholder{
     width: 100%;
     text-align: end;   
 }
-
-
-
-
-
 .form-btn{
     background-color: #2c476e;
     color: #ffffff;
@@ -397,6 +393,7 @@ input::placeholder{
     background-color: #000000;
 }
 
+/* Botão - Salvar */
 .options-container{
     width: 40%;
     justify-content: space-evenly;

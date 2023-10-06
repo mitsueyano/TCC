@@ -37,7 +37,6 @@ body{
 }
 
 /*Barra de navegação*/
-
 .bar{
     height: 10%;
     width: 50%;
@@ -79,7 +78,7 @@ body{
     transition: background-color 0.5s, color 0.5s;
 }
 
-
+/* Calendário */
 .calendario{
     max-width: 760px;
     margin: 10px;
@@ -88,7 +87,6 @@ body{
     display: flex;
     flex-wrap: wrap;
 }
-
 .diasSemana{
     width: 100%;
     display: flex;
@@ -120,7 +118,6 @@ body{
 .mes-nav button:hover{
  cursor: pointer;
 }
-
 .diasSemana span{
     color: #2c476e ;
     display: inline-block;

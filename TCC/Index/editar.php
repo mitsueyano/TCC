@@ -347,7 +347,6 @@
         }
 
         // Script para auto completar os dados dos animais
-
         <?php
         $queryAnimais = "SELECT * FROM Animais WHERE idCliente = " . $clienteId;
         $resultadoAnimais = mysqli_query($conexao, $queryAnimais);
@@ -356,7 +355,6 @@
             $nome = $row['nome'];
             $dataNascto = $row['datanascto'];
         ?>
-        
         
         <?php
         $queryEspecie = "SELECT especie FROM Animais WHERE idAnimal = " . $idAnimal;
@@ -370,7 +368,6 @@
                 $raca = $row['raca'];
             }      
         ?>
-
 
         var animalCorrespondente = document.getElementById("especie_<?php echo $idAnimal?>");
 
@@ -536,12 +533,13 @@
         }
     }
 
+    // Script para botão "+" - novo animal
     function novoAnimal(){
         caixaNovoAnimal = document.getElementById("container-NovoAnimal");
-
         caixaNovoAnimal.classList.remove("escondido");
     }
 
+    // Listar raça de acordo com a espécie - novo animal
     function atualizarRacaNovoAnimal() {
         var especieElemento = document.getElementById(`especie`);
         var racasGatoElemento = document.getElementById(`racasGato`);
@@ -566,6 +564,7 @@
         }
     }
 
+    // Script para adicionar novo animal
     let animais = [];
     function addAnimal()
     {
@@ -613,6 +612,8 @@
         }
         
     }
+
+    // Tratamento de erros onsubmit do formulário
     function confirmarCadastro() {
         
         const nomeCliente = document.getElementById("nome").value;
@@ -692,5 +693,4 @@
         bairro.readOnly = false;
         rua.readOnly = false;
     }
-
 </script>

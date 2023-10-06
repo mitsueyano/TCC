@@ -74,7 +74,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php while ($array = $resultAnimais->fetch_assoc()): ?>
+                                <?php 
+                                // Preenche os dados dos animais
+                                while ($array = $resultAnimais->fetch_assoc()): 
+                                ?>  
                                 <tr class="table-rows">
                                     <td><?php echo $array["id_animal"]; ?></td>
                                     <td><?php echo $array["nome_animal"]; ?></td>
@@ -142,7 +145,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php while ($array = $resultClientes->fetch_assoc()): ?>
+                                <?php 
+                                // Preenche os dados do cliente
+                                while ($array = $resultClientes->fetch_assoc()): 
+                                ?>
                                 <tr class="table-rows">
                                     <td><?php echo $array["id_cliente"]; ?></td>
                                     <td><?php echo $array["nome_cliente"]; ?></td>
@@ -182,7 +188,9 @@
                 </div>
             </div>
     </body>
+    
     <script>
+        // Resultado do redirecionamento dos botões "Editar" e "Deletar"
         document.addEventListener("DOMContentLoaded", function () {
             <?php
                 if (isset($_GET['animalDeletado']) && $_GET['animalDeletado'] === 'sucesso') {
@@ -197,6 +205,7 @@
             ?>
         });
 
+        // Filtro de pesquisa
         var cbCliente = document.getElementById("cbCliente");
         var cbAnimal = document.getElementById("cbAnimal");
 
@@ -219,7 +228,6 @@
                 tabelaClientes.classList.remove("escondido");
             }
         });   
-
     </script>
 </html>
 
