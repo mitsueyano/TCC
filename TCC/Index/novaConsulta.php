@@ -16,7 +16,7 @@
             <div class="container">     
             <div class="form-container">
                 <label class="titulo">Nova consulta</label>   
-                    <form action="../php/cadastrarCliente.php" method="post" onsubmit="return confirmarCadastro()">
+                    <form action="../php/addConsulta.php" method="post" onsubmit="return confirmarAgendamento()">
                         <div class="flex">
                             <div class="label-form">
                                 <!-- Formulário - seção CLIENTE -->
@@ -171,6 +171,26 @@
                 }
             }
             ?>
+        }        
+        // Tratamento de erros onsubmit
+        function confirmarAgendamento(){
+            if (document.getElementById("animal").value == "Selecione") {
+                window.alert("Nenhum animal adicionado.");
+                return false;
+            }
+            
+            let verificar = false;
+            var descConsulta = document.getElementById("descConsulta").value;
+            if (descConsulta.trim() === "") {
+            document.getElementById("descConsulta").placeholder = "Campo obrigatório.";
+            verificar = true;
+            }
+
+            if (verificar) {
+            window.alert("Dados incompletos.");
+            return false;
+        }
+
         }
 
         document.addEventListener("DOMContentLoaded", function () {
