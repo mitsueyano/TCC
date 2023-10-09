@@ -112,7 +112,7 @@ form{
     justify-content: center;
     align-items: center;
     width: 30%;
-    height: 75%;
+    height: 70%;
 }
 .titulo{
     justify-content: center;
@@ -121,15 +121,21 @@ form{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 .label-form{
-    width: 45%;
+    width: 50%;
 }
 .input-form{
-    width: 55%;
+    width: 50%;
     display: flex;
     justify-content: start;
 }
 input{
     width: 100%;
+}
+.consultaInfo{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 /* Botões do formulário */
@@ -166,6 +172,56 @@ input{
     height: 1.5em;
     margin-left: 5px;
     border: 1px solid #000000;
+}
+.submit-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+.buttonOptions > button {
+    box-sizing: border-box;
+    background-color: #2c476e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 2.4vh;
+    color: #ffffff;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    position: relative;
+    z-index: 2;
+    padding: 14px;
+    border: none; 
+    width: 100%;
+}
+.buttonOptions{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.buttonOptions:hover {
+    transition: 0.5s;
+    box-shadow: #2c476e 2px 2px;
+}
+.btnSubmitDiv{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btnSubmitDiv:hover{
+    background-color: #fef5e4;
+    color: #000000;
+    transition: 0.5s;
+    box-shadow: #2c476e -2px -2px;
+}
+.buttonOptions > button:hover{
+    background-color: #fef5e4;
+    color: #000000;
+    transition: 0.5s;
+    cursor: pointer;
 }
 
 .escondido{

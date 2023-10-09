@@ -209,25 +209,29 @@
         var cbCliente = document.getElementById("cbCliente");
         var cbAnimal = document.getElementById("cbAnimal");
 
-        const tabelaAnimais  = document.getElementById("tabelaAnimais");
-        const tabelaClientes  = document.getElementById("tabelaClientes");
+        const tabelaAnimais = document.getElementById("tabelaAnimais");
+        const tabelaClientes = document.getElementById("tabelaClientes");
 
-        cbCliente.addEventListener("change", function() {
-            if (cbCliente.checked) {
+        // Script para verificar os estados dos checkboxes e atualizar a exibição
+        function atualizarExibicao() {
+            if (cbCliente.checked && cbAnimal.checked) {
+                tabelaAnimais.classList.remove("escondido");
+                tabelaClientes.classList.remove("escondido");
+            } else if (cbCliente.checked) {
                 tabelaAnimais.classList.add("escondido");
-            }
+                tabelaClientes.classList.remove("escondido");
+            } else if (cbAnimal.checked) {
+                tabelaAnimais.classList.remove("escondido");
+                tabelaClientes.classList.add("escondido");
+            } 
             else{
                 tabelaAnimais.classList.remove("escondido");
-            }
-        });
-        cbAnimal.addEventListener("change", function() {
-            if (cbAnimal.checked) {
-                tabelaClientes.classList.add("escondido");
-            }
-            else{
                 tabelaClientes.classList.remove("escondido");
             }
-        });   
+        }
+        cbCliente.addEventListener("change", atualizarExibicao);
+        cbAnimal.addEventListener("change", atualizarExibicao);
+
     </script>
 </html>
 

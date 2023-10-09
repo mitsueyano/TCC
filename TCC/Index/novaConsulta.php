@@ -41,7 +41,8 @@
                                 <label>Animal:</label>
                             </div>
                             <div class="input-form">
-                                <select name="" id="">
+                                <select name="animal" id="animal" onchange="animalSelecionado()" value="Selecione">
+                                <option value="Selecione">Selecione um animal</option>
                                     <?php 
                                     // Preenche "nome do cliente" e "animais" de acordo com o ID inserido
                                     include '../php/conectaBD.php';
@@ -61,7 +62,7 @@
                                                         $i++;
                                                         $nomeAnimal = $row['nome'];
                                     ?>
-                                                        <option value="<?php echo $nomeAnimal?>" onchange="animal()" id="nomeAnimal"><?php echo $nomeAnimal?></option>      
+                                                        <option value="<?php echo $nomeAnimal?>" id="nomeAnimal"><?php echo $nomeAnimal?></option>      
                                     <?php
                                                     } 
                                                         
@@ -82,13 +83,94 @@
                                 <input type="text" name="idAnimal" id="idAnimal">
                             </div>
                         </div>
+                        <div class="flex">
+                            <div class="label-form">
+                                <label>Espécie:</label>
+                            </div>
+                            <div class="input-form">
+                                <input type="text" name="especie" id="especie">
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="label-form">
+                                <label>Raça:</label>
+                            </div>
+                            <div class="input-form">
+                                <input type="text" name="raca" id="raca">
+                            </div>
+                        </div>
+                        <div class="consultaInfo">
+                        <div class="flex">
+                            <div class="label-form">
+                                <label>Data da consulta:</label>
+                            </div>
+                            <div class="input-form">
+                                <input type="date" name="dataConsulta" id="dataConsulta">
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="label-form">
+                                <label>Hora:</label>
+                            </div>
+                            <div class="input-form">
+                                <input type="time" name="horaConsulta" id="horaConsulta">
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="label-form">
+                                <label>Descrição</label>
+                            </div>
+                            <div class="input-form">
+                                <input type="text" name="descConsulta" id="descConsulta">
+                            </div>
+                        </div>
+                        <div class="submit-container">  
+                            <div class="btnSubmitDiv">
+                                <div class="buttonOptions"><button type="submit" class="submit">AGENDAR</button></div>
+                            </div>
+                        </div>  
+                        </div>
                     </form> 
                 </div>
             </div>
     </body>
     <script>    
-        function animal(){
-            //Preenchimento do ID do animal
+        function animalSelecionado(){
+            <?php
+            $query = "SELECT idAnimal, nome, especie, raca FROM animais WHERE idCliente = '$idCliente'";
+            $resultado = mysqli_query($conexao, $query);
+            if ($resultado){
+                while($i <= $quant && $row = $resultado->fetch_assoc()){
+                    $animal = $row['nome']; 
+                    $idAnimal = $row['idAnimal'];
+                    $especie = $row['especie'];
+                    $raca = $row['raca'];
+            ?>
+                    if (document.getElementById("animal").value == "<?php echo $animal?>"){
+
+                        document.getElementById("idAnimal").value = "<?php echo $idAnimal?>"
+                        document.getElementById("idAnimal").readOnly = true;
+
+                        document.getElementById("especie").value = "<?php echo $especie?>"
+                        document.getElementById("especie").readOnly = true;
+
+                        document.getElementById("raca").value = "<?php echo $raca?>"
+                        document.getElementById("raca").readOnly = true;
+                    }
+                    else if (document.getElementById("animal").value == "Selecione"){
+                        document.getElementById("idAnimal").value = ""
+                        document.getElementById("idAnimal").readOnly = false;
+
+                        document.getElementById("especie").value = ""
+                        document.getElementById("especie").readOnly = false;
+
+                        document.getElementById("raca").value = ""
+                        document.getElementById("raca").readOnly = false;
+                    }
+            <?php
+                }
+            }
+            ?>
         }
 
         document.addEventListener("DOMContentLoaded", function () {
