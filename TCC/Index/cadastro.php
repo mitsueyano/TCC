@@ -202,6 +202,9 @@
                 if (isset($_GET['alteracao']) && $_GET['alteracao'] === 'sucesso') {
                     echo 'alert("Alterações salvas.")';
                 }
+                if (isset($_GET['cadastroCliente']) && $_GET['cadastroCliente'] === 'sucesso') {
+                    echo 'alert("Cliente cadastrado.")';
+                }
             ?>
         });
 

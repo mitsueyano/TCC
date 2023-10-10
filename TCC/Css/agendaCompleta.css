@@ -136,7 +136,7 @@ body{
     padding: 1px;
 }
 .numeroDias span:hover{
-    border: 1px solid #2c476e;
+    outline: 1px solid #2c476e;
     
 }
 .dia-atual {
@@ -178,4 +178,21 @@ body{
     background-color: #fef5e4;
     color: #000000;
     transition: 0.5s;
+}
+
+/* Container de informações */
+.containerInfo{
+    width: 300px;
+    height: 200px;
+    border-bottom: 1px solid #2c476e;
+    border-top: 1px solid #2c476e;
+    position: absolute;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.containerInfo span{
+    font-size: 2vh;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }

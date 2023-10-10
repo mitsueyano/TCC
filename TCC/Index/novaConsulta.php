@@ -174,22 +174,32 @@
         }        
         // Tratamento de erros onsubmit
         function confirmarAgendamento(){
-            if (document.getElementById("animal").value == "Selecione") {
-                window.alert("Nenhum animal adicionado.");
-                return false;
-            }
             
             let verificar = false;
             var descConsulta = document.getElementById("descConsulta").value;
             if (descConsulta.trim() === "") {
-            document.getElementById("descConsulta").placeholder = "Campo obrigatório.";
-            verificar = true;
+                document.getElementById("descConsulta").placeholder = "Campo obrigatório.";
+                verificar = true;
             }
-
+            var idCliente = document.getElementById("idCliente").value;
+             if (idCliente.trim() === "") {
+                document.getElementById("idCliente").placeholder = "Campo obrigatório.";
+                verificar = true;
+            }
             if (verificar) {
-            window.alert("Dados incompletos.");
-            return false;
-        }
+                window.alert("Dados incompletos.");
+                return false;
+            }
+            if (document.getElementById("animal").value == "Selecione") {
+                window.alert("Nenhum animal selecionado.");
+                return false;
+            }
+            var dataConsulta = document.getElementById("dataConsulta").value;
+            var horaConsulta = document.getElementById("horaConsulta").value;
+            if (dataConsulta.trim() === "" || horaConsulta.trim() === "" ) {
+                window.alert("Data/Hora inválida.");
+                return false;
+            }
 
         }
 

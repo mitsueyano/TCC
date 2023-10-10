@@ -34,6 +34,6 @@
             }
         }
     }
-    header("Location: ../index/cadastro.php");
+    header("Location: ../index/cadastro.php?cadastroCliente=sucesso");
     exit;
 ?>

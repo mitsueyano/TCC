@@ -40,10 +40,55 @@
                     <div class="numeroDias"></div>
                 </div> 
                 <span>Clique em um dia para mais opções</span>
+                <div class="containerInfo">
+                    
+                </div>
             </div>
     </body>
     <script>
-        //Calendário
+
+        document.addEventListener("DOMContentLoaded", function () {
+            <?php
+            if (isset($_GET['data']) && $_GET['data'] !== "null") {
+                $jsonData = json_decode($_GET['data'], true);
+                if ($jsonData !== null && is_array($jsonData)) {
+            ?>
+                    let elemento = document.querySelector('.containerInfo');
+                    elemento.innerHTML = ''; // Limpa o conteúdo do elemento
+
+                    <?php
+                    foreach ($jsonData as $consulta) {
+                    ?>
+                        var span = document.createElement('span');
+                        span.textContent = '<?php echo $consulta['idConsulta'] . " " . $consulta['descricao']; ?>';
+                        elemento.appendChild(span);
+                    <?php
+                    }
+                    ?>
+            <?php
+                }   
+            }
+            ?>
+        });
+
+
+
+
+        // Função para adicionar event listeners
+        function adicionarEventListeners() {
+            const dias = document.querySelectorAll('.dia');
+            dias.forEach(dia => {
+                dia.addEventListener('click', () => {
+                    var diaSelecionado = dia.textContent;
+                    var mesSelecionado = mesAtual + 1; // Adicionado 1 para corresponder ao formato do mês (janeiro = 1)
+                    var anoSelecionado = anoAtual;
+
+                    window.location.href = "../php/pesquisarDia.php?diaSelecionado=" + diaSelecionado + "&mesSelecionado=" + mesSelecionado + "&anoSelecionado=" + anoSelecionado;
+                });
+            });
+        }
+
+        // Calendário
         let elemento = document.querySelector('.numeroDias');
         let mesAtual = new Date().getMonth();
         let anoAtual = new Date().getFullYear();
@@ -54,12 +99,17 @@
             for (let i = 1; i <= ultimoDiaDoMes; i++) {
                 const span = document.createElement('span');
                 span.textContent = i;
+                span.id = i;
+                span.classList.add('dia');
                 if (i === new Date().getDate() && mes === new Date().getMonth() && ano === new Date().getFullYear()) {
                     span.classList.add('dia-atual');
                 }
                 elemento.appendChild(span);
             }
             document.getElementById('mes-atual').textContent = `${mes + 1}/${ano}`;
+
+            // Após atualizar o calendário, adicionado os event listeners novamente
+            adicionarEventListeners();
         }
 
         // Script para o mês anterior
@@ -82,7 +132,8 @@
             atualizarCalendario(mesAtual, anoAtual);
         });
 
-        // Script para carregar o calendário no mês atual
         atualizarCalendario(mesAtual, anoAtual);
+        adicionarEventListeners();
+
     </script>
 </html>
