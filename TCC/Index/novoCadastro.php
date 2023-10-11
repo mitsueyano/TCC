@@ -378,6 +378,11 @@
     // Função para tratamento de erros onsubmit
     function confirmarCadastro() {
         
+        var dataInput = document.getElementById('dataConsulta');
+        var horaInput = document.querySelector('input[name="horaConsulta"]');
+        var dataHora = dataInput.value.trim() + " " + horaInput.value.trim();
+        dataInput.value = dataHora;
+        
         const nomeCliente = document.getElementById("nome").value;
         const contato = document.getElementById("contato").value;
         const estado = document.getElementById("estado").value;

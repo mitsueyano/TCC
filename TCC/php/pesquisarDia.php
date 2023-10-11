@@ -37,7 +37,7 @@ if (isset($_GET['diaSelecionado']) && isset($_GET['mesSelecionado']) && isset($_
         $jsonString = json_encode($consultas);
 
         
-        header("Location: ../Index/agendaCompleta.php?data=" . urlencode($jsonString));
+        header("Location: ../Index/agendaCompleta.php?data=" . urlencode($jsonString) . "&mes=" . $mesSelecionado . "&ano=" . $anoSelecionado);
     }
 } else {
     echo "ERRO AO PESQUISAR DIA";

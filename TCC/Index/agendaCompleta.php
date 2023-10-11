@@ -89,7 +89,7 @@
         }
 
         // Calendário
-        let elemento = document.querySelector('.numeroDias');
+        let elemento = document.querySelector('.numeroDias');   
         let mesAtual = new Date().getMonth();
         let anoAtual = new Date().getFullYear();
 

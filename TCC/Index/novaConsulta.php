@@ -113,7 +113,9 @@
                                 <label>Hora:</label>
                             </div>
                             <div class="input-form">
-                                <input type="time" name="horaConsulta" id="horaConsulta">
+                            <select name="horaConsulta" id="horaConsulta" class="horaConsulta">
+
+                            </select>
                             </div>
                         </div>
                         <div class="flex">
@@ -254,5 +256,52 @@
             var campoId = document.getElementById("idCliente").value;
             window.location.href = "../php/pesquisarID.php?id=" + campoId;
         }
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+        var dataConsultaInput = document.getElementById('dataConsulta');
+
+        dataConsultaInput.addEventListener('change', function() {
+
+            var dataSelecionada = dataConsultaInput.value;
+            console.log('Data selecionada: ' + dataSelecionada);
+            // Coloque aqui a lógica que deseja executar quando a data for selecionada
+
+            
+            let elemento = document.querySelector('.horaConsulta');   
+            <?php
+                include '../php/conectaBD.php';
+                
+                $json = file_get_contents('../horarios.json');
+                $horarios_disponiveis = json_decode($json, true);
+
+                // Script para buscar horários já existentes na tabela
+                $query = "SELECT DISTINCT horaConsulta FROM agenda";
+                $result = mysqli_query($conexao, $query);
+
+                if ($result) {
+                    // Array para armazenar os horários já existentes
+                    $horarios_existentes = array();
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $horarios_existentes[] = $row['horaConsulta'];
+                    }
+
+                    // Itera pelos horários disponíveis e adiciona apenas aqueles que não existem na tabela
+                    foreach ($horarios_disponiveis as $horario) {
+                        if (!in_array($horario, $horarios_existentes)) {
+            ?>
+                    var option = document.createElement('option');
+                    option.textContent = '<?php echo $horario ?>';
+                    option.id = '<?php echo $horario ?>';
+                
+                    elemento.appendChild(option);
+            <?php
+                        }
+                    }
+                }
+            ?>
+
+        });
+    });
     </script>
 </html>
