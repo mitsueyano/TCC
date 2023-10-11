@@ -172,7 +172,7 @@ create table Agenda
 (
 	idConsulta int auto_increment primary key,
 	dataConsulta date not null,
-	horaConsulta time not null, 
+	horaConsulta varchar(5) not null, 
 	veterinario int,
 	descricao text,
 	idAnimal int not null,

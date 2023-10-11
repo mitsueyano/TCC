@@ -134,6 +134,5 @@
 
         atualizarCalendario(mesAtual, anoAtual);
         adicionarEventListeners();
-
     </script>
 </html>

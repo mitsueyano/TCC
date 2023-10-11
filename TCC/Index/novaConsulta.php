@@ -105,7 +105,7 @@
                                 <label>Data da consulta:</label>
                             </div>
                             <div class="input-form">
-                                <input type="date" name="dataConsulta" id="dataConsulta">
+                                <select name="dataConsulta" id="dataConsulta" class="dataConsulta"></select>
                             </div>
                         </div>
                         <div class="flex">
@@ -257,51 +257,118 @@
             window.location.href = "../php/pesquisarID.php?id=" + campoId;
         }
 
-    document.addEventListener('DOMContentLoaded', function() {
+        function formatDate(date) {
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
 
-        var dataConsultaInput = document.getElementById('dataConsulta');
+            if (day < 10) {
+                day = '0' + day;
+            }
 
-        dataConsultaInput.addEventListener('change', function() {
+            if (month < 10) {
+                month = '0' + month;
+            }
 
-            var dataSelecionada = dataConsultaInput.value;
-            console.log('Data selecionada: ' + dataSelecionada);
-            // Coloque aqui a lógica que deseja executar quando a data for selecionada
+            return day + '-' + month + '-' + year;
+        }
+        var dataConsultaSelect = document.getElementById('dataConsulta');
+        var dataAtual = new Date();
 
-            
-            let elemento = document.querySelector('.horaConsulta');   
-            <?php
-                include '../php/conectaBD.php';
-                
-                $json = file_get_contents('../horarios.json');
-                $horarios_disponiveis = json_decode($json, true);
+        for (var i = 0; i < 21; i++) { // 3 semanas = 21 dias
+        dataAtual.setDate(dataAtual.getDate() + 1);
+        var diaDaSemana = dataAtual.getDay();
 
-                // Script para buscar horários já existentes na tabela
-                $query = "SELECT DISTINCT horaConsulta FROM agenda";
-                $result = mysqli_query($conexao, $query);
+            var option = document.createElement('option');
+            option.value = formatDate(dataAtual);
+            option.text = formatDate(dataAtual);
+            dataConsultaSelect.appendChild(option);
+            console.log(option)
+    }
 
-                if ($result) {
-                    // Array para armazenar os horários já existentes
-                    $horarios_existentes = array();
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        $horarios_existentes[] = $row['horaConsulta'];
+        document.addEventListener('DOMContentLoaded', function() {
+
+
+            var dataConsultaSelect = document.getElementById('dataConsulta');
+
+            dataConsultaSelect.addEventListener('change', function() {
+                var dataSelecionada = dataConsultaSelect.value;
+                var partesData = dataSelecionada.split('-');
+                var dia = partesData[0];
+                var mes = partesData[1] - 1; // Subtrair 1 do mês
+                var ano = partesData[2];
+
+                console.log('Dia: ' + dia);
+                console.log('Mês: ' + (mes + 1)); // Adicione 1 ao mês para exibição
+                console.log('Ano: ' + ano);
+
+                var diaDaSemana = new Date(ano, mes, dia).getDay();
+                var diasDaSemana = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
+                var diaSelecionado = diasDaSemana[diaDaSemana];
+                console.log("Dia da semana: " + diaSelecionado);
+
+
+                let elemento = document.querySelector('.horaConsulta');
+
+                // Suponha que você tenha os horários disponíveis no seguinte objeto JSON no JavaScript
+                var horariosDisponiveis = {
+                    "domingo": [],    
+                    "segunda": ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30"],
+                    "terça": ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30"],
+                    "quarta": ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30"],
+                    "quinta": ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30"],
+                    "sexta": ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30"],
+                    "sábado": []
+                };
+
+
+                <?php
+                    include '../php/ConectaBD.php';
+
+                    $query = "SELECT distinct horaConsulta from agenda";
+                    $resultado = mysqli_query($conexao, $query);
+
+                    if(!$resultado){
+                        echo "ERRO NA CONSULTA " . mysqli_error($conexao);
                     }
-
-                    // Itera pelos horários disponíveis e adiciona apenas aqueles que não existem na tabela
-                    foreach ($horarios_disponiveis as $horario) {
-                        if (!in_array($horario, $horarios_existentes)) {
-            ?>
-                    var option = document.createElement('option');
-                    option.textContent = '<?php echo $horario ?>';
-                    option.id = '<?php echo $horario ?>';
-                
-                    elemento.appendChild(option);
-            <?php
+                    else{
+                        while ($row = $resultado->fetch_assoc()){
+                            $horarioIndisponivel = $row['horaConsulta'];
                         }
                     }
-                }
-            ?>
 
+                ?>  
+                var horarioIndisponivel = "<?php echo $horarioIndisponivel?>";
+                if ( horarioIndisponivel in horariosDisponiveis) {
+
+                    delete horariosDisponiveis[diaDaSemana]['<?php echo $horarioIndisponivel?>'];
+
+                    var option = document.createElement('option');
+                    option.value = (horario);
+                    option.text = (horario);
+                    horaConsultaSelect.appendChild(option);
+
+                } else if (diaSelecionado in horariosDisponiveis) {
+
+                    var horario = horariosDisponiveis[diaSelecionado];
+                    console.log('Horários disponíveis para ' + diaSelecionado + ':');
+                    console.log(horario);
+
+                    var horaConsulta = document.getElementById('horaConsulta');
+                    horaConsulta.innerHTML = '';
+
+                    horario.forEach(function (horarioDisponivel) {
+                        var option = document.createElement('option');
+                        option.value = horarioDisponivel;
+                        option.text = horarioDisponivel;
+                        horaConsulta.appendChild(option);
+                    });
+                } else {
+                    console.log("Dia não encontrado ou sem horários disponíveis.");
+                }
+            });
+            
         });
-    });
+
     </script>
 </html>
