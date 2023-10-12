@@ -206,7 +206,44 @@
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-            // Ao carregar a página, confere se existe algum dado a ser preenchido
+
+            // Script de redirecionamento para pesquisar ID do cliente dados do animal
+            function pesquisar(){
+                var campoId = document.getElementById("idCliente").value;
+                window.location.href = "../php/pesquisarID.php?id=" + campoId;
+            }
+
+            function formatDate(date) {
+                var day = date.getDate();
+                var month = date.getMonth() + 1;
+                var year = date.getFullYear();
+
+                if (day < 10) {
+                    day = '0' + day;
+                }
+
+                if (month < 10) {
+                    month = '0' + month;
+                }
+
+                return day + '-' + month + '-' + year;
+            }
+            var dataConsultaSelect = document.getElementById('dataConsulta');
+            var dataAtual = new Date();
+
+            // Script para preencher select de dias
+            for (var i = 0; i < 28; i++) { // 3 semanas = 21 dias
+            dataAtual.setDate(dataAtual.getDate() + 1);
+            var diaDaSemana = dataAtual.getDay();
+            if (diaDaSemana != 0 && diaDaSemana != 6) {
+                var option = document.createElement('option');
+                option.value = formatDate(dataAtual);
+                option.text = formatDate(dataAtual);
+                dataConsultaSelect.appendChild(option);
+            }           
+        }
+
+        // Ao carregar a página, confere se existe algum dado a ser preenchido (Script de ID)
         <?php
             if (isset($_GET['data']) && isset($_GET['idCampo']) && isset($_GET['idResposta'])):
                 $data = $_GET['data'];
@@ -249,68 +286,24 @@
                 
             endif;
         ?>
-        });
 
-        // Script de redirecionamento
-        function pesquisar(){
-            var campoId = document.getElementById("idCliente").value;
-            window.location.href = "../php/pesquisarID.php?id=" + campoId;
-        }
-
-        function formatDate(date) {
-            var day = date.getDate();
-            var month = date.getMonth() + 1;
-            var year = date.getFullYear();
-
-            if (day < 10) {
-                day = '0' + day;
-            }
-
-            if (month < 10) {
-                month = '0' + month;
-            }
-
-            return day + '-' + month + '-' + year;
-        }
-        var dataConsultaSelect = document.getElementById('dataConsulta');
-        var dataAtual = new Date();
-
-        for (var i = 0; i < 21; i++) { // 3 semanas = 21 dias
-        dataAtual.setDate(dataAtual.getDate() + 1);
-        var diaDaSemana = dataAtual.getDay();
-
-            var option = document.createElement('option');
-            option.value = formatDate(dataAtual);
-            option.text = formatDate(dataAtual);
-            dataConsultaSelect.appendChild(option);
-            console.log(option)
-    }
-
-        document.addEventListener('DOMContentLoaded', function() {
-
-
+            // Script para mudar horários ao selecionar uma data
             var dataConsultaSelect = document.getElementById('dataConsulta');
-
             dataConsultaSelect.addEventListener('change', function() {
                 var dataSelecionada = dataConsultaSelect.value;
+
+                // Converte a data em ano/mes/dia
                 var partesData = dataSelecionada.split('-');
                 var dia = partesData[0];
-                var mes = partesData[1] - 1; // Subtrair 1 do mês
+                var mes = partesData[1] - 1; 
                 var ano = partesData[2];
-
-                console.log('Dia: ' + dia);
-                console.log('Mês: ' + (mes + 1)); // Adicione 1 ao mês para exibição
-                console.log('Ano: ' + ano);
-
                 var diaDaSemana = new Date(ano, mes, dia).getDay();
                 var diasDaSemana = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
                 var diaSelecionado = diasDaSemana[diaDaSemana];
-                console.log("Dia da semana: " + diaSelecionado);
-
-
-                let elemento = document.querySelector('.horaConsulta');
-
-                // Suponha que você tenha os horários disponíveis no seguinte objeto JSON no JavaScript
+                console.log( "Dia selecionado: " + diaSelecionado);
+                console.log("");
+            
+                // Array de horários disponíveis
                 var horariosDisponiveis = {
                     "domingo": [],    
                     "segunda": ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30"],
@@ -321,11 +314,11 @@
                     "sábado": []
                 };
 
-
+                // Conexão ao banco de dados para conferir se há data-hora já agendadas
                 <?php
                     include '../php/ConectaBD.php';
 
-                    $query = "SELECT distinct horaConsulta from agenda";
+                    $query = "SELECT distinct dataConsulta, horaConsulta from agenda";
                     $resultado = mysqli_query($conexao, $query);
 
                     if(!$resultado){
@@ -333,42 +326,94 @@
                     }
                     else{
                         while ($row = $resultado->fetch_assoc()){
+                            $dataConsulta = $row['dataConsulta'];
                             $horarioIndisponivel = $row['horaConsulta'];
-                        }
-                    }
 
                 ?>  
-                var horarioIndisponivel = "<?php echo $horarioIndisponivel?>";
-                if ( horarioIndisponivel in horariosDisponiveis) {
+                            // Recebe parâmetros da data-hora agendada(Indisponível)
+                            horarioIndisponivel = '<?php echo $horarioIndisponivel?>';
+                            data_HorarioIndisponivel = '<?php echo $dataConsulta?>';
+                                
+                            // Converte a data para receber o dia da semana
+                            var partesDataIndisp = data_HorarioIndisponivel.split('-');
+                            var diaIndisp = partesDataIndisp[2];
+                            var mesIndisp = partesDataIndisp[1] - 1; 
+                            var anoIndisp = partesDataIndisp[0];
 
-                    delete horariosDisponiveis[diaDaSemana]['<?php echo $horarioIndisponivel?>'];
+                            // Recebe o dia da semana em índice
+                            var diaDaSemanaIndisp = new Date(anoIndisp, mesIndisp, diaIndisp).getDay(); // Recebe o dia da semana
+                            var diasDaSemanaIndisp = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado']; // [0 = domingo, ..., 6 = sábado]
+                            
+                            // Identifica qual o dia da semana selecionado
+                            var diaSelecionadoIndisp = diasDaSemanaIndisp[diaDaSemanaIndisp];
 
-                    var option = document.createElement('option');
-                    option.value = (horario);
-                    option.text = (horario);
-                    horaConsultaSelect.appendChild(option);
+                            // Cria um array de 'horários disponiveis' com base no dia do agendamento
+                            var horario_confere = horariosDisponiveis[diaSelecionadoIndisp];
+                        
 
-                } else if (diaSelecionado in horariosDisponiveis) {
+                            if (diaSelecionado in horariosDisponiveis) {
 
-                    var horario = horariosDisponiveis[diaSelecionado];
-                    console.log('Horários disponíveis para ' + diaSelecionado + ':');
-                    console.log(horario);
+                                // Script para listar todos os horarios
+                                var horario = horariosDisponiveis[diaSelecionado];
+                                var horaConsulta = document.getElementById('horaConsulta');
+                                horaConsulta.innerHTML = '';
 
-                    var horaConsulta = document.getElementById('horaConsulta');
-                    horaConsulta.innerHTML = '';
+                                horario.forEach(function (horarioConfere) {
+                                    var option = document.createElement('option');
+                                    option.value = horarioConfere;
+                                    option.text = horarioConfere;
+                                    option.id = horarioConfere;
+                                    horaConsulta.appendChild(option);
+                                });                              
+                            } else {
+                                console.log("Dia não encontrado ou sem horários disponíveis.");
+                            }
 
-                    horario.forEach(function (horarioDisponivel) {
-                        var option = document.createElement('option');
-                        option.value = horarioDisponivel;
-                        option.text = horarioDisponivel;
-                        horaConsulta.appendChild(option);
-                    });
-                } else {
-                    console.log("Dia não encontrado ou sem horários disponíveis.");
+                            // Converte a data que possui agendamento
+                            var partesdata_HorarioIndisponivel = data_HorarioIndisponivel.split('-');
+                            var diaIndisp = partesDataIndisp[2];
+                            var mesIndisp = partesDataIndisp[1] - 1; 
+                            var anoIndisp = partesDataIndisp[0];
+                            var data_HorarioIndisponivel_convertido = new Date(anoIndisp, mesIndisp, diaIndisp).toLocaleDateString('pt-br')
+                            var partes = data_HorarioIndisponivel_convertido.split('/');
+                            
+                            data_HorarioIndisponivel_convertido = partes[0] + '-' + partes[1] + '-' + partes[2];                           
+                <?php   
+                        }
+                    }
+                ?>
+                
+                if (dataSelecionada == data_HorarioIndisponivel_convertido) {
+                    var horariosAgendados = [];                   
+                    // Verifica se o dia selecionado possui agendamento no banco de dados
+                    <?php 
+                        $queryHorarios = "SELECT distinct dataConsulta, horaConsulta from agenda where dataConsulta = '$dataConsulta'";
+                        $resultadoHorarios = mysqli_query($conexao, $queryHorarios);
+        
+                        if(!$resultadoHorarios){
+                            echo "ERRO NA CONSULTA " . mysqli_error($conexao);
+                        }
+                        else{
+                            while ($row = $resultadoHorarios->fetch_assoc()){
+                                $hora = $row['horaConsulta'];                             
+                ?>
+
+                                // Cria um array com todos os horários agendados no dia selecionado
+                                horariosAgendados.push("<?php echo $hora?>");
+                <?php 
+                            }
+                        }
+                ?>
+
+                    // Remove o horário indisponível
+                        horaConsulta.querySelectorAll("option").forEach(function (opt) {
+                            if (horariosAgendados.includes(opt.value)){
+                                opt.outerHTML = ""
+                            }
+                        });
                 }
             });
-            
+                       
         });
-
     </script>
 </html>
