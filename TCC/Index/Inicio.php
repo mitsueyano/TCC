@@ -46,17 +46,22 @@
                                 $resultAgenda = mysqli_query($conexao, $queryAgenda);        
                                 if ($resultAgenda->num_rows>0):
                                     while($arrayAgenda = mysqli_fetch_row($resultAgenda) ):
+                                       
                             ?>
                             <tr class="table-rows" id="<?php echo $arrayAgenda[0];?>" onmouseenter="mostrarInfo(this.id)">
+                            <input type="hidden" value="<?php echo  $arrayAgenda[10];?>" name="idCliente" id="idCliente">
                                 <td><?php echo $arrayAgenda[0];?></td>
                                 <td><?php echo $arrayAgenda[2];?></td>
                                 <td><?php echo $arrayAgenda[7];?></td>
                                 <td><?php echo $arrayAgenda[8];?></td>
                                 <td><?php echo $arrayAgenda[4];?></td>
                                 <td><?php echo $arrayAgenda[9];?></td>
-                                <td class="checkout-btn"> 
-                                    <a href="editar.php" class="checkout">Check-out</a>
+                                <td class="more-list-container"> 
+                                    <div class="list-box">
+                                        <button class="more-btn checkout" onclick="abrirModalCO(<?php echo $arrayAgenda[5]; ?>)">Check-out</button>
+                                    </div>
                                 </td>
+
                                 <td class="more-list-container"> 
                                     <div class="list-box">
                                         <button class="more-btn" onclick="abrirModal(<?php echo $arrayAgenda[5]; ?>)">...</button>
@@ -101,14 +106,34 @@
                     <span id="infoVeterinarioModal"></span>
                     <span id="infoDescricaoModal"></span>
                     <div class="btn-modal-div">
-                        <span class="btn-modal">Agendar retorno</span>
                         <span class="btn-modal">Registros</span>
                     </div>  
+                </div>
+            </div>
+            <div id="modalCO" class="modalCO">
+                <div class="modal-content" id="modal-content">
+                    <form action="../php/checkOut.php" method="POST" id="formCO">
+                        <input type="hidden" id="idConsultaCO" name="idConsulta">
+                    </form>
+                <div class="btn-close" id="btn-close"><span class="close" onclick="fecharModalCO()">&times;</span></div>
+                <span id="checkoutConfirmar" class="checkoutConfirmar">Deseja confirmar o checkout de <span id="nomeCO" class="nomeCO"></span>?</span>
+                <div class="btn-modal-div-co">
+                    <span class="btn-modal agendar" onclick="agendar()">Agendar retorno</span>
+                    <span class="btn-modal" onclick="confirmar()">Confirmar</span>
+                </div>  
                 </div>
             </div>
         </div>
         <div id="modalBackdrop"></div>
         <script>
+            document.addEventListener("DOMContentLoaded", function(){
+                <?php
+                    if (isset($_GET['ConsultaFinalizada']) && $_GET['ConsultaFinalizada'] === 'sucesso') {
+                        echo 'alert("Check-out realizado com sucesso.")';
+                    }
+                ?>
+            });
+
             // Script para data e hora em tempo real
             function atualizarHora() {
                 var elementoHora = document.getElementById('hora-atual');
@@ -158,7 +183,6 @@
                         document.querySelector("#infoId").innerHTML = g[0];
                         document.querySelector("#infoNome").innerHTML = g[7];
                         document.querySelector("#infoDono").innerHTML = g[4];
-
                     }
                 })
             }
@@ -166,7 +190,7 @@
             // Script para o modal
             <?php
                 include '../php/conectaBD.php';
-                $query = "SELECT Agenda.idConsulta, Agenda.descricao, Usuarios.nome AS veterinario, Animais.nome AS nomeanimal, Animais.especie, Animais.raca, Clientes.nome AS nomecliente
+                $query = "SELECT Agenda.idConsulta, Agenda.descricao, Usuarios.nome AS veterinario, Animais.nome AS nomeanimal, Animais.especie, Animais.raca, Clientes.nome AS nomecliente, clientes.idCliente
                         FROM Animais
                         INNER JOIN Agenda ON Animais.idAnimal = Agenda.idAnimal
                         INNER JOIN Usuarios ON Agenda.veterinario = Usuarios.idUsuario
@@ -209,21 +233,60 @@
             }
             //Animação do modal
             window.onclick = function(event) {
-                if (!event.target.closest("#modal, .more-btn, #modalContent")) {
+                if (!event.target.closest("#modal, .more-btn, #modalContent, #modalCO")) {
 
                     const divTremor = document.getElementById('modal');
+                    const divTremorCO = document.getElementById('modalCO');
 
                     function startTremor() {
                         divTremor.classList.add('shake');
+                        divTremorCO.classList.add('shake');
                     }
 
                     function stopTremor() {
                         divTremor.classList.remove('shake');
+                        divTremorCO.classList.remove('shake');
                     }
+                    startTremor();
+                    setTimeout(stopTremor, 500);
                 }
-                startTremor();
-                setTimeout(stopTremor, 500);
+                
             }
+            function abrirModalCO(id){
+                agenda.forEach(g=>{
+                    if (g[0] == id){
+                        document.querySelector("#nomeCO").innerHTML = g[3];
+                        document.querySelector("#idConsultaCO").value = g[0];
+                        document.getElementById("idCliente").value = g[7];
+                        console.log(g[7])
+                    }
+                })
+
+                var btn = document.querySelector(".more-btn");
+                var modalBackdrop = document.getElementById("modalBackdrop");
+                modalCO.style.display = "block";
+                modalBackdrop.style.display = "block";
+            }
+
+            // Script agendar retorno
+            function agendar(id){
+                var idCliente
+                idCliente = document.getElementById('idCliente').value
+                window.location.href = "../index/novaConsulta.php" + '?data=%7B"id"%3A'+ idCliente +'%2C"nome"%3A""%7D&idCampo=' + idCliente + '&idResposta=' + idCliente
+            }
+            // Fecha o modal
+            function fecharModalCO(){
+                var span = document.getElementsByClassName("close");
+                var modalBackdrop = document.getElementById("modalBackdrop");
+                modalCO.style.display = "none";
+                modalBackdrop.style.display = "none";
+            }
+
+            // Script Check-out
+            function confirmar(){
+                formCO.submit()
+            }
+
         </script>
     </body>
 </html>

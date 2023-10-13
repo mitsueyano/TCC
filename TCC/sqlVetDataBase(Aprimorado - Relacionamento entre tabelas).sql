@@ -66,9 +66,8 @@ create table Acesso(
 insert into Acesso (loginusuario, senha, idusuario)
 values ('joao', 'joao', 1), /*Não funciona - Não criptografado*/
 ('gabriel', 'gabriel', 2), /*Não funciona - Não criptografado*/
-('luiza', '$2y$10$0kNs4lXmcq5H9XtdRu/ixuWuUoWlnjYvJXWeOfeUL3YTuqxDQLUgS', 3),
-('maga', '$2y$10$FFQaRbqsqbPrkmV3fBf3ZOCI44gvOqu0Ix0mUur51qkexRQUXs02W', 4),
-('tino', '$2y$10$YtS5vIFJIx6lAzJhS6Nzpe2zvdlCSyjiOr0DIFNZoArZAXQnjX0aq', 5);
+('recep1', '$2y$10$0kNs4lXmcq5H9XtdRu/ixuWuUoWlnjYvJXWeOfeUL3YTuqxDQLUgS', 3),
+('vet', '$2y$10$FFQaRbqsqbPrkmV3fBf3ZOCI44gvOqu0Ix0mUur51qkexRQUXs02W', 4);	
 
  
 
@@ -133,9 +132,12 @@ from Clientes inner join Animais on Clientes.idCliente = Animais.idCliente;
  
 
 create table HistoricoMedico (
-    idHistorico int auto_increment primary key,
-    consulta int,
-    dataconsulta date not null,
+    idConsulta int,
+    dataConsulta date not null,
+    horaConsulta varchar(5) not null,
+    veterinario int,
+    peso varchar(10),
+    temperatura varchar(10),
     diagnostico text,
     tratamento text,
     observacoes text,
@@ -145,10 +147,11 @@ create table HistoricoMedico (
 
  
 
-insert into HistoricoMedico (consulta, dataconsulta, diagnostico, tratamento, observacoes, idAnimal)
-values (1, '2023-08-20', 'Exame físico normal', 'Nenhum tratamento necessário', 'Animal saudável', 1),
-(2, '2023-08-18', 'Verificou-se vermifugação necessária', 'Administrar vermífugo', 'Próxima dose em 6 meses', 2),
-(3, '2023-08-19', 'Infecção de ouvido', 'Prescrição de antibióticos', 'Retorno em uma semana para reavaliação', 3);
+insert into HistoricoMedico (idConsulta, dataconsulta, horaConsulta, veterinario, peso, temperatura, diagnostico, tratamento, observacoes, idAnimal)
+values (1, '2023-08-20', '13:00', 1, '3kg', '38°C', 'Exame físico normal', 'Nenhum tratamento necessário', 'Animal saudável', 1),
+(2, '2023-08-18', '12:00', 1, '2kg','39°C',  'Verificou-se vermifugação necessária', 'Administrar vermífugo', 'Próxima dose em 6 meses', 2),
+(3, '2023-09-18', '13:00', 1, '2,5kg', '39°C', 'Exame físico normal', 'Nenhum tratamento necessário', 'Animal saudável', 2),
+(4, '2023-08-19', '15:00', 1, '3,5kg', '40°C', 'Infecção de ouvido', 'Prescrição de antibióticos', 'Retorno em uma semana para reavaliação', 3);
 
  
 
@@ -165,7 +168,8 @@ create table statusConsulta
 );
 insert into StatusConsulta (idStatus, statusConsulta)
 values (1, 'Em espera'),
-(2, 'Consultório');
+(2, 'Consultório'),
+(3, 'Liberado');
  
 
 create table Agenda
@@ -181,9 +185,9 @@ create table Agenda
 	foreign key (idAnimal) references Animais(idAnimal) on delete cascade
 );
 insert into Agenda (dataConsulta, horaConsulta, veterinario, idAnimal, descricao, idStatus)
-values ('2023-10-20', '14:00:00', 1, 1, 'Exame de rotina', 1),
-('2023-09-14', '10:30:00', 1, 2, 'Vacinação', 2),
-('2023-08-18', '10:35:00', 1, 3, 'Avaliação de saúde', 1);
+values ('2023-10-20', '14:00', 1, 1, 'Exame de rotina', 1),
+('2023-09-14', '10:30', 1, 2, 'Vacinação', 2),
+('2023-08-18', '10:35', 1, 3, 'Avaliação de saúde', 1);
 
 
 
@@ -225,4 +229,5 @@ select * from HistoricoMedico;
 select * from Acesso;
 select * from statusConsulta;
 
-Select distinct horaConsulta from agenda where dataConsulta = '2023-10-20';
+
+

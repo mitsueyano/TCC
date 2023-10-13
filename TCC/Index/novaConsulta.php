@@ -205,13 +205,21 @@
 
         }
 
-        document.addEventListener("DOMContentLoaded", function () {
-
-            // Script de redirecionamento para pesquisar ID do cliente dados do animal
-            function pesquisar(){
+        // Script de redirecionamento para pesquisar ID do cliente dados do animal
+        function pesquisar(){
                 var campoId = document.getElementById("idCliente").value;
                 window.location.href = "../php/pesquisarID.php?id=" + campoId;
             }
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            <?php 
+                if (isset($_GET['agendamento']) && ($_GET['agendamento'] === 'sucesso')){
+                        echo 'alert("Angendamento concluído.")';
+                }
+            ?>
+       
 
             function formatDate(date) {
                 var day = date.getDate();
@@ -262,11 +270,23 @@
                                 if ($idCampo == $idResposta) {
                                     $jsonData = json_decode($_GET['data'], true);
                                     $idCliente = $jsonData['id'];
+                                    if ($jsonData['nome'] != null){
                                     $nomeCliente = $jsonData['nome'];
+                                    }
                                 }
                             ?>
                             campoId = '<?php echo $_GET['idCampo']; ?>';
-                            document.getElementById("nomeCliente").value  = '<?php echo $nomeCliente;?>';
+                            <?php
+                            if ($idCampo == $idResposta) {
+                                $jsonData = json_decode($_GET['data'], true);
+                                if ($jsonData['nome'] != null){
+                                    $nomeCliente = $jsonData['nome'];
+                            ?>
+                            document.getElementById("nomeCliente").value = '<?php echo $nomeCliente;?>';
+                            <?php 
+                                }
+                            }
+                            ?>
                             document.getElementById("nomeCliente").readOnly = true;
                         }
         <?php  

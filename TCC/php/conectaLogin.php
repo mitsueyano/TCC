@@ -12,18 +12,25 @@
     }
 
     // Script SQL para verificação de login-senha
-    $consulta = "SELECT Acesso.senha, loginusuario FROM Acesso WHERE loginusuario = '$login'";
+    $consulta = "SELECT Acesso.senha, loginusuario, idUsuario FROM Acesso WHERE loginusuario = '$login'";
     $resultado = mysqli_query($conexao, $consulta);
 
     if ($resultado && mysqli_num_rows($resultado) === 1) {
         $row = mysqli_fetch_assoc($resultado);
         $senhaCriptografada = $row['senha'];
         $loginCorreto = $row['loginusuario'];
-        $url = "../Index/Inicio.php";
+        $idUsuario = $row['idUsuario'];
+        $urlRecep = "../Index/Inicio.php";
+        $urlVetArea = "../Index/vetArea/InicioVet.php";
 
         // Mensagem de erro - Login-Senha incorretos
         if ($login === $loginCorreto && password_verify($senha, $senhaCriptografada)) {
-            header("Location: " . $url);
+            if ($idUsuario == '3'){
+                header("Location: " . $urlRecep);
+            }
+            else if ($idUsuario == '4'){
+                header("Location: " . $urlVetArea);
+            }
             exit();
         }
         else

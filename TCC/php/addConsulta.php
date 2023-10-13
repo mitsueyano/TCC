@@ -31,6 +31,6 @@ $resultado = mysqli_query($conexao, $query);
 if (!$resultado) {
     echo "ERRO AO AGENDAR " . mysqli_error($conexao);
 } else {
-    echo "Agendamento concluído.";
+    header("Location: ../index/novaConsulta.php?agendamento=sucesso");;
 }
 ?>
