@@ -137,6 +137,9 @@ input{
     flex-direction: column;
     gap: 5px;
 }
+.veterinario{
+    pointer-events: none;
+}
 
 /* Botões do formulário */
 .center{

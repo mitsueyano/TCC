@@ -114,7 +114,28 @@
                             </div>
                             <div class="input-form">
                             <select name="horaConsulta" id="horaConsulta" class="horaConsulta">
-
+                            </select>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="label-form">
+                                <label>Veterinário:</label>
+                            </div>
+                            <div class="input-form">
+                            <select name="veterinario" id="veterinario" class="veterinario">
+                                <?php
+                                    $queryVet = "SELECT nome, idUsuario FROM Usuarios WHERE idCargo = 2";
+                                        $resultadoVet = mysqli_query($conexao, $queryVet);
+                                        if ($resultadoVet){
+                                            while ($rowVet = $resultadoVet->fetch_assoc()){
+                                                $idVet = $rowVet['idUsuario'];
+                                                $nomeVet = $rowVet['nome'];
+                                ?>
+                                    <option value="<?php echo $idVet?>"><?php echo $nomeVet?></option>
+                                <?php
+                                            }
+                                        }
+                                ?>
                             </select>
                             </div>
                         </div>
@@ -212,7 +233,7 @@
             }
 
 
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function () { 
 
             <?php 
                 if (isset($_GET['agendamento']) && ($_GET['agendamento'] === 'sucesso')){
@@ -248,7 +269,8 @@
                 option.value = formatDate(dataAtual);
                 option.text = formatDate(dataAtual);
                 dataConsultaSelect.appendChild(option);
-            }           
+            }   
+            datasHorarios()        
         }
 
         // Ao carregar a página, confere se existe algum dado a ser preenchido (Script de ID)
@@ -306,11 +328,14 @@
                 
             endif;
         ?>
-
-            // Script para mudar horários ao selecionar uma data
             var dataConsultaSelect = document.getElementById('dataConsulta');
-            dataConsultaSelect.addEventListener('change', function() {
+            // Script para mudar horários ao selecionar uma data
+            dataConsultaSelect.addEventListener('change', datasHorarios)
+            
+            function datasHorarios(){
+                var dataConsultaSelect = document.getElementById('dataConsulta');
                 var dataSelecionada = dataConsultaSelect.value;
+
 
                 // Converte a data em ano/mes/dia
                 var partesData = dataSelecionada.split('-');
@@ -320,8 +345,15 @@
                 var diaDaSemana = new Date(ano, mes, dia).getDay();
                 var diasDaSemana = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
                 var diaSelecionado = diasDaSemana[diaDaSemana];
-                console.log( "Dia selecionado: " + diaSelecionado);
-                console.log("");
+                if (diaDaSemana == 1 || diaSelecionado == 2 || diaSelecionado == 3){
+                    
+                    var vet = document.getElementById('veterinario')
+                    vet.value = 1
+                }
+                else{
+                    var vet = document.getElementById('veterinario')
+                    vet.value = 2
+                }
             
                 // Array de horários disponíveis
                 var horariosDisponiveis = {
@@ -385,8 +417,6 @@
                                     option.id = horarioConfere;
                                     horaConsulta.appendChild(option);
                                 });                              
-                            } else {
-                                console.log("Dia não encontrado ou sem horários disponíveis.");
                             }
 
                             // Converte a data que possui agendamento
@@ -432,7 +462,7 @@
                             }
                         });
                 }
-            });
+            }
                        
         });
     </script>

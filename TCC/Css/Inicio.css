@@ -133,7 +133,7 @@ table .table-rows{
     height: 55px;
 }
 td{
-    padding: 5px;
+    padding: 10px;
 }
 td:first-child{
     font-weight: bold;
@@ -142,7 +142,7 @@ td:nth-child(7) button{
     font-size: 18px;
 }
 th{
-    padding: 5px;
+    padding: 10px;
 }
 tbody>tr:hover {
     background-color: #fef5e4;
@@ -161,11 +161,10 @@ tbody>tr:hover {
 }
 
 /* Botões da tabela */
-
 .more-btn{
     font-size: 85%;
     background-color: #2c476e;
-    padding: 5px;
+    padding: 7px;
     color: #ffffff;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;   
     text-decoration: none;
@@ -223,6 +222,10 @@ tbody>tr:hover {
     background-color: #fef5e4;
 }
 
+.escondido{
+    display: none;
+}
+
 /* Caixa de informações - inferior esquerdo */
 .container-info {
     position: absolute;
@@ -230,7 +233,7 @@ tbody>tr:hover {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 5px;
     background-color: #ffffff;
     border-left: 1px solid #2c476e;
     z-index: 2;
@@ -239,8 +242,35 @@ tbody>tr:hover {
     left: 20px;
     bottom: 4%;
     border-bottom: none;
-    font-size: 1.3vw;
+    font-size: 1.1vw;
+    justify-content: center;
 }
+.flex{
+    display: flex;
+    width: 100%;
+}
+.label-flex{
+    display: flex;
+    width: 18%;
+    justify-content: start;
+}
+.label-flexModal{
+    display: flex;
+    width: 30%;
+}
+.label-flexModalInfo{
+    width: 70%;
+}
+.dataConsulta{
+    font-size: 1.3vw;
+    margin-bottom: 5px;
+    color: #2c476e;
+    font-weight: bold;
+}
+.obs{
+    margin-bottom: 20px;
+}
+
 
 /* Data e hora - inferior direito*/
 .data{
@@ -271,8 +301,8 @@ tbody>tr:hover {
     box-sizing: border-box;
     position: absolute;
     z-index: 4;
-    width: 30%;
-    height: 40%;
+    width: 40%;
+    max-height: 40%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -301,7 +331,7 @@ tbody>tr:hover {
 .modal-content{
     position: relative;
     background-color: #ffffff;
-    padding: 5px;
+    padding: 10px;
     box-sizing: border-box;
     border: 1px solid #97a9d1;
     width: 100%;
@@ -328,6 +358,9 @@ tbody>tr:hover {
 .btn-close{
     display: flex;
     justify-content: end;
+    position: sticky;
+    top: 11px;
+    right: 9px;
 }
 .close{
     display: flex;
@@ -395,7 +428,14 @@ tbody>tr:hover {
     height: 100%;
     border: 2px solid #2c476e;
 }
-
+img{
+    width: 30px;
+    image-rendering:crisp-edges;
+}
+.registros{
+    padding: 4px;
+    padding-left: 8px;
+}
 
  /* Funções do modal (animação) */
 #modalBackdrop {

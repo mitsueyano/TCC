@@ -40,9 +40,10 @@ create table Usuarios
 
 insert into  Usuarios (nome, email, contato, idCargo, enderecoE, enderecoC, enderecoB, enderecoRN)
 values ('João Silva', 'joao@example.com', '1234567890', 2, 'SP', 'São Paulo', 'Jaguaré', 'Avenida Jaguaré, 125'),
+('Marcos Silva', 'marcos@example.com', '0987654321', 2, 'SP', 'São Paulo', 'Jaguaré', 'Avenida Jaguaré, 125'),
 ('Gabriel Souza', 'gabriel@example.com', '9876543210', 1, 'SP', 'São Paulo', 'Santana', 'Praça Orlando Silva, 126'),
 ('Luiza', 'luiza@example.com', 1346798520, 1, 'SP', 'São Paulo', 'Jardim Santo André', 'Rua Conde de Ericeira, 127'),
-('Margarida', 'margarida@example.com', '7946130258', 2, 'SP', 'São Paulo', 'Vila Paiva', 'Rua Santo Anselmo, 128'),
+('Margarida', 'margarida@example.com', '7946130258', 1, 'SP', 'São Paulo', 'Vila Paiva', 'Rua Santo Anselmo, 128'),
 ('Izaltino', 'izaltino@example.com', '1234569870', 1,'SP', 'São Paulo', 'Mandaqui', 'Rua Benjamin Ferreira, 129');
 
  

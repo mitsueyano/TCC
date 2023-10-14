@@ -67,13 +67,13 @@
                                         <label>Peso atual:</label>
                                     </div>
                                     <div class="input-form">
-                                        <input type="text" name="peso" id="peso">
+                                        <input type="text" name="peso" id="peso" required>
                                     </div>
                                     <div class="label-form">
                                         <label>Temperatura:</label>
                                     </div>
                                     <div class="input-form">
-                                        <input type="text" name="temperatura" id="temperatura">
+                                        <input type="text" name="temperatura" id="temperatura" required>
                                     </div>
                                 </div>
                             </div>
@@ -82,7 +82,7 @@
                                     <label>Diagnóstico:</label>
                                 </div>
                                 <div class="input-form">
-                                    <input type="text" name="diagnostico" id="diagnostico">
+                                    <input type="text" name="diagnostico" id="diagnostico" required>
                                 </div>
                             </div>
                             <div class="flex">
@@ -90,7 +90,7 @@
                                         <label>Tratamento:</label>
                                 </div>
                                 <div class="input-form">
-                                    <input type="text" name="tratamento" id="tratamento">
+                                    <input type="text" name="tratamento" id="tratamento" required>
                                 </div>
                             </div>
                             <div class="flex-observacoes">

@@ -37,7 +37,7 @@
                         <tbody>
                             <?php         
                                 include '../php/conectaBD.php';
-                                $queryAgenda = "SELECT Agenda.*, Usuarios.nome, Animais.nome, statusConsulta.statusConsulta
+                                $queryAgenda = "SELECT Agenda.*, Usuarios.nome, Animais.nome, statusConsulta.statusConsulta, Animais.idCliente
                                                 FROM Animais
                                                 INNER JOIN Agenda ON Animais.idAnimal = Agenda.idAnimal
                                                 INNER JOIN Usuarios ON Agenda.veterinario = Usuarios.idUsuario
@@ -49,7 +49,7 @@
                                        
                             ?>
                             <tr class="table-rows" id="<?php echo $arrayAgenda[0];?>" onmouseenter="mostrarInfo(this.id)">
-                            <input type="hidden" value="<?php echo  $arrayAgenda[10];?>" name="idCliente" id="idCliente">
+                            <input type="hidden" value="<?php echo $arrayAgenda[10];?>" name="idCliente" id="idCliente">
                                 <td><?php echo $arrayAgenda[0];?></td>
                                 <td><?php echo $arrayAgenda[2];?></td>
                                 <td><?php echo $arrayAgenda[7];?></td>
@@ -64,7 +64,7 @@
 
                                 <td class="more-list-container"> 
                                     <div class="list-box">
-                                        <button class="more-btn" onclick="abrirModal(<?php echo $arrayAgenda[5]; ?>)">...</button>
+                                        <button class="more-btn registros" onclick="abrirModal(<?php echo $arrayAgenda[5]; ?>)"><img src="../img/registros.png" alt=""></button>
                                     </div>
                                 </td>
                             </tr>
@@ -84,9 +84,47 @@
                 </div>
                 <!-- Seção INFORMAÇÕES ADICIONAIS -->
                 <div class="container-info">
-                    <span id="infoId"></span>
-                    <span id="infoNome"></span>
-                    <span id="infoDono"></span>      
+                    <div class="flex">
+                        <div class="label-flex">
+                            <span>ID consulta: </span>
+                        </div>
+                        <div class="label-flex">
+                            <span id="infoId"></span>
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <div class="label-flex">
+                            <span>Nome: </span>
+                        </div>
+                        <div class="label-flex">
+                            <span id="infoNome"></span>
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <div class="label-flex">
+                            <span>Dono: </span>
+                        </div>
+                        <div class="label-flex">
+                            <span id="infoDono"></span>   
+                        </div>  
+                    </div> 
+                    <div class="flex">
+                        <div class="label-flex">
+                            <span>Espécie: </span>
+                        </div>
+                        <div class="label-flex">
+                            <span id="infoEspecie"></span>      
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <div class="label-flex">
+                            <span>Raça: </span>
+                        </div>
+                        <div class="label-flex">
+                            <span id="infoRaca"></span>   
+                        </div>
+                    </div>   
+                    
                 </div>
                 <!-- Seção - DATA E HORA -->
                 <div class="data">
@@ -96,18 +134,59 @@
             </div>
             <!-- Seção MODAL -->
             <div id="modal" class="modal">
-                <div class="modal-content" id="modal-content">
-                <div class="btn-close" id="btn-close"><span class="close" onclick="fecharModal()">&times;</span></div>
-                    <span id="infoidConsultaModal"></span>
-                    <span id="infoNomeModal"></span>
-                    <span id="infoEspecieModal"></span>
-                    <span id="infoRacaModal"></span>  
-                    <span id="infoDonoModal"></span> 
-                    <span id="infoVeterinarioModal"></span>
-                    <span id="infoDescricaoModal"></span>
-                    <div class="btn-modal-div">
-                        <span class="btn-modal">Registros</span>
-                    </div>  
+                <div class="modal-content modal-content-reg" id="modal-content">
+                    <div class="btn-close" id="btn-close"><span class="close" onclick="fecharModal()">&times;</span></div>
+                    
+                    <div class="container-registros escondido">
+                        <div class="flex dataConsulta">
+                            <div class="label-flexModal">
+                                <span id="infoDataConsulta"></span>   
+                            </div>
+                        </div>
+
+
+                        <div class="flex">
+                            <div class="label-flexModal">
+                                <span>Veterinário: </span>
+                            </div>
+                            <div class="label-flexModalInfo">
+                                <span id="infoVet"></span>   
+                            </div>
+                        </div>   
+
+                            
+                        <div class="flex">
+                            <div class="label-flexModal">
+                                <span>Diagnóstico: </span>
+                            </div>
+                            <div class="label-flexModalInfo">
+                                <span id="infoDiagnostico"></span>   
+                            </div>
+                        </div> 
+
+                        <div class="flex">
+                            <div class="label-flexModal">
+                                <span>Tratamento: </span>
+                            </div>
+                            <div class="label-flexModalInfo">
+                                <span id="infoTratamento"></span>   
+                            </div>
+                        </div> 
+
+                        <div class="flex">
+                            <div class="label-flexModal obs">
+                                <span>Observações: </span>
+                            </div>
+                            <div class="label-flexModalInfo">
+                                <span id="infoObservacoes"></span>   
+                            </div>
+                        </div> 
+                    </div>
+
+                    
+                        
+
+
                 </div>
             </div>
             <div id="modalCO" class="modalCO">
@@ -163,8 +242,9 @@
             // Script para informações adicionais - Campo inferior esquerdo da tela
             <?php
                 include '../php/conectaBD.php';
-                $queryAnimalInfo = "SELECT Agenda.*, Usuarios.nome, Animais.nome
+                $queryAnimalInfo = "SELECT Agenda.*, Usuarios.nome, Animais.nome, Clientes.nome, Animais.especie, Animais.raca
                                     FROM Animais
+                                    INNER JOIN Clientes ON Clientes.idCliente = Animais.idCliente
                                     INNER JOIN Agenda ON Animais.idAnimal = Agenda.idAnimal
                                     INNER JOIN Usuarios ON Agenda.veterinario = Usuarios.idUsuario
                                     GROUP BY Agenda.dataConsulta, Agenda.horaConsulta;";
@@ -180,9 +260,11 @@
             function mostrarInfo(id){
                 animal.forEach(g=>{
                     if (g[0] == id){
-                        document.querySelector("#infoId").innerHTML = g[0];
-                        document.querySelector("#infoNome").innerHTML = g[7];
-                        document.querySelector("#infoDono").innerHTML = g[4];
+                        document.querySelector("#infoId").innerHTML =  g[0];
+                        document.querySelector("#infoDono").innerHTML =  g[9];
+                        document.querySelector("#infoNome").innerHTML =   g[8];    
+                        document.querySelector("#infoEspecie").innerHTML =   g[10];    
+                        document.querySelector("#infoRaca").innerHTML =  g[11];    
                     }
                 })
             }
@@ -196,6 +278,7 @@
                         INNER JOIN Usuarios ON Agenda.veterinario = Usuarios.idUsuario
                         INNER JOIN Clientes ON Animais.idCliente = Clientes.idCliente
                         GROUP BY Agenda.dataConsulta, Agenda.horaConsulta;";
+
                 $result = mysqli_query($conexao, $query);
                 $linhas = [];
                 while($linha = $result->fetch_row()) {
@@ -203,22 +286,40 @@
                 } 
                 $agenda = json_encode($linhas);
                 echo "var agenda = " . $agenda . ";\n";
+
+
+
+                $queryRegistros = "SELECT historicoMedico.* , Usuarios.nome FROM historicoMedico
+                JOIN Animais ON historicoMedico.idAnimal = Animais.idAnimal
+                JOIN Usuarios ON historicoMedico.veterinario = Usuarios.idUsuario
+                ";
+                 $resultRegistros = mysqli_query($conexao, $queryRegistros);
+                 $linhasRegistros = [];
+                 while($linhaRegistros = $resultRegistros->fetch_row()) {
+                    $linhasRegistros[] = $linhaRegistros;
+                } 
+                $agendaRegistros = json_encode($linhasRegistros);
+                echo "var agendaRegistros = " . $agendaRegistros . ";\n";
+
             ?>
             // Abre o modal com as informações
             function abrirModal(id){
-                agenda.forEach(g=>{
-                    if (g[0] == id){
+                console.log(agendaRegistros)
+                agendaRegistros.forEach(r=>{
+                    if (r[9] == id){
+                        var clone = document.querySelector('.container-registros').cloneNode(true)
+                        clone.querySelector("#infoDataConsulta").innerHTML = r[1];
+                        clone.querySelector("#infoVet").innerHTML = r[10];
+                        clone.querySelector("#infoDiagnostico").innerHTML = r[6];
+                        clone.querySelector("#infoTratamento").innerHTML =  r[7];
+                        clone.querySelector("#infoObservacoes").innerHTML =  r[8];
 
-                        document.querySelector("#infoidConsultaModal").innerHTML = "ID da consulta: " + g[0];
-                        document.querySelector("#infoNomeModal").innerHTML = "Nome do animal: " + g[3];
-                        document.querySelector("#infoEspecieModal").innerHTML = "Espécie: " + g[4];
-                        document.querySelector("#infoRacaModal").innerHTML = "Raça: " + g[5];
-                        document.querySelector("#infoDonoModal").innerHTML = "Dono: " + g[6];
-                        document.querySelector("#infoVeterinarioModal").innerHTML = "Veterinário: " + g[2];
-                        document.querySelector("#infoDescricaoModal").innerHTML = "Descrição: " + g[1];
+                        clone.classList.remove('escondido')
                         
+                        document.querySelector('.modal-content-reg').appendChild(clone)
                     }
                 })
+
                 var btn = document.querySelector(".more-btn");
                 var modalBackdrop = document.getElementById("modalBackdrop");
                 modal.style.display = "block";
@@ -226,6 +327,11 @@
             }
             // Fecha o modal
             function fecharModal(){
+                document.querySelectorAll('.container-registros').forEach(div => {
+                    if (!div.classList.contains('escondido')) {
+                        div.outerHTML = ""
+                    }
+                })
                 var span = document.getElementsByClassName("close");
                 var modalBackdrop = document.getElementById("modalBackdrop");
                 modal.style.display = "none";
@@ -252,13 +358,14 @@
                 }
                 
             }
+
+            // Abre o modal CHECK-OUT
             function abrirModalCO(id){
                 agenda.forEach(g=>{
                     if (g[0] == id){
                         document.querySelector("#nomeCO").innerHTML = g[3];
                         document.querySelector("#idConsultaCO").value = g[0];
                         document.getElementById("idCliente").value = g[7];
-                        console.log(g[7])
                     }
                 })
 
@@ -274,7 +381,7 @@
                 idCliente = document.getElementById('idCliente').value
                 window.location.href = "../index/novaConsulta.php" + '?data=%7B"id"%3A'+ idCliente +'%2C"nome"%3A""%7D&idCampo=' + idCliente + '&idResposta=' + idCliente
             }
-            // Fecha o modal
+            // Fecha o modal CHECK-OUT
             function fecharModalCO(){
                 var span = document.getElementsByClassName("close");
                 var modalBackdrop = document.getElementById("modalBackdrop");
