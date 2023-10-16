@@ -29,7 +29,7 @@ else{
         echo "ERRO AO ALTERAR STATUS " . mysqli_error($conexao);
     }
     else{
-        echo "Status alterado.";
+        header("Location: ../../Index/vetArea/filaEspera.php");
     }
 }
 ?>

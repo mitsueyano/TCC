@@ -17,7 +17,11 @@
             </div>
             <div class="container">     
                 <div class="tablebar">
-                    <div class="tablebar-button"><a href="./Inicio.php">ESCANEAR QR CODE</a></div>
+                <div class="options-container">  
+                            <div class= "btnOptionsDiv tablebar-button">
+                                <div class="buttonOptions"><a href="">ESCANEAR QR CODE</a></div>
+                            </div>
+                        </div> 
                 </div>  
                 <!-- Seção TABELA -->
                 <div class="table-container">
@@ -132,18 +136,16 @@
                     <div class="hora" id="hora-atual"></div>
                 </div>
             </div>
-            <!-- Seção MODAL -->
+            <!-- Seção Modal 'Histórico Médico' -->
             <div id="modal" class="modal">
                 <div class="modal-content modal-content-reg" id="modal-content">
                     <div class="btn-close" id="btn-close"><span class="close" onclick="fecharModal()">&times;</span></div>
-                    
                     <div class="container-registros escondido">
                         <div class="flex dataConsulta">
                             <div class="label-flexModal">
                                 <span id="infoDataConsulta"></span>   
                             </div>
                         </div>
-
 
                         <div class="flex">
                             <div class="label-flexModal">
@@ -181,14 +183,11 @@
                                 <span id="infoObservacoes"></span>   
                             </div>
                         </div> 
-                    </div>
-
-                    
-                        
-
-
+                    </div>          
                 </div>
             </div>
+
+            <!-- Seção Modal 'Check-out' -->
             <div id="modalCO" class="modalCO">
                 <div class="modal-content" id="modal-content">
                     <form action="../php/checkOut.php" method="POST" id="formCO">
@@ -304,7 +303,6 @@
             ?>
             // Abre o modal com as informações
             function abrirModal(id){
-                console.log(agendaRegistros)
                 agendaRegistros.forEach(r=>{
                     if (r[9] == id){
                         var clone = document.querySelector('.container-registros').cloneNode(true)

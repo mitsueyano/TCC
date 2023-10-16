@@ -224,7 +224,7 @@ tbody>tr:hover {
 
 
 /* Botões da tabela */
-.btn-tabela{
+.btn-tabela button{
     background-color: #2c476e;
     padding: 5px;
     color: #ffffff;
@@ -233,13 +233,14 @@ tbody>tr:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 25px;
-    width: 30px;
+    border: none;
 }
-.btnTabelaContainer{
-    width: 10px;
+.btnTabelaContainer {
+    height: 35px;
+    width: 35px;
 }
-.btn-tabela:hover{
+.btn-tabela button:hover{
     box-shadow: 3px 3px #000000;
     transition: .2s;
+    cursor: pointer;
 }

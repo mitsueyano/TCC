@@ -69,10 +69,11 @@ if (isset($_POST["termo_pesquisa"])) {
                     <td><?php echo $array["veterinario"]; ?></td>
                     <td><?php echo $array["descricao"]; ?></td>
                     <td><?php echo $array["idAnimal"]; ?></td>
-                    <td class="btnTabelacontainer">
-                    <a href="editar.php" class="btn-tabela">
-                        <img src="../img/lixo.png" alt="">
-                    </a>
+                    <td class="btnTabelaContainer"> 
+                        <form method="POST" action="../php/deletarConsulta.php" class="btn-tabela form-consulta<?php echo $array["idConsulta"]; ?>">             
+                        <input type="hidden" name="idConsulta" value="<?php echo $array["idConsulta"] ?>">                  
+                        <button type="button" onclick='confirmarCliente(`<?php echo $array["idConsulta"] ?>`)'><img src="../img/lixo.png" alt="lixo.png"></button>
+                        </form>
                     </td>
                     <td class="btnTabelaContainer"></td>
                 </tr>
@@ -86,10 +87,25 @@ if (isset($_POST["termo_pesquisa"])) {
     $conexao->close();
 }
 ?>
-
                 </div>
             </div>
     </body>
 </html>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        <?php
+            if (isset($_GET['consultaDeletada']) && $_GET['consultaDeletada'] === 'sucesso') {
+                echo 'alert("Consulta deletada com sucesso.")';
+            }
+        ?>
+    })
+
+    function confirmarCliente(idConsulta){
+            result = window.confirm("Deseja remover a consulta " + idConsulta + "?")
+            if (result == true){
+                document.querySelector('.form-consulta' + idConsulta).submit()
+            }
+    }
+</script>
 
 

@@ -95,24 +95,41 @@ transition: background-color 0.5s, color 0.5s;
     margin-bottom: 5px;
     margin-top: 50px;
 }
-.tablebar-button>a{
-    height: 50px;
-    width: 15vw;
+
+.btnOptionsDiv{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.buttonOptions > a {
     box-sizing: border-box;
     background-color: #2c476e;
     display: flex;
     justify-content: center;
     align-items: center;
     text-decoration: none;
-    font-size: 2.5vh;
+    font-size: 2.4vh;
     color: #ffffff;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;       
-    margin-right: 5px;
-    margin-bottom: 4px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    position: relative;
+    z-index: 2;
+    padding: 14px;
 }
-.tablebar-button>a:hover{
-    box-shadow: 3px 3px #000000;
-    transition: .2s;
+.buttonOptions:hover {
+    transition: 0.5s;
+    box-shadow: #2c476e 2px 2px;
+}
+.btnOptionsDiv:hover{
+    background-color: #fef5e4;
+    color: #000000;
+    transition: 0.5s;
+    box-shadow: #2c476e -2px -2px;
+}
+.buttonOptions > a:hover{
+    background-color: #fef5e4;
+    color: #000000;
+    transition: 0.5s;
 }
 
 /* Tabela */
@@ -450,7 +467,7 @@ img{
     opacity: 0.5;
 }
 .shake {
-    animation: shake 0.5s infinite;
+    animation: shake 0.5s;
 }
 @keyframes shake {
     0%{transform: translate(-50%, -50%);}

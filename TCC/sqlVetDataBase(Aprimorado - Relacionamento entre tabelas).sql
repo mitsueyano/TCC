@@ -7,8 +7,6 @@ use VetDataBase;
 
  
 
- 
-
 create table Funcoes
 (
   idCargo int primary key not null,
@@ -186,8 +184,8 @@ create table Agenda
 	foreign key (idAnimal) references Animais(idAnimal) on delete cascade
 );
 insert into Agenda (dataConsulta, horaConsulta, veterinario, idAnimal, descricao, idStatus)
-values ('2023-10-20', '14:00', 1, 1, 'Exame de rotina', 1),
-('2023-09-14', '10:30', 1, 2, 'Vacinação', 2),
+values ('2023-10-14', '14:00', 1, 1, 'Exame de rotina', 1),
+('2023-10-14', '10:30', 1, 2, 'Vacinação', 2),
 ('2023-08-18', '10:35', 1, 3, 'Avaliação de saúde', 1);
 
 
@@ -229,6 +227,7 @@ select * from Agenda;
 select * from HistoricoMedico;
 select * from Acesso;
 select * from statusConsulta;
+
 
 
 

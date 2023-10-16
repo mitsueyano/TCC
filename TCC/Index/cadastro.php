@@ -251,7 +251,6 @@
             }
         }
         function confirmarCliente(nomeCliente, idCliente){
-            console.log(nomeCliente, idCliente)
             result = window.confirm("Deseja remover " + nomeCliente + "?")
             if (result == true){
                 document.querySelector('.form-cliente' + idCliente).submit()

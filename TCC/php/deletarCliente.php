@@ -2,7 +2,6 @@
     include '../php/conectaBD.php';
     
     $idCliente = $_POST['idCliente'];
-    echo $idCliente;
 
     // Script SQL para deletar cliente de acordo com o ID
     $queryClientes = "DELETE FROM Clientes WHERE idCliente = $idCliente";

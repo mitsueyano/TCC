@@ -12,7 +12,7 @@
         <div class="page">
             <div class="bar">
                 <div class="button selected"><a href="../../Index/vetArea/InicioVet.php">INÍCIO</a></div>
-                <div class="button"><a href="../../Index/vetArea/InicioVet.php">FILA DE ESPERA</a></div>
+                <div class="button"><a href="../../Index/vetArea/filaEspera.php">FILA DE ESPERA</a></div>
             </div>
             <div class="container">     
                 <!-- Container "Em consultório" -->
