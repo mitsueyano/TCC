@@ -110,7 +110,7 @@
                         </div>
                         <div class="flex">
                             <div class="label-form">
-                                <label>Hora:</label>
+                                <label>Horários disponíveis:</label>
                             </div>
                             <div class="input-form">
                             <select name="horaConsulta" id="horaConsulta" class="horaConsulta">

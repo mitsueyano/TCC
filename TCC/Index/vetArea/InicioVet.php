@@ -102,8 +102,9 @@
                                 </div>
                             </div>        
                             <div class="submit-container">  
-                            <div class="btnSubmitDiv">
-                                <div class="buttonOptions"><button type="submit" class="submit">Finalizar consulta</button></div>
+                                <div class="btnSubmitDiv">
+                                    <div class="buttonOptions"><button type="submit" class="submit" id="submit" >Finalizar consulta</button>
+                                </div>
                             </div>
                         </div>  
                         </form>
@@ -117,12 +118,18 @@
                         </div>
                     </div>
                 </div>
+                 <!-- Seção - DATA E HORA -->
+                 <div class="data">
+                    <div class="dia" id="data-atual"></div> 
+                    <div class="hora" id="hora-atual"></div>
+                </div>
             </div>
     </body>
 </html>
 
 <script>
     document.addEventListener("DOMContentLoaded", function(){
+        // Seção informações do animal
         <?php
             include '../../php/conectaBD.php';
             $queryConsultorio = "SELECT agenda.descricao AS descricao_consulta, agenda.dataConsulta AS data_consulta, agenda.horaConsulta AS hora_consulta, agenda.idConsulta AS id_consulta, agenda.idAnimal AS id_animal, agenda.idStatus, animais.nome AS nome_animal, animais.especie AS animal_especie, animais.raca AS animal_raca, animais.dataNascto AS animal_dataNascto, statusConsulta.idStatus
@@ -189,6 +196,8 @@
                         idAnimal.value = '<?php echo $idAnimal?>'
 
         <?php 
+
+                        // Seção Histórico Médico
                         $queryHistorico = "SELECT * FROM historicoMedico WHERE idAnimal = '$idAnimal'";
                         $resultadoHistorico = mysqli_query($conexao, $queryHistorico);
                         if (!$resultadoConsultorio){
@@ -218,6 +227,8 @@
                                 var dataConsultaHM = document.createElement('span')
                                 dataConsultaHM.innerHTML =  dataConsultaHistoricoM
                                 container.appendChild(dataConsultaHM)
+                                dataConsultaHM.style.color = "#2c476e"
+                                dataConsultaHM.style.fontWeight = "bold"
 
                                 var peso = document.createElement('span')
                                 peso.innerHTML =  "Peso: " + '<?php echo $peso?>'
@@ -245,7 +256,8 @@
                     }
                 }
                 else{
-        ?>
+        ?>          
+                    // Aviso para caso não haja pacientes em consultório
                     var container = document.getElementById('historicoMedico')
                     var aviso = document.createElement('span')
                     aviso.innerHTML =  "Nenhum paciente em consultório."
@@ -256,11 +268,52 @@
                     aviso.style.left = "50%"
                     aviso.style.transform = "translateX(-50%)"
                     aviso.style.fontSize = "2.5vh "
+
+                    var inputs = document.querySelectorAll('input')
+                    var textArea = document.querySelector('textArea')
+                    inputs.forEach(input => {
+                        input.style.pointerEvents = 'none';
+                    });
+                    textArea.style.pointerEvents = 'none'
+
+                    var btn = document.getElementById('submit') 
+                    container = document.querySelector('.submit-container')
+                    container.style.pointerEvents = "none"
+                    btn.style.pointerEvents = "none"
+                    btn.disabled = true;
+                    btn.style.backgroundColor = "#616161"; 
+                
         <?php
                 }
             }
         
         ?>
+
+        // Script para data e hora em tempo real
+        function atualizarHora() {
+                var elementoHora = document.getElementById('hora-atual');
+                var Horario = new Date();
+
+                var horaAtual = Horario.getHours();
+                var minutoAtual = Horario.getMinutes();
+                var segundoAtual = Horario.getSeconds();
+
+                var horaFormatada = (horaAtual < 10 ? '0' : '') + horaAtual;
+                var minutoFormatado = (minutoAtual < 10 ? '0' : '') + minutoAtual;
+                var segundoFormatado = (segundoAtual < 10 ? '0' : '') + segundoAtual;
+
+                elementoHora.textContent = horaFormatada + ':' + minutoFormatado + ':' + segundoFormatado;
+                setTimeout(atualizarHora, 1000);
+            }
+            function atualizarData() {
+                var elementoData = document.getElementById('data-atual');
+                var Horario = new Date();
+                var dataFormatada = Horario.toLocaleDateString('pt-BR');
+                
+                elementoData.textContent = dataFormatada;
+            }
+            atualizarHora();
+            atualizarData();
 
     });
 

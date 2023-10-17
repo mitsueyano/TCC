@@ -193,12 +193,12 @@
                     <form action="../php/checkOut.php" method="POST" id="formCO">
                         <input type="hidden" id="idConsultaCO" name="idConsulta">
                     </form>
-                <div class="btn-close" id="btn-close"><span class="close" onclick="fecharModalCO()">&times;</span></div>
-                <span id="checkoutConfirmar" class="checkoutConfirmar">Deseja confirmar o checkout de <span id="nomeCO" class="nomeCO"></span>?</span>
-                <div class="btn-modal-div-co">
-                    <span class="btn-modal agendar" onclick="agendar()">Agendar retorno</span>
-                    <span class="btn-modal" onclick="confirmar()">Confirmar</span>
-                </div>  
+                    <div class="btn-close" id="btn-close"><span class="close" onclick="fecharModalCO()">&times;</span></div>
+                    <span id="checkoutConfirmar" class="checkoutConfirmar">Deseja confirmar o checkout de <span id="nomeCO" class="nomeCO"></span>?</span>
+                    <div class="btn-modal-div-co">
+                        <span class="btn-modal agendar" onclick="agendar()">Agendar retorno</span>
+                        <span class="btn-modal" onclick="confirmar()">Confirmar</span>
+                    </div>  
                 </div>
             </div>
         </div>
