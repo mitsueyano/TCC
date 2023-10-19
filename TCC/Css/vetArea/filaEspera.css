@@ -315,3 +315,39 @@ tbody>tr:hover {
     padding: 2px;
     border-right: 1px solid #2c476e;
 }
+
+/* Tela de chamada */
+.tela-container{
+    width: 25%;
+    height: 12%;
+    border: 1px solid #2c476e;
+    border-top: none;
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    display: flex;
+    padding: 5px;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+.chamada-atual-container{
+    width: 50%;
+    height: 100%;
+    background-color: #fef5e4;
+    border-right: 1px solid #2c476e;    
+    padding: 5px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ultimas-chamadas-container{
+    width: 50%;
+    height: 100%;
+    background-color: #fef5e4;    
+    padding: 5px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}

@@ -192,9 +192,16 @@
                         endif;
                         $conexao->close();
                     ?>
-
+                </div>
+                 <!-- Seção Modal -->
+                <div id="modal" class="modal">
+                    <div class="modal-content modal-content-reg" id="modal-content">
+                        <div class="btn-close" id="btn-close"><span class="close" onclick="fecharModal()">&times;</span>
+                    </div>
+                    <span id="msg"></span>
                 </div>
             </div>
+            <div id="modalBackdrop"></div>
     </body>
     
     <script>
@@ -202,16 +209,32 @@
         document.addEventListener("DOMContentLoaded", function () {
             <?php
                 if (isset($_GET['animalDeletado']) && $_GET['animalDeletado'] === 'sucesso') {
-                    echo 'alert("Animal deletado com sucesso.")';
+                    $msg = "Animal deletado com sucesso."
+            ?>
+                    abrirModal()
+                    document.getElementById('msg').textContent = '<?php echo $msg ?>'
+            <?php
                 }
                 if (isset($_GET['clienteDeletado']) && $_GET['clienteDeletado'] === 'sucesso') {
-                    echo 'alert("Cliente deletado com sucesso.")';
+                    $msg = "Cliente deletado com sucesso."
+            ?>
+                    abrirModal()
+                    document.getElementById('msg').textContent = '<?php echo $msg ?>'
+            <?php
                 }
                 if (isset($_GET['alteracao']) && $_GET['alteracao'] === 'sucesso') {
-                    echo 'alert("Alterações salvas.")';
+                    $msg = "Alterações Salvas."
+            ?>
+                    abrirModal()
+                    document.getElementById('msg').textContent = '<?php echo $msg ?>'
+            <?php
                 }
                 if (isset($_GET['cadastroCliente']) && $_GET['cadastroCliente'] === 'sucesso') {
-                    echo 'alert("Cliente cadastrado.")';
+                    $msg = "Cliente cadastrado."
+            ?>
+                    abrirModal()
+                    document.getElementById('msg').textContent = '<?php echo $msg ?>'
+            <?php
                 }
             ?>
         });
@@ -256,6 +279,50 @@
                 document.querySelector('.form-cliente' + idCliente).submit()
             }
         }
+
+        var modal = document.getElementById('modal')
+        // Abre o modal
+        function abrirModal(){
+            var th = document.querySelectorAll('th')
+            var btn = document.querySelector(".more-btn");
+            var modalBackdrop = document.getElementById("modalBackdrop");
+            modal.style.display = "block";
+            modalBackdrop.style.display = "block";
+            th.forEach(function(th) {
+                th.style.position = "static"
+            });
+            
+        }
+        // Fecha o modal
+        function fecharModal(){
+            var th = document.querySelectorAll('th')
+            var span = document.getElementsByClassName("close");
+            var modalBackdrop = document.getElementById("modalBackdrop");
+            modal.style.display = "none";
+            modalBackdrop.style.display = "none";
+            th.forEach(function(th) {
+                th.style.position = "sticky"
+            });
+        }
+
+        //Animação do modal
+        window.onclick = function(event) {
+            if (!event.target.closest(".more-btn, #modalContent, #modal")) {
+
+                const divTremor = document.getElementById('modal');
+
+                function startTremor() {
+                    divTremor.classList.add('shake');
+                }
+
+                function stopTremor() {
+                    divTremor.classList.remove('shake');
+                }
+                startTremor();
+                setTimeout(stopTremor, 500);
+            }   
+        }
+
     </script>
 </html>
 

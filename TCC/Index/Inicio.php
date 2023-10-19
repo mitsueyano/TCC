@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Início</title>
         <link rel="stylesheet" href="../Css/Inicio.css">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     </head>
     <body>
         <div class="border-page"></div>
@@ -39,50 +40,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php         
-                                include '../php/conectaBD.php';
-                                $queryAgenda = "SELECT Agenda.*, Usuarios.nome, Animais.nome, statusConsulta.statusConsulta, Animais.idCliente
-                                                FROM Animais
-                                                INNER JOIN Agenda ON Animais.idAnimal = Agenda.idAnimal
-                                                INNER JOIN Usuarios ON Agenda.veterinario = Usuarios.idUsuario
-                                                INNER JOIN statusConsulta ON Agenda.idStatus = statusConsulta.idStatus
-                                                GROUP BY Agenda.dataConsulta, Agenda.horaConsulta;";
-                                $resultAgenda = mysqli_query($conexao, $queryAgenda);        
-                                if ($resultAgenda->num_rows>0):
-                                    while($arrayAgenda = mysqli_fetch_row($resultAgenda) ):
-                                       
-                            ?>
-                            <tr class="table-rows" id="<?php echo $arrayAgenda[0];?>" onmouseenter="mostrarInfo(this.id)">
-                            <input type="hidden" value="<?php echo $arrayAgenda[10];?>" name="idCliente" id="idCliente">
-                                <td><?php echo $arrayAgenda[0];?></td>
-                                <td><?php echo $arrayAgenda[2];?></td>
-                                <td><?php echo $arrayAgenda[7];?></td>
-                                <td><?php echo $arrayAgenda[8];?></td>
-                                <td><?php echo $arrayAgenda[4];?></td>
-                                <td><?php echo $arrayAgenda[9];?></td>
-                                <td class="more-list-container"> 
-                                    <div class="list-box">
-                                        <button class="more-btn checkout" onclick="abrirModalCO(<?php echo $arrayAgenda[5]; ?>)">Check-out</button>
-                                    </div>
-                                </td>
-
-                                <td class="more-list-container"> 
-                                    <div class="list-box">
-                                        <button class="more-btn registros" onclick="abrirModal(<?php echo $arrayAgenda[5]; ?>)"><img src="../img/registros.png" alt=""></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <?php
-                                endwhile;
-                                else:
-                            ?>
-                            <div class="center">
-                                <span> Nenhuma entrada cadastrada.</span>
-                            </div>
-                            <?php 
-                                endif;
-                                mysqli_free_result($resultAgenda);
-                            ?>
+                         
                         </tbody>
                     </table>     
                 </div>
@@ -292,15 +250,16 @@
                 JOIN Animais ON historicoMedico.idAnimal = Animais.idAnimal
                 JOIN Usuarios ON historicoMedico.veterinario = Usuarios.idUsuario
                 ";
-                 $resultRegistros = mysqli_query($conexao, $queryRegistros);
-                 $linhasRegistros = [];
-                 while($linhaRegistros = $resultRegistros->fetch_row()) {
+                    $resultRegistros = mysqli_query($conexao, $queryRegistros);
+                    $linhasRegistros = [];
+                    while($linhaRegistros = $resultRegistros->fetch_row()) {
                     $linhasRegistros[] = $linhaRegistros;
                 } 
                 $agendaRegistros = json_encode($linhasRegistros);
                 echo "var agendaRegistros = " . $agendaRegistros . ";\n";
 
             ?>
+
             // Abre o modal com as informações
             function abrirModal(id){
                 agendaRegistros.forEach(r=>{
@@ -392,6 +351,54 @@
                 formCO.submit()
             }
 
+
+            // Script para atualizar a tabela automaticamente
+            function atualizarTabela() {
+                $.ajax({
+                url: '../php/server.php', // Link onde a solicitação AJAX é enviada
+                type: 'GET', // Tipo da solicitação
+                dataType: 'json', // Esperado o tipo de dados em JSON
+
+                success: function(data) { // Se a solicitação foi bem sucedida
+
+                    // Limpa a tabela atual
+                    $("tbody").empty();
+
+                    // Preenche a tabela com os novos dados
+                    data.forEach(function(item) { // Itera peloas linhas de dados retornados
+                        $("tbody").append(
+                            "<tr>" +
+                                "<td>" + item.idConsulta + "</td>" +
+                                "<td>" + item.horaConsulta + "</td>" +
+                                "<td>" + item.nome + "</td>" +
+                                "<td>" + item.nome_animal + "</td>" +
+                                "<td>" + item.descricao + "</td>" +
+                                "<td>" + item.statusConsulta + "</td>" +
+                                "<td class='more-list-container'>" +
+                                "<div class='list-box'>" +
+                                    "<button class='more-btn checkout' onclick='abrirModalCO(" + item.id + ")'>Check-out</button>" +
+                                "</div>" +
+                                "</td>" +
+                                "<td class='more-list-container'>" +
+                                "<div class='list-box'>" +
+                                    "<button class='more-btn registros' onclick='abrirModal(" + item.id + ")'><img src='../img/registros.png' alt=''></button>" +
+                                "</div>" +
+                                "</td>" +
+                            "</tr>"
+                        );
+                    });
+                },
+
+                complete: function() {
+                    setTimeout(atualizarTabela, 5000); // Atualiza a tabela a cada 5 segundos
+                }
+                });
+            }
+
+            // Inicia o script de atualização da tabela quando a página for carregada
+            $(document).ready(function() {
+                atualizarTabela();
+            });
         </script>
     </body>
 </html>

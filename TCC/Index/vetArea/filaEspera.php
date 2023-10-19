@@ -95,6 +95,15 @@
                     <div class="dia" id="data-atual"></div> 
                     <div class="hora" id="hora-atual"></div>
                 </div>
+                <!--  Seção tela de chamada -->
+                <div class="tela-container">
+                    <div class="chamada-atual-container">
+                        <span id="chamada-atual">blablalba</span>
+                    </div>
+                    <div class="ultimas-chamadas-container">
+                        <span id="ultimas-chamadas">blabla</span>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
@@ -129,8 +138,7 @@
                 button.style.pointerEvents = "none"
                 alerta.textContent = "Finalize a consulta atual antes de chamar o próximo animal ao consultório."
                 alerta.style.color = "#FF0000"
-                alerta.style.fontFamily = "'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif"
-                
+                alerta.style.fontFamily = "'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif"   
             });
         <?php
                 
@@ -148,9 +156,10 @@
             modal.style.display = "block";
             modalBackdrop.style.display = "block";
             document.getElementById('confirmar').textContent = "Aguardando..."
-            document.getElementById('id').textContent = "ID: " +idConsulta
+            document.getElementById('id').textContent = "ID: " + idConsulta
             document.getElementById('nomeAnimal').textContent = "Nome do animal: " + nomeAnimal
             document.getElementById('nomeDono').textContent = "Dono: " + nomeDono
+
         }
         // Fecha o modal
         function fecharModal(){
@@ -180,8 +189,8 @@
 
         // Envia o formulário
         function confirmar() {
-            const formulario = document.getElementById("formulario"); // Get the form element with the ID "formulario"
-            formulario.submit(); // Submit the form
+            const formulario = document.getElementById("formulario");
+            formulario.submit();
         }
 
         // Script para data e hora em tempo real

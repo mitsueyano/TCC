@@ -25,8 +25,8 @@ $descricao = $_POST['descConsulta'];
 $idAnimal = $_POST['idAnimal'];
 $veterinario = $_POST['veterinario'];
 
-$query = "INSERT INTO Agenda (dataConsulta, horaConsulta, veterinario, descricao, idAnimal)
-            VALUES ('$dataConsulta', '$horaConsulta', '$veterinario', '$descricao', '$idAnimal')";
+$query = "INSERT INTO Agenda (dataConsulta, horaConsulta, veterinario, descricao, idAnimal, idStatus)
+            VALUES ('$dataConsulta', '$horaConsulta', '$veterinario', '$descricao', '$idAnimal', 0)";
 $resultado = mysqli_query($conexao, $query);
 
 if (!$resultado) {
