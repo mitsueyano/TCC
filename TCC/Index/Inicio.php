@@ -323,8 +323,10 @@
                         document.querySelector("#nomeCO").innerHTML = g[3];
                         document.querySelector("#idConsultaCO").value = g[0];
                         document.getElementById("idCliente").value = g[7];
+                        console.log(g)
                     }
                 })
+
 
                 var btn = document.querySelector(".more-btn");
                 var modalBackdrop = document.getElementById("modalBackdrop");
@@ -367,7 +369,8 @@
                     // Preenche a tabela com os novos dados
                     data.forEach(function(item) { // Itera peloas linhas de dados retornados
                         $("tbody").append(
-                            "<tr>" +
+                            "<tr id='" + item.idConsulta + "' onmouseenter='mostrarInfo(this.id)'>" +
+                            "<input type='hidden' value='" + item.idCliente + "' name='idCliente' id='idCliente'>" +
                                 "<td>" + item.idConsulta + "</td>" +
                                 "<td>" + item.horaConsulta + "</td>" +
                                 "<td>" + item.nome + "</td>" +
@@ -376,12 +379,12 @@
                                 "<td>" + item.statusConsulta + "</td>" +
                                 "<td class='more-list-container'>" +
                                 "<div class='list-box'>" +
-                                    "<button class='more-btn checkout' onclick='abrirModalCO(" + item.id + ")'>Check-out</button>" +
+                                    "<button class='more-btn checkout' onclick='abrirModalCO(" + item.idConsulta + ")'>Check-out</button>" +
                                 "</div>" +
                                 "</td>" +
                                 "<td class='more-list-container'>" +
                                 "<div class='list-box'>" +
-                                    "<button class='more-btn registros' onclick='abrirModal(" + item.id + ")'><img src='../img/registros.png' alt=''></button>" +
+                                    "<button class='more-btn registros' onclick='abrirModal(" + item.idConsulta + ")'><img src='../img/registros.png' alt=''></button>" +
                                 "</div>" +
                                 "</td>" +
                             "</tr>"
