@@ -19,10 +19,12 @@
             <div class="container">     
                 <div class="tablebar">
                 <div class="options-container">  
-                            <div class= "btnOptionsDiv tablebar-button">
-                                <div class="buttonOptions"><a href="">ESCANEAR QR CODE</a></div>
-                            </div>
-                        </div> 
+                    <div class= "btnOptionsDiv tablebar-button">
+                        <div class="buttonOptions">
+                            <a href="">ESCANEAR QR CODE</a>
+                        </div>
+                    </div>
+                </div> 
                 </div>  
                 <!-- Seção TABELA -->
                 <div class="table-container">

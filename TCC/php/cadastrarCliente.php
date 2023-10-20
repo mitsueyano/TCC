@@ -4,11 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR CODE</title>
+    <link rel="stylesheet" type="text/css" href="../Css/cadastrarCliente.css" media="all">
     <script type="text/javascript" src="../Index/qrCode/qrcode.js"></script>
 </head>
 <body>
-    <div id="qrCode"></div>
-    <button type="button" onclick="imprimir()"> Imprimir </button>
+    <div class="border-page">
+        <div class="page">
+            <div id="container">
+                <div class="qrCodeContainer" id="qrCodeContainer"></div>
+                <div class="submit-container">  
+                    <div class="btnSubmitDiv">
+                        <div class="buttonOptions"><button type="button" onclick="print()">IMPRIMIR</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <script>
     <?php
@@ -22,39 +33,12 @@
     $enderecoR = $_POST["rua"];
     $enderecoN = $_POST["numero"];
     $enderecoRN = $enderecoR . ', ' . $enderecoN; //Adiciona rua e número em uma mesma string
+    $i = 0;
     
     ?>
-
     document.addEventListener("DOMContentLoaded", function(){
     
-        // Script para criar o QRCode
-            var userInput = '<?php echo $nome?>';
-
-            qrCode = new QRCode("qrCode", {
-                text: userInput,
-                width: 256,
-                height: 256,
-                colorDark: "black",
-                colorLight: "white",
-                correctLevel: QRCode.CorrectLevel.H
-            });
-    });
-    function imprimir(){
-
-        var pegarDados = document.getElementById('qrCode').innerHTML
-        var janela = window.open('', '', 'width=800, height=600');
-        janela.document.write('<html> <head>');
-        janela.document.write('<title> PDF </title> </head>');
-        janela.document.write('<body>');
-        janela.document.write(pegarDados);
-        janela.document.write('</body> </hmtl>');
-        janela.document.close();
-        janela.print();
-
-    }
-
-    // REMOVER
-    <?php
+        <?php
         $queryCliente = "INSERT INTO Clientes (nome, email, contato, enderecoE, enderecoC, enderecoB, enderecoRN) VALUES ('$nome', '$email', '$contato', '$enderecoE', '$enderecoC', '$enderecoB', '$enderecoRN')"; //Query para cadastrar cliente
         $resultadoCliente = mysqli_query($conexao, $queryCliente);
 
@@ -73,14 +57,37 @@
 
                 $queryAnimal = "INSERT INTO Animais (idCliente, nome, especie, raca, dataNascto) VALUES ($idCliente, '$nomeAnimal', '$especie', '$raca', '$dataNascto')"; //Query para cadastrar animal
                 $resultadoAnimal = mysqli_query($conexao, $queryAnimal);
-
+                
                 if (!$resultadoAnimal) {
                     echo "ERRO AO CADASTRAR ANIMAL: " . mysqli_error($conexao);
                 }
+                $i++
+
+        ?>
+                // Script para gerar o QRCode
+                var qrCodeContainer = document.getElementById('qrCodeContainer')
+                var div = document.createElement('div')
+                var spanNome = document.createElement('span')
+                div.classList.add("box");
+                div.id = "box<?php echo $i?>"
+                qrCodeContainer.appendChild(div)
+
+                var userInput = "<?php echo 'animal: ' . $nomeAnimal . ' dono: ' . $nome?>";
+                qrCode = new QRCode("box<?php echo $i?>", {
+                    text: userInput,
+                    width: 180,
+                    height: 180,
+                    colorDark: "black",
+                    colorLight: "white",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+
+        <?php
             }
         }
-
-        exit;
     ?>
+
+    });
+
 </script>
 </html>
