@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR CODE</title>
     <link rel="stylesheet" type="text/css" href="../Css/cadastrarCliente.css" media="all">
-    <script type="text/javascript" src="../Index/qrCode/qrcode.js"></script>
 </head>
 <body>
     <div class="border-page">
@@ -72,15 +71,10 @@
                 div.id = "box<?php echo $i?>"
                 qrCodeContainer.appendChild(div)
 
-                var userInput = "<?php echo 'animal: ' . $nomeAnimal . ' dono: ' . $nome?>";
-                qrCode = new QRCode("box<?php echo $i?>", {
-                    text: userInput,
-                    width: 180,
-                    height: 180,
-                    colorDark: "black",
-                    colorLight: "white",
-                    correctLevel: QRCode.CorrectLevel.H
-                });
+                var img = document.createElement('img')
+                img.src = 'http://api.qrserver.com/v1/create-qr-code/?data=<?php echo $nomeAnimal?>&size=160x160'
+                document.getElementById('box<?php echo $i?>').appendChild(img)
+
 
         <?php
             }
