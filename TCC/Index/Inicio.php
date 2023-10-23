@@ -435,11 +435,13 @@
                 atualizarTabela();
             });
 
-
             // Script para abrir câmera
-            let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+            let scanner = new Instascan.Scanner({ video: document.getElementById('preview'),mirror: false  });
+
+
             scanner.addListener('scan', function (content) {
-                console.log(content);
+                alert('Escaneou o conteudo: ' + content)
+                window.open(content, "_blank")
             });
             Instascan.Camera.getCameras().then(function (cameras) {
                 if (cameras.length > 0) {
@@ -450,6 +452,8 @@
             }).catch(function (e) {
                 console.error(e);
             });
+
+
 
         </script>
     </body>
