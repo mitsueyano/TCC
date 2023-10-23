@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR CODE</title>
     <link rel="stylesheet" type="text/css" href="../Css/cadastrarCliente.css" media="all">
-</head>
 <body>
     <div class="border-page">
         <div class="page">
@@ -80,8 +79,6 @@
             }
         }
     ?>
-
     });
-
 </script>
 </html>

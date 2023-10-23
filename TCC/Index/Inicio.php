@@ -7,6 +7,7 @@
         <title>Início</title>
         <link rel="stylesheet" href="../Css/Inicio.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script type="text/javascript" src="instascan.min.js"></script>
     </head>
     <body>
         <div class="border-page"></div>
@@ -21,7 +22,7 @@
                 <div class="options-container">  
                     <div class= "btnOptionsDiv tablebar-button">
                         <div class="buttonOptions">
-                            <a href="">ESCANEAR QR CODE</a>
+                            <button onclick="abrirModalScan()" class="scanBtn">ESCANEAR QR CODE</a>
                         </div>
                     </div>
                 </div> 
@@ -161,6 +162,18 @@
                     </div>  
                 </div>
             </div>
+
+            <!-- Seção Modal 'Scan' -->
+            <div id="modalScan" class="modalScan">
+                <div class="modal-content" id="modal-content">
+                    <div class="btn-close" id="btn-close"><span class="close" onclick="fecharModalScan()">&times;</span></div>
+                    <div class="scanContainer">
+                    <span>Aponte a câmera para o QR code</span>
+                        <video id="preview" class="camera"></video>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <div id="modalBackdrop"></div>
         <script>
@@ -296,26 +309,29 @@
                 modal.style.display = "none";
                 modalBackdrop.style.display = "none";
             }
+
             //Animação do modal
             window.onclick = function(event) {
-                if (!event.target.closest("#modal, .more-btn, #modalContent, #modalCO")) {
+                if (!event.target.closest("#modal, .more-btn, #modalContent, #modalCO, #modalScan, .scanBtn")) {
 
                     const divTremor = document.getElementById('modal');
                     const divTremorCO = document.getElementById('modalCO');
+                    const divTremorScan = document.getElementById('modalScan');
 
                     function startTremor() {
                         divTremor.classList.add('shake');
                         divTremorCO.classList.add('shake');
+                        divTremorScan.classList.add('shake');
                     }
 
                     function stopTremor() {
                         divTremor.classList.remove('shake');
                         divTremorCO.classList.remove('shake');
+                        divTremorScan.classList.remove('shake');
                     }
                     startTremor();
                     setTimeout(stopTremor, 500);
-                }
-                
+                }              
             }
 
             // Abre o modal CHECK-OUT
@@ -350,11 +366,25 @@
                 modalBackdrop.style.display = "none";
             }
 
+            // Abre o modal Scan
+            function abrirModalScan(id){
+                var modalBackdrop = document.getElementById("modalBackdrop");
+                modalScan.style.display = "block";
+                modalBackdrop.style.display = "block";
+            }
+            
+            // Fecha o modal Scan
+            function fecharModalScan() {
+                var span = document.getElementsByClassName("close");
+                var modalBackdrop = document.getElementById("modalBackdrop");
+                modalScan.style.display = "none";
+                modalBackdrop.style.display = "none";
+            }
+
             // Script Check-out
             function confirmar(){
                 formCO.submit()
             }
-
 
             // Script para atualizar a tabela automaticamente
             function atualizarTabela() {
@@ -404,6 +434,23 @@
             $(document).ready(function() {
                 atualizarTabela();
             });
+
+
+            // Script para abrir câmera
+            let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+            scanner.addListener('scan', function (content) {
+                console.log(content);
+            });
+            Instascan.Camera.getCameras().then(function (cameras) {
+                if (cameras.length > 0) {
+                scanner.start(cameras[0]);
+                } else {
+                console.error('Nenhuma câmera encontrada.');
+                }
+            }).catch(function (e) {
+                console.error(e);
+            });
+
         </script>
     </body>
 </html>
