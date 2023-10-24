@@ -123,9 +123,9 @@ create table Agenda
 	foreign key (idAnimal) references Animais(idAnimal) on delete cascade
 );
 insert into Agenda (dataConsulta, horaConsulta, veterinario, idAnimal, descricao, idStatus)
-values ('2023-10-14', '14:00', 1, 1, 'Exame de rotina', 1),
-('2023-10-14', '10:30', 1, 2, 'Vacinação', 2),
-('2023-15-14', '10:30', 1, 2, 'Vacinação', 0),
+values ('2023-10-24', '14:00', 1, 1, 'Exame de rotina', 1),
+('2023-10-24', '10:30', 1, 2, 'Vacinação', 2),
+('2023-10-24', '10:30', 1, 4, 'Vacinação', 0),
 ('2023-08-18', '10:35', 1, 3, 'Avaliação de saúde', 1);
 
 

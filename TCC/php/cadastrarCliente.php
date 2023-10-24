@@ -35,7 +35,7 @@
 
         }
     }
-    header("Location: imprimirQRCode.php?idCliente=" . $idCliente);
+    header("Location: ../index/imprimirQRCode.php?idCliente=" . $idCliente);
 
 ?>
 
