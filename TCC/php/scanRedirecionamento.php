@@ -1,4 +1,3 @@
-
 <?php 
 include 'conectaBD.php';
 $idAnimal = $_GET['idAnimal'];
@@ -9,7 +8,6 @@ if (!$resultData){
 } else {
     while($row = $resultData->fetch_assoc()) {
         $dataConsultaRow = $row['dataConsulta'];
-
 
         $partes = explode("-", $dataConsultaRow);
 
@@ -24,38 +22,21 @@ if (!$resultData){
         } else {
             echo "Formato de data inválido.";
         }
-        ?>
 
-        <script>
-
-            var Horario = new Date();
-            var dataFormatada = Horario.toLocaleDateString('pt-BR');
-            console.log(dataFormatada)
-            console.log ('<?php echo $dataConsulta?>')
+        $dataFormatada = date('d/m/Y');
         
-            if (dataFormatada == '<?php echo $dataConsulta?>'){
-                
-                <?php                                      
-                    $idAnimal = $_GET['idAnimal'];
-                    $query = "UPDATE Agenda SET idStatus = '1'
-                                WHERE dataConsulta = '$dataConsultaRow'
-                            ";
-                    $result = mysqli_query($conexao, $query);
+        if ($dataFormatada == $dataConsulta) {
+            $query = "UPDATE Agenda SET idStatus = '1'
+                      WHERE dataConsulta = '$dataConsultaRow' AND idAnimal = $idAnimal";
+            $result = mysqli_query($conexao, $query);
 
-                    if (!$result){
-                        echo "ERRO AO ATUALIZAR STATUS";
-                    }                                    
-                ?>
-            }
-            else{
-                '<?php echo "Não há consultas agendadas para hoje" ?>'
-            }
-
-
-        </script>
-
-
-<?php
+            if (!$result) {
+                echo "ERRO AO ATUALIZAR STATUS";
+            }                                    
+        }
+        else {
+            echo "Não há consultas agendadas para hoje";
+        }
     } 
 }
 header('Location: ../Index/Inicio.php')

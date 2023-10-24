@@ -34,60 +34,77 @@
                             </button>
                         </form>
                     </div>  
-
+                    <!-- Seção Modal -->
+                    <div id="modal" class="modal">
+                            <div class="modal-content modal-content-reg" id="modal-content">
+                                <div class="btn-close" id="btn-close"><span class="close" onclick="fecharModal()">&times;</span>
+                            </div>
+                            <span id="msg"></span>
+                        </div>
+                    </div>
+                    <div id="modalBackdrop"></div>
                     <?php
-include '../php/conectaBD.php';
+                        include '../php/conectaBD.php';
 
-if (isset($_POST["termo_pesquisa"])) {
-    $termo_pesquisa = $_POST["termo_pesquisa"];
+                        if (isset($_POST["termo_pesquisa"])) {
+                            $termo_pesquisa = $_POST["termo_pesquisa"];
 
-    // Consulta SQL para buscar animais com base no termo de pesquisa
-    $sql = "SELECT Agenda.idConsulta, Agenda.dataConsulta, Agenda.horaConsulta, Agenda.veterinario, Agenda.descricao, Agenda.idAnimal FROM Agenda
-            WHERE agenda.idConsulta = '$termo_pesquisa'";
+                            // Consulta SQL para buscar animais com base no termo de pesquisa
+                            $sql = "SELECT Agenda.idConsulta, Agenda.dataConsulta, Agenda.horaConsulta, Agenda.veterinario, Agenda.descricao, Agenda.idAnimal FROM Agenda
+                                    WHERE agenda.idConsulta = '$termo_pesquisa'";
 
-    $result = $conexao->query($sql);
+                            $result = $conexao->query($sql);
 
-    if ($result->num_rows > 0):
-?>
-    <div class="table-container">
-        <table>
-            <tr class="table-rows">
-                <th>ID da consulta</th>
-                <th>Data</th>
-                <th>Hora</th>
-                <th>Veterinário</th>
-                <th>Descrição</th>
-                <th>ID do Animal</th>
-                <th></th>
-                <th></th>
-            </tr>
-            <?php while ($array = $result->fetch_assoc()): ?>
-                <tr class="table-rows">
-                    <td><?php echo $array["idConsulta"]; ?></td>
-                    <td><?php echo $array["dataConsulta"]; ?></td>
-                    <td><?php echo $array["horaConsulta"]; ?></td>
-                    <td><?php echo $array["veterinario"]; ?></td>
-                    <td><?php echo $array["descricao"]; ?></td>
-                    <td><?php echo $array["idAnimal"]; ?></td>
-                    <td class="btnTabelaContainer"> 
-                        <form method="POST" action="../php/deletarConsulta.php" class="btn-tabela form-consulta<?php echo $array["idConsulta"]; ?>">             
-                        <input type="hidden" name="idConsulta" value="<?php echo $array["idConsulta"] ?>">                  
-                        <button type="button" onclick='confirmarCliente(`<?php echo $array["idConsulta"] ?>`)'><img src="../img/lixo.png" alt="lixo.png"></button>
-                        </form>
-                    </td>
-                    <td class="btnTabelaContainer"></td>
-                </tr>
-            <?php endwhile; ?>
-        </table>
-    </div>
-<?php
-    else:
-        echo "Nenhum resultado encontrado.";
-    endif;
-    $conexao->close();
-}
-?>
+                            if ($result->num_rows > 0):
+                    ?>
+                    <div class="table-container">
+                        <table>
+                            <tr class="table-rows">
+                                <th>ID da consulta</th>
+                                <th>Data</th>
+                                <th>Hora</th>
+                                <th>Veterinário</th>
+                                <th>Descrição</th>
+                                <th>ID do Animal</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            <?php while ($array = $result->fetch_assoc()): ?>
+                                <tr class="table-rows">
+                                    <td><?php echo $array["idConsulta"]; ?></td>
+                                    <td><?php echo $array["dataConsulta"]; ?></td>
+                                    <td><?php echo $array["horaConsulta"]; ?></td>
+                                    <td><?php echo $array["veterinario"]; ?></td>
+                                    <td><?php echo $array["descricao"]; ?></td>
+                                    <td><?php echo $array["idAnimal"]; ?></td>
+                                    <td class="btnTabelaContainer"> 
+                                        <form method="POST" action="../php/deletarConsulta.php" class="btn-tabela form-consulta<?php echo $array["idConsulta"]; ?>">             
+                                        <input type="hidden" name="idConsulta" value="<?php echo $array["idConsulta"] ?>">                  
+                                        <button type="button" onclick='confirmarCliente(`<?php echo $array["idConsulta"] ?>`)'><img src="../img/lixo.png" alt="lixo.png"></button>
+                                        </form>
+                                    </td>
+                                    <td class="btnTabelaContainer"></td>
+                                </tr>
+                            <?php endwhile; ?>
+                        </table>
+                    </div>
+                    <?php
+                        else:
+                            echo "Nenhum resultado encontrado.";
+                        endif;
+                        $conexao->close();
+                    }
+                    ?>
                 </div>
+                <!-- Seção Modal -->
+                <div id="modal" class="modal">
+                    <div class="modal-content modal-content-reg" id="modal-content">
+                        <div class="btn-close" id="btn-close"><span class="close" onclick="fecharModal()">&times;</span>
+                    </div>
+                    <span id="msg"></span>
+                </div>
+            </div>
+            <div id="modalBackdrop"></div>
             </div>
     </body>
 </html>
@@ -95,7 +112,11 @@ if (isset($_POST["termo_pesquisa"])) {
     document.addEventListener('DOMContentLoaded', function() {
         <?php
             if (isset($_GET['consultaDeletada']) && $_GET['consultaDeletada'] === 'sucesso') {
-                echo 'alert("Consulta deletada com sucesso.")';
+                $msg = "CONSULTA DELETADA."
+                ?>
+                abrirModal()
+                document.getElementById('msg').textContent = '<?php echo $msg ?>'
+        <?php
             }
         ?>
     })
@@ -106,6 +127,49 @@ if (isset($_POST["termo_pesquisa"])) {
                 document.querySelector('.form-consulta' + idConsulta).submit()
             }
     }
+    
+    var modal = document.getElementById('modal')
+        // Abre o modal
+        function abrirModal(){
+            var th = document.querySelectorAll('th')
+            var btn = document.querySelector(".more-btn");
+            var modalBackdrop = document.getElementById("modalBackdrop");
+            modal.style.display = "block";
+            modalBackdrop.style.display = "block";
+            th.forEach(function(th) {
+                th.style.position = "static"
+            });
+            
+        }
+        // Fecha o modal
+        function fecharModal(){
+            var th = document.querySelectorAll('th')
+            var span = document.getElementsByClassName("close");
+            var modalBackdrop = document.getElementById("modalBackdrop");
+            modal.style.display = "none";
+            modalBackdrop.style.display = "none";
+            th.forEach(function(th) {
+                th.style.position = "sticky"
+            });
+        }
+
+        //Animação do modal
+        window.onclick = function(event) {
+            if (!event.target.closest(".more-btn, #modalContent, #modal")) {
+
+                const divTremor = document.getElementById('modal');
+
+                function startTremor() {
+                    divTremor.classList.add('shake');
+                }
+
+                function stopTremor() {
+                    divTremor.classList.remove('shake');
+                }
+                startTremor();
+                setTimeout(stopTremor, 500);
+            }   
+        }
 </script>
 
 

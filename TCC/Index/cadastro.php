@@ -97,6 +97,7 @@
                                                     </td>
                                                     <td class="btnTabelaContainer"> 
                                                         <form method="POST" action="../php/deletarAnimal.php" class="btn-tabela form-animal<?php echo $array["id_animal"]; ?>">
+                                                            <input type="hidden" id="inputIdAnimal">        
                                                             <input type="hidden" name="idAnimal" value="<?php echo $array["id_animal"] ?>">
                                                         <button type="button" onclick='confirmarAnimal(`<?php echo $nomeAnimal; ?>`, `<?php echo $array["id_animal"]; ?>`)'><img src="../img/lixo.png" alt="lixo.png"></button> 
                                                         </form>
@@ -173,8 +174,9 @@
                                                     </form>
                                                 </td>
                                                 <td class="btnTabelaContainer"> 
-                                                    <form method="POST" action="../php/deletarCliente.php" class="btn-tabela form-cliente<?php echo $array["id_cliente"]; ?>">             
-                                                    <input type="hidden" name="idCliente" value="<?php echo $array["id_cliente"] ?>">                  
+                                                    <form method="POST" action="../php/deletarCliente.php" class="btn-tabela form-cliente<?php echo $array["id_cliente"]; ?>">         
+                                                        <input type="hidden" id="inputIdCliente">        
+                                                        <input type="hidden" name="idCliente" value="<?php echo $array["id_cliente"] ?>">                  
                                                     <button type="button" onclick='confirmarCliente(`<?php echo $nomeCliente; ?>`, `<?php echo $array["id_cliente"]; ?>`)'><img src="../img/lixo.png" alt="lixo.png"></button>
                                                     </form>
                                                 </td>
@@ -193,13 +195,39 @@
                         $conexao->close();
                     ?>
                 </div>
-                 <!-- Seção Modal -->
+
+                <!-- Seção Modal -->
                 <div id="modal" class="modal">
-                    <div class="modal-content modal-content-reg" id="modal-content">
-                        <div class="btn-close" id="btn-close"><span class="close" onclick="fecharModal()">&times;</span>
+                    <div class="modal-content" id="modal-content">
+                        <div class="btn-close" id="btn-close">
+                            <span class="close" onclick="fecharModal()">&times;</span>
+                        </div>
+                        <span id="msg"></span>
                     </div>
-                    <span id="msg"></span>
                 </div>
+
+                <!-- Seção Modal Confirmação - Animal -->
+                <div id="modalCOAnimal" class="modalCOAnimal">
+                    <div class="modal-content" id="modal-content">
+                        <span id="msgAnimal"></span>
+                        <div class="btn-modal-div-co">
+                            <span class="btn-modal cancelar" onclick="fecharModalAnimal()">Cancelar</span>
+                            <span class="btn-modal" onclick="removerAnimal()">Remover</span>
+                        </div>  
+                    </div>
+                </div>
+
+                 <!-- Seção Modal Confirmação - Cliente -->
+                 <div id="modalCOCliente" class="modalCOCliente">
+                    <div class="modal-content" id="modal-content">
+                        <span id="msgCliente"></span>
+                        <div class="btn-modal-div-co">
+                            <span class="btn-modal cancelar" onclick="fecharModalCliente()">Cancelar</span>
+                            <span class="btn-modal" onclick="removerCliente()">Remover</span>
+                        </div>  
+                    </div>
+                </div>
+
             </div>
             <div id="modalBackdrop"></div>
     </body>
@@ -209,28 +237,28 @@
         document.addEventListener("DOMContentLoaded", function () {
             <?php
                 if (isset($_GET['animalDeletado']) && $_GET['animalDeletado'] === 'sucesso') {
-                    $msg = "Animal deletado com sucesso."
+                    $msg = "ANIMAL DELETADO COM SUCESSO."
             ?>
                     abrirModal()
                     document.getElementById('msg').textContent = '<?php echo $msg ?>'
             <?php
                 }
                 if (isset($_GET['clienteDeletado']) && $_GET['clienteDeletado'] === 'sucesso') {
-                    $msg = "Cliente deletado com sucesso."
+                    $msg = "CLIENTE DELETADO COM SUCESSO."
             ?>
                     abrirModal()
                     document.getElementById('msg').textContent = '<?php echo $msg ?>'
             <?php
                 }
                 if (isset($_GET['alteracao']) && $_GET['alteracao'] === 'sucesso') {
-                    $msg = "Alterações Salvas."
+                    $msg = "ALTERAÇÕES SALVAS."
             ?>
                     abrirModal()
                     document.getElementById('msg').textContent = '<?php echo $msg ?>'
             <?php
                 }
                 if (isset($_GET['cadastroCliente']) && $_GET['cadastroCliente'] === 'sucesso') {
-                    $msg = "Cliente cadastrado."
+                    $msg = "CLIENTE CADASTRADO."
             ?>
                     abrirModal()
                     document.getElementById('msg').textContent = '<?php echo $msg ?>'
@@ -266,62 +294,98 @@
         cbCliente.addEventListener("change", atualizarExibicao);
         cbAnimal.addEventListener("change", atualizarExibicao);
 
-        function confirmarAnimal(nomeAnimal, idAnimal){
-            console.log(nomeAnimal, idAnimal)
-            result = window.confirm("Deseja remover " + nomeAnimal + "?")
-            if (result == true){
-                document.querySelector('.form-animal' + idAnimal).submit()
-            }
-        }
-        function confirmarCliente(nomeCliente, idCliente){
-            result = window.confirm("Deseja remover " + nomeCliente + "?")
-            if (result == true){
-                document.querySelector('.form-cliente' + idCliente).submit()
-            }
-        }
-
+        // Seção MODAL
         var modal = document.getElementById('modal')
         // Abre o modal
         function abrirModal(){
-            var th = document.querySelectorAll('th')
-            var btn = document.querySelector(".more-btn");
             var modalBackdrop = document.getElementById("modalBackdrop");
             modal.style.display = "block";
-            modalBackdrop.style.display = "block";
-            th.forEach(function(th) {
-                th.style.position = "static"
-            });
-            
+            modalBackdrop.style.display = "block";          
         }
         // Fecha o modal
         function fecharModal(){
-            var th = document.querySelectorAll('th')
             var span = document.getElementsByClassName("close");
             var modalBackdrop = document.getElementById("modalBackdrop");
             modal.style.display = "none";
             modalBackdrop.style.display = "none";
-            th.forEach(function(th) {
-                th.style.position = "sticky"
-            });
+        }
+
+        // Seção MODAL - ANIMAL
+        var modalCOAnimal = document.getElementById('modalCOAnimal')
+        // Abre o modal Animal
+        function abrirModalAnimal(){
+            var modalBackdrop = document.getElementById("modalBackdrop");
+            modalCOAnimal.style.display = "block";
+            modalBackdrop.style.display = "block"; 
+        }
+        // Fecha o modal Animal
+        function fecharModalAnimal(){
+            var modalBackdrop = document.getElementById("modalBackdrop");
+            modalCOAnimal.style.display = "none";
+            modalBackdrop.style.display = "none";
+        }
+
+        // Seção MODAL - CLIENTE
+        var modalCOCliente = document.getElementById('modalCOCliente')
+        // Abre o modal Cliente
+        function abrirModalCliente(){
+            var modalBackdrop = document.getElementById("modalBackdrop");
+            modalCOCliente.style.display = "block";
+            modalBackdrop.style.display = "block"; 
+        }
+        // Fecha o modal Cliente
+        function fecharModalCliente(){
+            var modalBackdrop = document.getElementById("modalBackdrop");
+            modalCOCliente.style.display = "none";
+            modalBackdrop.style.display = "none";
         }
 
         //Animação do modal
         window.onclick = function(event) {
-            if (!event.target.closest(".more-btn, #modalContent, #modal")) {
+            if (!event.target.closest(".more-btn, #modalContent, #modal, #modalCOAnimal, img, #modalCOCliente")) {
 
                 const divTremor = document.getElementById('modal');
+                const divTremorCOAnimal = document.getElementById('modalCOAnimal');
+                const divTremorCOCliente = document.getElementById('modalCOCliente');
 
                 function startTremor() {
                     divTremor.classList.add('shake');
+                    divTremorCOAnimal.classList.add('shake');
+                    divTremorCOCliente.classList.add('shake');
                 }
 
                 function stopTremor() {
                     divTremor.classList.remove('shake');
+                    divTremorCOAnimal.classList.remove('shake');
+                    divTremorCOCliente.classList.remove('shake');
                 }
                 startTremor();
                 setTimeout(stopTremor, 500);
             }   
         }
+
+        // Script de confirmação - ANIMAL
+        function confirmarAnimal(nomeAnimal, idAnimal){
+            abrirModalAnimal()
+            document.querySelector('#msgAnimal').textContent = "Deseja remover " + nomeAnimal + "?"
+            document.querySelector("#inputIdAnimal").value = idAnimal
+        }
+        function removerAnimal(){
+            var idAnimalForm = document.querySelector("#inputIdAnimal").value
+            document.querySelector('.form-animal' + idAnimalForm).submit()
+        }
+
+        // Script de confirmação - CLIENTE
+        function confirmarCliente(nomeCliente, idCliente){
+            abrirModalCliente()
+            document.querySelector('#msgCliente').textContent = "Deseja remover " + nomeCliente + "?"
+            document.querySelector("#inputIdCliente").value = idCliente 
+        }
+        function removerCliente(){
+            var idClienteForm = document.querySelector("#inputIdCliente").value
+            document.querySelector('.form-cliente' + idClienteForm).submit()
+        } 
+
 
     </script>
 </html>

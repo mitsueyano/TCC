@@ -59,6 +59,14 @@
                     </div>
                     <div class="flex">
                         <div class="label-flex">
+                            <span>ID animal: </span>
+                        </div>
+                        <div class="label-flex">
+                            <span id="infoIdAnimal"></span>
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <div class="label-flex">
                             <span>Nome: </span>
                         </div>
                         <div class="label-flex">
@@ -232,7 +240,8 @@
             function mostrarInfo(id){
                 animal.forEach(g=>{
                     if (g[0] == id){
-                        document.querySelector("#infoId").innerHTML =  g[0];
+                        document.querySelector("#infoId").innerHTML =  g[0];    
+                        document.querySelector("#infoIdAnimal").innerHTML =  g[5];
                         document.querySelector("#infoDono").innerHTML =  g[9];
                         document.querySelector("#infoNome").innerHTML =   g[8];    
                         document.querySelector("#infoEspecie").innerHTML =   g[10];    
@@ -366,11 +375,13 @@
                 modalBackdrop.style.display = "none";
             }
 
+            var scanner = null
             // Abre o modal Scan
             function abrirModalScan(id){
                 var modalBackdrop = document.getElementById("modalBackdrop");
                 modalScan.style.display = "block";
                 modalBackdrop.style.display = "block";
+                scanner = iniciarScanner();
             }
             
             // Fecha o modal Scan
@@ -379,6 +390,7 @@
                 var modalBackdrop = document.getElementById("modalBackdrop");
                 modalScan.style.display = "none";
                 modalBackdrop.style.display = "none";
+                pararScanner();
             }
 
             // Script Check-out
@@ -386,82 +398,78 @@
                 formCO.submit()
             }
 
+            // Script para atualizar a tabela automaticamente
+            function atualizarTabela() {
+                $.ajax({
+                    url: '../php/server.php', // Link onde a solicitação AJAX é enviada
+                    type: 'GET', // Tipo da solicitação
+                    dataType: 'json', // Esperado o tipo de dados em JSON
+                    success: function(data) { // Se a solicitação foi bem sucedida
+                        // Limpa a tabela atual
+                        $("tbody").empty();
 
-
-
-            <?php 
-                include '../php/conectaBD.php';
-                $idAnimal = 2;
-            ?>
-
-                    // Script para atualizar a tabela automaticamente
-                    function atualizarTabela() {
-                        $.ajax({
-                            url: '../php/server.php', // Link onde a solicitação AJAX é enviada
-                            type: 'GET', // Tipo da solicitação
-                            dataType: 'json', // Esperado o tipo de dados em JSON
-                            success: function(data) { // Se a solicitação foi bem sucedida
-                                // Limpa a tabela atual
-                                $("tbody").empty();
-
-                                // Preenche a tabela com os novos dados
-                                data.forEach(function(item) { // Itera pelas linhas de dados retornados
-                                    $("tbody").append(
-                                        "<tr id='" + item.idConsulta + "' onmouseenter='mostrarInfo(this.id)'>" +
-                                        "<input type='hidden' value='" + item.idCliente + "' name='idCliente' id='idCliente'>" +
-                                        "<td>" + item.idConsulta + "</td>" +
-                                        "<td>" + item.horaConsulta + "</td>" +
-                                        "<td>" + item.nome + "</td>" +
-                                        "<td>" + item.nome_animal + "</td>" +
-                                        "<td>" + item.descricao + "</td>" +
-                                        "<td>" + item.statusConsulta + "</td>" +
-                                        "<td class='more-list-container'>" +
-                                        "<div class='list-box'>" +
-                                        "<button class='more-btn checkout' onclick='abrirModalCO(" + item.idConsulta + ")'>Check-out</button>" +
-                                        "</div>" +
-                                        "</td>" +
-                                        "<td class='more-list-container'>" +
-                                        "<div class='list-box'>" +
-                                        "<button class='more-btn registros' onclick='abrirModal(" + item.idConsulta + ")'><img src='../img/registros.png' alt=''></button>" +
-                                        "</div>" +
-                                        "</td>" +
-                                        "</tr>"
-                                    );
-                                });
-                            },
-                            complete: function() {
-                                setTimeout(atualizarTabela, 5000); // Atualiza a tabela a cada 5 segundos
-                            }
+                        // Preenche a tabela com os novos dados
+                        data.forEach(function(item) { // Itera pelas linhas de dados retornados
+                            $("tbody").append(
+                                "<tr id='" + item.idConsulta + "' onmouseenter='mostrarInfo(this.id)'>" +
+                                "<input type='hidden' value='" + item.idCliente + "' name='idCliente' id='idCliente'>" +
+                                "<td>" + item.idConsulta + "</td>" +
+                                "<td>" + item.horaConsulta + "</td>" +
+                                "<td>" + item.nome + "</td>" +
+                                "<td>" + item.nome_animal + "</td>" +
+                                "<td>" + item.descricao + "</td>" +
+                                "<td>" + item.statusConsulta + "</td>" +
+                                "<td class='more-list-container'>" +
+                                "<div class='list-box'>" +
+                                "<button class='more-btn checkout' onclick='abrirModalCO(" + item.idConsulta + ")'>Check-out</button>" +
+                                "</div>" +
+                                "</td>" +
+                                "<td class='more-list-container'>" +
+                                "<div class='list-box'>" +
+                                "<button class='more-btn registros' onclick='abrirModal(" + item.idConsulta + ")'><img src='../img/registros.png' alt=''></button>" +
+                                "</div>" +
+                                "</td>" +
+                                "</tr>"
+                            );
                         });
+                    },
+                    complete: function() {
+                        setTimeout(atualizarTabela, 5000); // Atualiza a tabela a cada 5 segundos
                     }
+                });
+            }
 
-                    // Inicia o script de atualização da tabela quando a página for carregada
-                    $(document).ready(function() {
-                        atualizarTabela();
-                    });
+            // Inicia o script de atualização da tabela quando a página for carregada
+            $(document).ready(function() {
+                atualizarTabela();
+            });
                     
+            function iniciarScanner() {
+                let newScanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
 
+                newScanner.addListener('scan', function (content) {
+                    window.location.href = content;
+                });
 
+                Instascan.Camera.getCameras().then(function (cameras) {
+                    if (cameras.length > 0) {
+                        newScanner.start(cameras[0]);
+                         document.getElementById('preview').style.transform = 'rotate(90deg)'
+                    } else {
+                        console.error('Nenhuma câmera encontrada.');
+                    }
+                }).catch(function (e) {
+                    console.error(e);
+                });
 
-            // Script para abrir câmera
-            let scanner = new Instascan.Scanner({ video: document.getElementById('preview'),mirror: false  });
+                return newScanner;
+            }
 
-
-            scanner.addListener('scan', function (content) {
-                alert('Escaneou o conteudo: ' + content)
-                window.open(content, "_blank")
-            });
-            Instascan.Camera.getCameras().then(function (cameras) {
-                if (cameras.length > 0) {
-                scanner.start(cameras[0]);
-                } else {
-                console.error('Nenhuma câmera encontrada.');
+            function pararScanner() {
+                if (scanner) {
+                    scanner.stop();
                 }
-            }).catch(function (e) {
-                console.error(e);
-            });
-
-
+            }
 
         </script>
     </body>
