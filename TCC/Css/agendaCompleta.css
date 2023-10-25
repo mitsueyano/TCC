@@ -144,6 +144,10 @@ body{
     font-size: 3vh !important;
     font-weight: bold;
 }
+.fim-de-semana{
+    color: gray !important;
+    pointer-events: none;
+}
 
 /* Botões */
 .btnOptionsDiv{

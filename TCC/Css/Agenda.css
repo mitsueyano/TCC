@@ -259,6 +259,22 @@ tbody>tr:hover {
     transform: translate(-50%, -50%);
     overflow: auto;
     background-color: #ffffff;
+    z-index: 6;
+}
+.modalConsulta{
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;   
+    display: none;
+    box-sizing: border-box;
+    position: absolute;
+    z-index: 4;
+    width: 30%;
+    height: 20%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: auto;
+    background-color: #ffffff;
+    z-index: 6;
 }
 .modal-content{
     position: relative;
@@ -294,6 +310,10 @@ tbody>tr:hover {
     font-weight: bold;
     text-align: center;
     margin-bottom: 15px;
+}
+.cancelar{
+    background-color: #ffffff !important;
+    color: #2c476e;
 }
 
 /* Botões do modal */
@@ -353,6 +373,33 @@ tbody>tr:hover {
     width: 45%;
     height: 40px;
     border: 2px solid #2c476e;
+}
+.btn-modal-div-co{
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 20%;
+    width: 100%;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-size: 18px;
+    color: #ffffff;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;     
+}
+.confirmar{
+    font-size: 1.3vw;
+    color: #2c476e;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+}
+#msgConsulta{
+    height: 50%;
+    margin-top: 10px;
 }
 
  /* Funções do modal (animação) */

@@ -78,9 +78,10 @@
                                     <td><?php echo $array["descricao"]; ?></td>
                                     <td><?php echo $array["idAnimal"]; ?></td>
                                     <td class="btnTabelaContainer"> 
-                                        <form method="POST" action="../php/deletarConsulta.php" class="btn-tabela form-consulta<?php echo $array["idConsulta"]; ?>">             
+                                        <form method="POST" action="../php/deletarConsulta.php" class="btn-tabela form-consulta<?php echo $array["idConsulta"]; ?>">     
+                                        <input type="hidden" id="inputIdConsulta">                
                                         <input type="hidden" name="idConsulta" value="<?php echo $array["idConsulta"] ?>">                  
-                                        <button type="button" onclick='confirmarCliente(`<?php echo $array["idConsulta"] ?>`)'><img src="../img/lixo.png" alt="lixo.png"></button>
+                                        <button type="button" onclick='confirmarConsulta(`<?php echo $array["idConsulta"] ?>`)'><img src="../img/lixo.png" alt="lixo.png"></button>
                                         </form>
                                     </td>
                                     <td class="btnTabelaContainer"></td>
@@ -105,6 +106,17 @@
                 </div>
             </div>
             <div id="modalBackdrop"></div>
+
+             <!-- Seção Modal Confirmação - Deletar consulta -->
+             <div id="modalConsulta" class="modalConsulta">
+                    <div class="modal-content" id="modal-content">
+                        <span id="msgConsulta"></span>
+                        <div class="btn-modal-div-co">
+                            <span class="btn-modal cancelar" onclick="fecharModalConsulta()">Cancelar</span>
+                            <span class="btn-modal" onclick="removerConsulta()">Remover</span>
+                        </div>  
+                    </div>
+                </div>
             </div>
     </body>
 </html>
@@ -121,55 +133,67 @@
         ?>
     })
 
-    function confirmarCliente(idConsulta){
-            result = window.confirm("Deseja remover a consulta " + idConsulta + "?")
-            if (result == true){
-                document.querySelector('.form-consulta' + idConsulta).submit()
-            }
+    function confirmarConsulta(idConsulta){
+        abrirModalConsulta()
+        document.querySelector('#msgConsulta').textContent = "Deseja remover a consulta " + idConsulta + "?"
+        document.querySelector("#inputIdConsulta").value = idConsulta
+    }
+    function removerConsulta(){
+            var idConsultaForm = document.querySelector("#inputIdConsulta").value
+            document.querySelector('.form-consulta' + idConsultaForm).submit()
     }
     
+    // Seção Modal
     var modal = document.getElementById('modal')
-        // Abre o modal
-        function abrirModal(){
-            var th = document.querySelectorAll('th')
-            var btn = document.querySelector(".more-btn");
-            var modalBackdrop = document.getElementById("modalBackdrop");
-            modal.style.display = "block";
-            modalBackdrop.style.display = "block";
-            th.forEach(function(th) {
-                th.style.position = "static"
-            });
-            
-        }
-        // Fecha o modal
-        function fecharModal(){
-            var th = document.querySelectorAll('th')
-            var span = document.getElementsByClassName("close");
-            var modalBackdrop = document.getElementById("modalBackdrop");
-            modal.style.display = "none";
-            modalBackdrop.style.display = "none";
-            th.forEach(function(th) {
-                th.style.position = "sticky"
-            });
-        }
+    // Abre o modal - Cliente
+    function abrirModal(){
+        var modalBackdrop = document.getElementById("modalBackdrop");
+        modal.style.display = "block";
+        modalBackdrop.style.display = "block";          
+    }
+    // Fecha o modal - Cliente
+    function fecharModal(){
+        var modalBackdrop = document.getElementById("modalBackdrop");
+        modal.style.display = "none";
+        modalBackdrop.style.display = "none";
+    }
 
-        //Animação do modal
-        window.onclick = function(event) {
-            if (!event.target.closest(".more-btn, #modalContent, #modal")) {
+    //Animação do modal
+    window.onclick = function(event) {
+        if (!event.target.closest(".more-btn, #modalContent, #modal, #modalConsulta, img    ")) {
 
-                const divTremor = document.getElementById('modal');
+            const divTremor = document.getElementById('modal');
+            const divTremorConsulta = document.getElementById('modalConsulta');
 
-                function startTremor() {
-                    divTremor.classList.add('shake');
-                }
+            function startTremor() {
+                divTremor.classList.add('shake');
+                divTremorConsulta.classList.add('shake');
+            }
 
-                function stopTremor() {
-                    divTremor.classList.remove('shake');
-                }
-                startTremor();
-                setTimeout(stopTremor, 500);
-            }   
-        }
+            function stopTremor() {
+                divTremor.classList.remove('shake');
+                divTremorConsulta.classList.remove('shake');
+            }
+            startTremor();
+            setTimeout(stopTremor, 500);
+        }   
+    }
+
+    // Seção MODAL - Deletar consulta
+    var modalConsulta = document.getElementById('modalConsulta')
+    // Abre o modal Consulta
+    function abrirModalConsulta(){
+        var modalBackdrop = document.getElementById("modalBackdrop");
+        modalConsulta.style.display = "block";
+        modalBackdrop.style.display = "block"; 
+    }
+    // Fecha o modal Consulta
+    function fecharModalConsulta(){
+        var modalBackdrop = document.getElementById("modalBackdrop");
+        modalConsulta.style.display = "none";
+        modalBackdrop.style.display = "none";
+    }
+
 </script>
 
 

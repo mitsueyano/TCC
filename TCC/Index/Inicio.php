@@ -51,18 +51,10 @@
                 <div class="container-info">
                     <div class="flex">
                         <div class="label-flex">
-                            <span>ID consulta: </span>
-                        </div>
-                        <div class="label-flex">
-                            <span id="infoId"></span>
-                        </div>
-                    </div>
-                    <div class="flex">
-                        <div class="label-flex">
                             <span>ID animal: </span>
                         </div>
                         <div class="label-flex">
-                            <span id="infoIdAnimal"></span>
+                            <span id="infoId"></span>
                         </div>
                     </div>
                     <div class="flex">
@@ -240,8 +232,7 @@
             function mostrarInfo(id){
                 animal.forEach(g=>{
                     if (g[0] == id){
-                        document.querySelector("#infoId").innerHTML =  g[0];    
-                        document.querySelector("#infoIdAnimal").innerHTML =  g[5];
+                        document.querySelector("#infoId").innerHTML =  g[5];    
                         document.querySelector("#infoDono").innerHTML =  g[9];
                         document.querySelector("#infoNome").innerHTML =   g[8];    
                         document.querySelector("#infoEspecie").innerHTML =   g[10];    

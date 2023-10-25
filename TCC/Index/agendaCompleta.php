@@ -112,15 +112,31 @@
                 });
             });
         }
-
+        
         // Calendário
         let elemento = document.querySelector('.numeroDias');   
         let mesAtual = new Date().getMonth();
         let anoAtual = new Date().getFullYear();
 
+        // Script para calcular o primeiro dia do mês
+        function calcularPrimeiroDiaDoMes(mes, ano) {
+                const primeiroDiaDoMes = new Date(ano, mes, 1).getDay();
+                return (primeiroDiaDoMes === 0) ? 7 : primeiroDiaDoMes;
+        }
+
         function atualizarCalendario(mes, ano) {
             elemento.innerHTML = '';
+            const primeiroDiaDoMes = calcularPrimeiroDiaDoMes(mes, ano);
             const ultimoDiaDoMes = new Date(ano, mes + 1, 0).getDate();
+
+            // Preenche os dias em branco até o primeiro dia do mês.
+            for (let i = 1; i <= primeiroDiaDoMes; i++) {
+                const span = document.createElement('span');
+                span.classList.add('dia', 'dia-vazio');
+                elemento.appendChild(span);
+            }
+
+            // Adiciona os dias do mês ao calendário.
             for (let i = 1; i <= ultimoDiaDoMes; i++) {
                 const span = document.createElement('span');
                 span.textContent = i;
@@ -129,11 +145,16 @@
                 if (i === new Date().getDate() && mes === new Date().getMonth() && ano === new Date().getFullYear()) {
                     span.classList.add('dia-atual');
                 }
+
+                var diaFimDeSemana = new Date(ano, mes, i);
+                if (diaFimDeSemana.getDay() === 0 || diaFimDeSemana.getDay() === 6) {
+                    span.classList.add('fim-de-semana');
+                    }
                 elemento.appendChild(span);
-            }
+            }   
             document.getElementById('mes-atual').textContent = `${mes + 1}/${ano}`;
 
-            // Após atualizar o calendário, adicionado os event listeners novamente
+            // Adicionado os event listeners novamente
             adicionarEventListeners();
         }
 
@@ -155,6 +176,7 @@
                 anoAtual++;
             }
             atualizarCalendario(mesAtual, anoAtual);
+            semanaVazia()
         });
 
         atualizarCalendario(mesAtual, anoAtual);
@@ -246,8 +268,50 @@
                 setTimeout(stopTremor, 500);
             }
         }
+       
 
-            
+        function obterPrimeiraSemanaEMaisDiasDoMes(mes, ano) {
+            const primeiroDiaDoMes = new Date(ano, mes, 1);
+            const diaDaSemanaDoPrimeiroDia = primeiroDiaDoMes.getDay(); // 0 para domingo, 1 para segunda, etc
 
+            const primeiraSemana = [];
+            let diaAtual = 1;
+
+            // Preenche a primeira semana com os primeiros dias do mês.
+            for (let i = 0; i < 7; i++) {
+                if (i < diaDaSemanaDoPrimeiroDia) {
+                    primeiraSemana.push(null);
+                } else {
+                    primeiraSemana.push(diaAtual);
+                    diaAtual++;
+                }
+            }
+
+            return {
+                primeiraSemana,
+                diaDaSemanaDoPrimeiroDia
+            };
+        }
+
+        // Script para remover semana que estiver vazia
+        function semanaVazia(){
+            // Seleciona todos os elementos 'span' no calendário
+            const elementosSpan = document.querySelectorAll('.dia');
+
+            // Percorre por todos os elementos 'span'
+            elementosSpan.forEach(elemento => {
+                // Verifica se o elemento possui a classe 'dia-vazio'
+                if (elemento.classList.contains('dia-vazio')) {
+                    // Oculta apenas os elementos com a classe 'dia-vazio'
+                    elemento.style.display = 'none';
+                }
+            });
+        }
+        const elementosSpan = document.querySelectorAll('.dia');
+        elementosSpan.forEach(elemento => {
+            if (elemento.classList.contains('dia-vazio')) {
+                elemento.style.display = 'none';
+            }
+        });
     </script>
 </html>
