@@ -95,7 +95,6 @@ transition: background-color 0.5s, color 0.5s;
     margin-bottom: 5px;
     margin-top: 50px;
 }
-
 .btnOptionsDiv{
     height: 100%;
     display: flex;
@@ -164,8 +163,8 @@ tbody>tr:hover {
     background-color: #fef5e4;
 }   
 .center{
-    position:fixed;
-    top: 50%;
+    position:absolute;
+    top: 45%;
     right: 0;
     width: 100%;
     display: flex;
@@ -173,7 +172,7 @@ tbody>tr:hover {
     align-items: center;
     font-size: 3vh;
     font-weight: bold;
-    text-decoration:underline;
+    color: #2c476e;
 }
 
 /* Botões da tabela */
@@ -346,7 +345,7 @@ tbody>tr:hover {
     position: absolute;
     z-index: 4;
     width: 20%;
-    height: 50%;
+    height: 40%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

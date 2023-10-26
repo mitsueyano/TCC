@@ -43,7 +43,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                         
+                            <div class="center">
+                                <span>Nenhuma entrada cadastrada.</span>
+                            </div>
                         </tbody>
                     </table>     
                 </div>
@@ -396,33 +398,41 @@
                     type: 'GET', // Tipo da solicitação
                     dataType: 'json', // Esperado o tipo de dados em JSON
                     success: function(data) { // Se a solicitação foi bem sucedida
-                        // Limpa a tabela atual
-                        $("tbody").empty();
+                        if (data == ""){
+                            var msg = document.querySelector('.center')
+                            msg.classList.remove('escondido')
+                        }
+                        else{
+                            var msg = document.querySelector('.center')
+                            msg.classList.add('escondido')
+                            // Limpa a tabela atual
+                            $("tbody").empty();
 
-                        // Preenche a tabela com os novos dados
-                        data.forEach(function(item) { // Itera pelas linhas de dados retornados
-                            $("tbody").append(
-                                "<tr id='" + item.idConsulta + "' onmouseenter='mostrarInfo(this.id)'>" +
-                                "<input type='hidden' value='" + item.idCliente + "' name='idCliente' id='idCliente'>" +
-                                "<td>" + item.idConsulta + "</td>" +
-                                "<td>" + item.horaConsulta + "</td>" +
-                                "<td>" + item.nome + "</td>" +
-                                "<td>" + item.nome_animal + "</td>" +
-                                "<td>" + item.descricao + "</td>" +
-                                "<td>" + item.statusConsulta + "</td>" +
-                                "<td class='more-list-container'>" +
-                                "<div class='list-box'>" +
-                                "<button class='more-btn checkout' onclick='abrirModalCO(" + item.idConsulta + ")'>Check-out</button>" +
-                                "</div>" +
-                                "</td>" +
-                                "<td class='more-list-container'>" +
-                                "<div class='list-box'>" +
-                                "<button class='more-btn registros' onclick='abrirModal(" + item.idConsulta + ")'><img src='../img/registros.png' alt=''></button>" +
-                                "</div>" +
-                                "</td>" +
-                                "</tr>"
-                            );
-                        });
+                            // Preenche a tabela com os novos dados
+                            data.forEach(function(item) { // Itera pelas linhas de dados retornados
+                                $("tbody").append(
+                                    "<tr id='" + item.idConsulta + "' onmouseenter='mostrarInfo(this.id)'>" +
+                                    "<input type='hidden' value='" + item.idCliente + "' name='idCliente' id='idCliente'>" +
+                                    "<td>" + item.idConsulta + "</td>" +
+                                    "<td>" + item.horaConsulta + "</td>" +
+                                    "<td>" + item.nome + "</td>" +
+                                    "<td>" + item.nome_animal + "</td>" +
+                                    "<td>" + item.descricao + "</td>" +
+                                    "<td>" + item.statusConsulta + "</td>" +
+                                    "<td class='more-list-container'>" +
+                                    "<div class='list-box'>" +
+                                    "<button class='more-btn checkout' onclick='abrirModalCO(" + item.idConsulta + ")'>Check-out</button>" +
+                                    "</div>" +
+                                    "</td>" +
+                                    "<td class='more-list-container'>" +
+                                    "<div class='list-box'>" +
+                                    "<button class='more-btn registros' onclick='abrirModal(" + item.idConsulta + ")'><img src='../img/registros.png' alt=''></button>" +
+                                    "</div>" +
+                                    "</td>" +
+                                    "</tr>"
+                                );
+                            });
+                        }
                     },
                     complete: function() {
                         setTimeout(atualizarTabela, 5000); // Atualiza a tabela a cada 5 segundos

@@ -45,7 +45,10 @@
             <!-- Seção Modal -->
             <div id="modal" class="modal">
                 <div class="modal-content" id="modal-content">
-                    <div class="btn-close" id="btn-close"><span class="close" onclick="fecharModal()">&times;</span></div>
+                    <div class="btn-close" id="btn-close">
+                        <a href="./novaConsulta.php?data=" class="close add">Agendar nova consulta</a>
+                        <span class="close" onclick="fecharModal()">&times;</span>
+                    </div>
                     <span id="dataConsulta" class="dataConsulta"></span>  
                     <div class="container-agenda escondido"> 
 
@@ -109,6 +112,26 @@
                     var diaSelecionado = dia.textContent;
                     var mesSelecionado = mesAtual + 1; // Adicionado 1 para corresponder ao formato do mês (janeiro = 1)
                     var anoSelecionado = anoAtual;
+
+                    var diaConsulta = diaSelecionado + "-" + mesSelecionado + "-" + anoSelecionado;
+
+                    // Certifique-se de que diaSelecionado, mesSelecionado e anoSelecionado sejam números inteiros.
+                    // Você pode usar parseInt para garantir isso.
+
+                    diaSelecionado = parseInt(diaSelecionado);
+                    mesSelecionado = parseInt(mesSelecionado);
+                    anoSelecionado = parseInt(anoSelecionado);
+
+                    // Use padStart para adicionar zeros à esquerda, se necessário.
+
+                    var diaString = diaSelecionado.toString().padStart(2, '0');
+                    var mesString = mesSelecionado.toString().padStart(2, '0');
+                    var anoString = anoSelecionado.toString();
+
+                    diaConsulta = diaString + "-" + mesString + "-" + anoString;
+
+                    document.querySelector('.add').href = "./novaConsulta.php?paraAgendar=" + diaConsulta;
+
                 });
             });
         }
@@ -132,7 +155,7 @@
             // Preenche os dias em branco até o primeiro dia do mês.
             for (let i = 1; i <= primeiroDiaDoMes; i++) {
                 const span = document.createElement('span');
-                span.classList.add('dia', 'dia-vazio');
+                span.classList.add('dia', 'dia-vazio' + i);
                 elemento.appendChild(span);
             }
 
@@ -166,6 +189,7 @@
                 anoAtual--;
             }
             atualizarCalendario(mesAtual, anoAtual);
+            semanaVazia()
         });
 
         // Script para o mês seguinte
@@ -293,25 +317,40 @@
             };
         }
 
-        // Script para remover semana que estiver vazia
-        function semanaVazia(){
-            // Seleciona todos os elementos 'span' no calendário
-            const elementosSpan = document.querySelectorAll('.dia');
 
-            // Percorre por todos os elementos 'span'
+        // Script para remover fileira da semana vazia
+        function semanaVazia(){
+            i = 0
+            const elementosSpan = document.querySelectorAll('.dia');
             elementosSpan.forEach(elemento => {
-                // Verifica se o elemento possui a classe 'dia-vazio'
-                if (elemento.classList.contains('dia-vazio')) {
-                    // Oculta apenas os elementos com a classe 'dia-vazio'
-                    elemento.style.display = 'none';
+                if (elemento.classList.contains('dia-vazio' + 7)) { // Percorre por todos os dias
+                    while (i <= 8){
+                        i++
+                        var diaVazio = document.querySelector('.dia-vazio' + i) // Seleciona a semana vazia inteira
+                        checkDisplay = getComputedStyle(elemento).display;
+                        if (checkDisplay != 'none'){
+                            diaVazio.style.display = 'none' // Remove a semana vazia
+                        }
+                        
+                    }
                 }
-            });
+        });
         }
+        i = 0
         const elementosSpan = document.querySelectorAll('.dia');
         elementosSpan.forEach(elemento => {
-            if (elemento.classList.contains('dia-vazio')) {
-                elemento.style.display = 'none';
+            if (elemento.classList.contains('dia-vazio' + 7)) {
+                while (i <= 7){
+                    i++
+                    var diaVazio = document.querySelector('.dia-vazio' + i)
+                    checkDisplay = getComputedStyle(elemento).display;
+                    if (checkDisplay != 'none'){
+                        diaVazio.style.display = 'none'
+                    }
+                }
             }
+
         });
+
     </script>
 </html>

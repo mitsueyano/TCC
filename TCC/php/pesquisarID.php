@@ -1,26 +1,44 @@
 <?php 
 include 'conectaBD.php';
-$idCampo = $_GET['id'];
 
-// Script SQL para verificação - pesquisa de ID
-$query = "SELECT * FROM clientes WHERE idCliente = '$idCampo'";
+// Verifica se o parâmetro 'id' existe na URL
+if (isset($_GET['id'])) {
+    $idCampo = $_GET['id'];
+
+    // Script SQL para verificação - pesquisa de ID
+    $query = "SELECT * FROM clientes WHERE idCliente = '$idCampo'";
     $resultado = mysqli_query($conexao, $query);
+
     if ($resultado) {
-        // Cria um array JSON com dados do Cliene
-        while ($row = $resultado->fetch_assoc()) {
+        if ($resultado->num_rows > 0) {
+
+            // Cria um array JSON com dados do Cliente
+            $row = $resultado->fetch_assoc();
             $idCliente = $row['idCliente'];
             $nomeCliente = $row['nome'];
 
             $json = array(
-            'id' => $idCliente,
-            'nome' => $nomeCliente,
+                'id' => $idCliente,
+                'nome' => $nomeCliente,
             );
+
+            $jsonString = json_encode($json);
+
+            // Verifica se o parâmetro 'paraAgendar' existe na URL
+            if (isset($_GET['paraAgendar'])) {
+                $paraAgendar = $_GET['paraAgendar'];
+                
+                header("Location: ../Index/novaConsulta.php?data=" . urlencode($jsonString) . "&idCampo=" . $idCampo . "&idResposta=" . $idCliente . "&paraAgendar=" . $paraAgendar);
+            } else {
+                header("Location: ../Index/novaConsulta.php?data=" . urlencode($jsonString) . "&idCampo=" . $idCampo . "&idResposta=" . $idCliente);
+            }
+        } else {
+            echo "Cliente não encontrado";
         }
-        $jsonString = json_encode($json);
     } else {
         echo "Erro na consulta: " . $conexao->error;
     }
-
-    // Redireciona para a página "novaConsulta.php" com os dados na URL
-    header("Location: ../Index/novaConsulta.php?data=" . urlencode($jsonString) . "&idCampo=" . $idCampo . "&idResposta=" . $idCliente);
+} else {
+    echo "Parâmetro 'id' não especificado na URL";
+}
 ?>

@@ -460,8 +460,8 @@ thead th {
     color: #2c476e;
 }
 
- /* Funções do modal (animação) */
- #modalBackdrop {
+/* Funções do modal (animação) */
+#modalBackdrop {
     display: none;
     position: fixed;
     top: 0;

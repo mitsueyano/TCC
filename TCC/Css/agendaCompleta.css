@@ -198,6 +198,7 @@ body{
     transform: translate(-50%, -50%);
     overflow: auto;
     background-color: #ffffff;
+    scroll-behavior: smooth;
 }
 .modal-content{
     position: relative;
@@ -255,6 +256,7 @@ body{
     position: sticky;
     top: 11px;
     right: 9px;
+    height: 40px;
 }
 .close{
     display: flex;
@@ -268,6 +270,10 @@ body{
     font-size: 18px;
     color: #ffffff;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;       
+}
+.add{
+    width: 200px !important;
+    margin-right: 10px;
 }
 .close:hover{
     transition: .2s;
@@ -352,5 +358,5 @@ img{
     background: #2c476e; 
 }
 ::-webkit-scrollbar-thumb:hover {
-    background-color: #fef5e4;
+    background-color: #000000;
 }

@@ -14,150 +14,187 @@
                 <div class="button"><a href="./agenda.php">VOLTAR</a></div>
             </div>
             <div class="container">     
-            <div class="form-container">
-                <label class="titulo">Nova consulta</label>   
+                <div class="form-container">
+                    <label class="titulo">Nova consulta</label>   
                     <form action="../php/addConsulta.php" method="post" onsubmit="return confirmarAgendamento()">
-                        <div class="flex">
-                            <div class="label-form">
-                                <!-- Formulário - seção CLIENTE -->
-                                <label>ID do cliente:</label>
+                            <div class="flex">
+                                <div class="label-form">
+                                    <!-- Formulário - seção CLIENTE -->
+                                    <label>ID do cliente:</label>
+                                </div>
+                                <div class="input-form">
+                                    <input type="text" name="idCliente" id="idCliente">
+                                    <button type="button" onclick="pesquisar()" class="pesquisar">Pesquisar ID</button>
+                                </div>
                             </div>
-                            <div class="input-form">
-                                <input type="text" name="idCliente" id="idCliente">
-                                <button type="button" onclick="pesquisar()" class="pesquisar">Pesquisar ID</button>
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>Nome do cliente:</label>
+                                </div>
+                                <div class="input-form">
+                                    <input type="text" name="nomeCliente" id="nomeCliente">
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex">
-                            <div class="label-form">
-                                <label>Nome do cliente:</label>
-                            </div>
-                            <div class="input-form">
-                                <input type="text" name="nomeCliente" id="nomeCliente">
-                            </div>
-                        </div>
-                        <!-- Formulário - seção ANIMAL -->
-                        <div class="flex">
-                            <div class="label-form">
-                                <label>Animal:</label>
-                            </div>
-                            <div class="input-form">
-                                <select name="animal" id="animal" onchange="animalSelecionado()" value="Selecione">
-                                <option value="Selecione">Selecione um animal</option>
-                                    <?php 
-                                    // Preenche "nome do cliente" e "animais" de acordo com o ID inserido
-                                    include '../php/conectaBD.php';
-                                        $idCliente = $_GET['idResposta'];
-                                        $queryIDAnimais = "SELECT idAnimal FROM animais WHERE idCliente = '$idCliente'";
-                                        $resultadoIDAnimais = mysqli_query($conexao, $queryIDAnimais);
-                                        $i = 0;
-                                        $quant = 0;
-                                        if ($resultadoIDAnimais) {
-                                            while ($row = $resultadoIDAnimais->fetch_assoc()) {
-                                                $idAnimal = $row['idAnimal'];     
-                                                $queryAnimais = "SELECT * FROM animais WHERE idAnimal = $idAnimal";
-                                                $resultadoAnimais = mysqli_query($conexao, $queryAnimais);
-                                                $quant++;
-                                                if($resultadoAnimais){  
-                                                    while($i <= $quant && $row = $resultadoAnimais->fetch_assoc()){
-                                                        $i++;
-                                                        $nomeAnimal = $row['nome'];
-                                    ?>
-                                                        <option value="<?php echo $nomeAnimal?>" id="nomeAnimal"><?php echo $nomeAnimal?></option>      
-                                    <?php
-                                                    } 
-                                                        
-                                                }                                                                
+                            <!-- Formulário - seção ANIMAL -->
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>Animal:</label>
+                                </div>
+                                <div class="input-form">
+                                    <select name="animal" id="animal" onchange="animalSelecionado()" value="Selecione">
+                                    <option value="Selecione">Selecione um animal</option>
+                                        <?php 
+                                        // Preenche "nome do cliente" e "animais" de acordo com o ID inserido
+                                        include '../php/conectaBD.php';
+                                            $idCliente = $_GET['idResposta'];
+                                            $queryIDAnimais = "SELECT idAnimal FROM animais WHERE idCliente = '$idCliente'";
+                                            $resultadoIDAnimais = mysqli_query($conexao, $queryIDAnimais);
+                                            $i = 0;
+                                            $quant = 0;
+                                            if ($resultadoIDAnimais) {
+                                                while ($row = $resultadoIDAnimais->fetch_assoc()) {
+                                                    $idAnimal = $row['idAnimal'];     
+                                                    $queryAnimais = "SELECT * FROM animais WHERE idAnimal = $idAnimal";
+                                                    $resultadoAnimais = mysqli_query($conexao, $queryAnimais);
+                                                    $quant++;
+                                                    if($resultadoAnimais){  
+                                                        while($i <= $quant && $row = $resultadoAnimais->fetch_assoc()){
+                                                            $i++;
+                                                            $nomeAnimal = $row['nome'];
+                                        ?>
+                                                            <option value="<?php echo $nomeAnimal?>" id="nomeAnimal"><?php echo $nomeAnimal?></option>      
+                                        <?php
+                                                        } 
+                                                            
+                                                    }                                                                
+                                                }
+                                            } else {
+                                                echo "Erro na consulta: " . $conexao->error;
                                             }
-                                        } else {
-                                            echo "Erro na consulta: " . $conexao->error;
-                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>ID do animal:</label>
+                                </div>
+                                <div class="input-form">
+                                    <input type="text" name="idAnimal" id="idAnimal">
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>Espécie:</label>
+                                </div>
+                                <div class="input-form">
+                                    <input type="text" name="especie" id="especie">
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>Raça:</label>
+                                </div>
+                                <div class="input-form">
+                                    <input type="text" name="raca" id="raca">
+                                </div>
+                            </div>
+                            <div class="consultaInfo">
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>Data da consulta:</label>
+                                </div>
+                                <div class="input-form">
+                                    <select name="dataConsulta" id="dataConsulta" class="dataConsulta"></select>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>Horários disponíveis:</label>
+                                </div>
+                                <div class="input-form">
+                                <select name="horaConsulta" id="horaConsulta" class="horaConsulta">
+                                </select>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>Veterinário:</label>
+                                </div>
+                                <div class="input-form">
+                                <select name="veterinario" id="veterinario" class="veterinario">
+                                    <?php
+                                        $queryVet = "SELECT nome, idUsuario FROM Usuarios WHERE idCargo = 2";
+                                            $resultadoVet = mysqli_query($conexao, $queryVet);
+                                            if ($resultadoVet){
+                                                while ($rowVet = $resultadoVet->fetch_assoc()){
+                                                    $idVet = $rowVet['idUsuario'];
+                                                    $nomeVet = $rowVet['nome'];
+                                    ?>
+                                        <option value="<?php echo $idVet?>"><?php echo $nomeVet?></option>
+                                    <?php
+                                                }
+                                            }
                                     ?>
                                 </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex">
-                            <div class="label-form">
-                                <label>ID do animal:</label>
+                            <div class="flex">
+                                <div class="label-form">
+                                    <label>Descrição</label>
+                                </div>
+                                <div class="input-form">
+                                    <input type="text" name="descConsulta" id="descConsulta">
+                                </div>
                             </div>
-                            <div class="input-form">
-                                <input type="text" name="idAnimal" id="idAnimal">
-                            </div>
-                        </div>
-                        <div class="flex">
-                            <div class="label-form">
-                                <label>Espécie:</label>
-                            </div>
-                            <div class="input-form">
-                                <input type="text" name="especie" id="especie">
-                            </div>
-                        </div>
-                        <div class="flex">
-                            <div class="label-form">
-                                <label>Raça:</label>
-                            </div>
-                            <div class="input-form">
-                                <input type="text" name="raca" id="raca">
-                            </div>
-                        </div>
-                        <div class="consultaInfo">
-                        <div class="flex">
-                            <div class="label-form">
-                                <label>Data da consulta:</label>
-                            </div>
-                            <div class="input-form">
-                                <select name="dataConsulta" id="dataConsulta" class="dataConsulta"></select>
-                            </div>
-                        </div>
-                        <div class="flex">
-                            <div class="label-form">
-                                <label>Horários disponíveis:</label>
-                            </div>
-                            <div class="input-form">
-                            <select name="horaConsulta" id="horaConsulta" class="horaConsulta">
-                            </select>
-                            </div>
-                        </div>
-                        <div class="flex">
-                            <div class="label-form">
-                                <label>Veterinário:</label>
-                            </div>
-                            <div class="input-form">
-                            <select name="veterinario" id="veterinario" class="veterinario">
-                                <?php
-                                    $queryVet = "SELECT nome, idUsuario FROM Usuarios WHERE idCargo = 2";
-                                        $resultadoVet = mysqli_query($conexao, $queryVet);
-                                        if ($resultadoVet){
-                                            while ($rowVet = $resultadoVet->fetch_assoc()){
-                                                $idVet = $rowVet['idUsuario'];
-                                                $nomeVet = $rowVet['nome'];
-                                ?>
-                                    <option value="<?php echo $idVet?>"><?php echo $nomeVet?></option>
-                                <?php
-                                            }
-                                        }
-                                ?>
-                            </select>
-                            </div>
-                        </div>
-                        <div class="flex">
-                            <div class="label-form">
-                                <label>Descrição</label>
-                            </div>
-                            <div class="input-form">
-                                <input type="text" name="descConsulta" id="descConsulta">
-                            </div>
-                        </div>
-                        <div class="submit-container">  
-                            <div class="btnSubmitDiv">
-                                <div class="buttonOptions"><button type="submit" class="submit">AGENDAR</button></div>
-                            </div>
-                        </div>  
+                            <div class="submit-container">  
+                                <div class="btnSubmitDiv">
+                                    <div class="buttonOptions"><button type="submit" class="submit">AGENDAR</button></div>
+                                </div>
+                            </div>  
                         </div>
                     </form> 
                 </div>
+
+                 <!-- Seção Modal -->
+                <div id="modal" class="modal">
+                    <div class="modal-content" id="modal-content">
+                        <div class="btn-close" id="btn-close">
+                            <span class="close" onclick="fecharModal()">&times;</span>
+                        </div>
+                        <span id="msg"></span>
+                    </div>
+                </div>
+                <div id="modalBackdrop"></div>
+                
             </div>
     </body>
     <script>    
+
+        // Script de redirecionamento para pesquisar ID do cliente dados do animal
+        function pesquisar(){
+
+            <?php
+                if (isset($_GET['paraAgendar'])){
+                    $paraAgendar = $_GET['paraAgendar'];
+                    echo "var paraAgendar = '$paraAgendar';";
+            ?>
+                    var option = document.createElement('option');
+                    option.value = paraAgendar;
+                    option.textContent = paraAgendar;
+                    document.querySelector('#dataConsulta').appendChild(option);
+                    document.querySelector('#dataConsulta').value = paraAgendar;
+            <?php
+                } else {
+                    echo "var paraAgendar = '';";
+                }
+            ?>
+
+
+            var campoId = document.getElementById("idCliente").value;
+            window.location.href = "../php/pesquisarID.php?id=" + campoId + "&paraAgendar=" + paraAgendar;
+        }
+
         function animalSelecionado(){
             <?php
             $query = "SELECT idAnimal, nome, especie, raca FROM animais WHERE idCliente = '$idCliente'";
@@ -226,20 +263,32 @@
 
         }
 
-        // Script de redirecionamento para pesquisar ID do cliente dados do animal
-        function pesquisar(){
-                var campoId = document.getElementById("idCliente").value;
-                window.location.href = "../php/pesquisarID.php?id=" + campoId;
-            }
-
-
+        paraAgendar = ""
         document.addEventListener("DOMContentLoaded", function () { 
-
             <?php 
                 if (isset($_GET['agendamento']) && ($_GET['agendamento'] === 'sucesso')){
-                        echo 'alert("Angendamento concluído.")';
+                    $msg = "AGENDAMENTO CONCLUÍDO."
+            ?>
+                    abrirModal()
+                    document.getElementById('msg').textContent = '<?php echo $msg ?>'
+
+            <?php
+                }
+                if (isset($_GET['paraAgendar'])){
+                    $paraAgendar = $_GET['paraAgendar'];
+                    echo "var paraAgendar = '$paraAgendar';";
+            ?>
+                    var option = document.createElement('option');
+                    option.value = paraAgendar;
+                    option.textContent = paraAgendar;
+                    document.querySelector('#dataConsulta').appendChild(option);
+                    document.querySelector('#dataConsulta').value = paraAgendar;
+            <?php
+                } else {
+                    echo "var paraAgendar = '';";
                 }
             ?>
+
        
 
             function formatDate(date) {
@@ -273,8 +322,9 @@
             datasHorarios()        
         }
 
-        // Ao carregar a página, confere se existe algum dado a ser preenchido (Script de ID)
+        // Ao carregar a página, confere se existe algum dado a ser preenchido (Script Agendar retorno e Calendário)
         <?php
+
             if (isset($_GET['data']) && isset($_GET['idCampo']) && isset($_GET['idResposta'])):
                 $data = $_GET['data'];
                 $idCampo = $_GET['idCampo'];
@@ -463,7 +513,39 @@
                         });
                 }
             }
-                       
         });
+
+         // Seção MODAL
+         var modal = document.getElementById('modal')
+        // Abre o modal
+        function abrirModal(){
+            var modalBackdrop = document.getElementById("modalBackdrop");
+            modal.style.display = "block";
+            modalBackdrop.style.display = "block";          
+        }
+        // Fecha o modal
+        function fecharModal(){
+            var span = document.getElementsByClassName("close");
+            var modalBackdrop = document.getElementById("modalBackdrop");
+            modal.style.display = "none";
+            modalBackdrop.style.display = "none";
+        }
+         //Animação do modal
+         window.onclick = function(event) {
+            if (!event.target.closest(".more-btn, #modalContent, #modal, img")) {
+
+                const divTremor = document.getElementById('modal');
+
+                function startTremor() {
+                    divTremor.classList.add('shake');
+                }
+
+                function stopTremor() {
+                    divTremor.classList.remove('shake');
+                }
+                startTremor();
+                setTimeout(stopTremor, 500);
+            }   
+        }
     </script>
 </html>
