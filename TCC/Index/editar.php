@@ -123,6 +123,11 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="imprimir-container">  
+                                <div class="btnSubmitDiv">
+                                    <div class="buttonOptions"><a href="./imprimirQRCode.php?idCliente=<?php echo $clienteId?>">QRCODE</a></div>
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="form-containerAnimais">  

@@ -243,7 +243,6 @@ input{
     justify-content: center;
     align-items: center;
 }
-
 .submit-container {
     width: 50%;
     display: flex;
@@ -253,6 +252,11 @@ input{
     bottom: 40px;
     margin: 15px;
     right: 50%
+}
+.imprimir-container {
+    width: 50%;
+    display: flex;
+    margin-top: 5px;
 }
 
 .buttonOptions > button {
@@ -332,7 +336,8 @@ input{
 }
 
 .buttonOptions > button:hover,
-.buttonAdd > button:hover {
+.buttonAdd > button:hover, 
+.buttonOptions > a {
     background-color: #fef5e4;
     color: #000000;
     transition: 0.5s;
