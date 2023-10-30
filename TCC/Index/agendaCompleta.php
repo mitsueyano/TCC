@@ -10,6 +10,9 @@
     <body>
         <div class="border-page"></div>
         <div class="page">
+            <div class="logo">
+                <img src="../img/CA.png" alt="logo">
+            </div>
             <div class="bar">
                 <div class="button"><a href="./Agenda.php">VOLTAR</a></div>
             </div>

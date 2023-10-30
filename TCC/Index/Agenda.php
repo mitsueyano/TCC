@@ -10,6 +10,9 @@
     <body>
         <div class="border-page"></div>
         <div class="page">
+            <div class="logo">
+                <img src="../img/CA.png" alt="logo">
+            </div>
             <div class="bar">
                 <div class="button"><a href="./Inicio.php">INÍCIO</a></div>
                 <div class="button selected"><a href="./Agenda.php">AGENDA</a></div>

@@ -15,6 +15,9 @@
 <body>
     <div class="container">
         <form action="../php/conectaLogin.php" method="post" class="login-box">
+        <div class="logo">
+            <img src="../img/logo.png" alt="logo">
+        </div>
             <?php
             if (isset($_GET['msg']) && $_GET['msg'] === $msg1):
             ?>

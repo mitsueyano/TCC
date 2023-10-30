@@ -438,3 +438,22 @@ input::placeholder{
     color: #000000;
     transition: 0.5s;
 }
+
+/* Logo */
+.logo{
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    align-items: center;
+    top: 0;
+    right: 30px;
+}
+
+.logo > img{
+    width: 200px;
+    height: 200px;
+    position: fixed;
+    
+}

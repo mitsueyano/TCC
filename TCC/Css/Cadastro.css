@@ -482,3 +482,22 @@ thead th {
     75%{transform: translate(-50%, -50%) translateX(-5px);}
     100%{transform: translate(-50%, -50%);}
 }
+
+/* Logo */
+.logo{
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    align-items: center;
+    top: 0;
+    right: 30px;
+}
+
+.logo > img{
+    width: 200px;
+    height: 200px;
+    position: fixed;
+    
+}

@@ -12,7 +12,7 @@
         <div class="page">
             <div class="bar">
                 <div class="button"><a href="./InicioVet.php">INÍCIO</a></div>
-                <div class="button selected"><a href="./cadastro.php">FILA DE ESPERA</a></div>
+                <div class="button selected"><a href="./filaEspera.php">FILA DE ESPERA</a></div>
             </div>
             <div class="container">     
                 <!-- Seção tabela -->
@@ -32,17 +32,21 @@
                         <tbody>
                             <?php         
                                 include '../../php/conectaBD.php';
+                                $timezone = new DateTimeZone('America/Sao_Paulo');
+                                $currentDateTime = new DateTime('now', $timezone);
+                                $currentDate = $currentDateTime->format('Y-m-d');
+
                                 $queryAgenda = "SELECT Agenda.*, Usuarios.nome, Animais.nome, statusConsulta.statusConsulta, Animais.idCliente
                                                 FROM Animais
                                                 INNER JOIN Agenda ON Animais.idAnimal = Agenda.idAnimal
                                                 INNER JOIN Usuarios ON Agenda.veterinario = Usuarios.idUsuario
                                                 INNER JOIN statusConsulta ON Agenda.idStatus = statusConsulta.idStatus
-                                                WHERE Agenda.idStatus = '1' OR Agenda.idStatus = '2'
-                                                GROUP BY Agenda.dataConsulta, Agenda.horaConsulta;";
+                                                WHERE dataConsulta = '$currentDate'
+                                                AND Agenda.idStatus = '1' OR Agenda.idStatus = '2'
+                                                GROUP BY Agenda.horaConsulta";
                                 $resultAgenda = mysqli_query($conexao, $queryAgenda);        
                                 if ($resultAgenda->num_rows>0):
-                                    while($arrayAgenda = mysqli_fetch_row($resultAgenda) ):
-                                        
+                                    while($arrayAgenda = mysqli_fetch_row($resultAgenda)):
                             ?>
                             <tr class="table-rows" id="<?php echo $arrayAgenda[0];?>">
                             <input type="hidden" value="<?php echo $arrayAgenda[10];?>" name="idCliente" id="idCliente">
