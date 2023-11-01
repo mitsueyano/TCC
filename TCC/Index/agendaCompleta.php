@@ -53,52 +53,53 @@
                         <span class="close" onclick="fecharModal()">&times;</span>
                     </div>
                     <span id="dataConsulta" class="dataConsulta"></span>  
+                    <div class='divAviso'></div>
                     <div class="container-agenda escondido"> 
 
-                    <div class="flex idConsulta">
-                        <div class="label-flexModal">
-                            <span>ID da consulta:</span>
+                        <div class="flex idConsulta">
+                            <div class="label-flexModal">
+                                <span>ID da consulta:</span>
+                            </div>
+                            <div class="label-flexModalInfo">
+                                <span id="idConsulta"></span>   
+                            </div>  
                         </div>
-                        <div class="label-flexModalInfo">
-                            <span id="idConsulta"></span>   
-                        </div>  
-                    </div>
 
-                    <div class="flex">
-                        <div class="label-flexModal">
-                            <span>Hora da consulta:</span>
-                        </div>
-                        <div class="label-flexModalInfo">
-                            <span id="horaConsulta"></span>   
-                        </div>
-                    </div> 
+                        <div class="flex">
+                            <div class="label-flexModal">
+                                <span>Hora da consulta:</span>
+                            </div>
+                            <div class="label-flexModalInfo">
+                                <span id="horaConsulta"></span>   
+                            </div>
+                        </div> 
 
-                    <div class="flex">
-                        <div class="label-flexModal">
-                            <span>Nome</span>
-                        </div>
-                        <div class="label-flexModalInfo">
-                            <span id="nomeAnimal"></span>   
-                        </div>
-                    </div> 
+                        <div class="flex">
+                            <div class="label-flexModal">
+                                <span>Nome</span>
+                            </div>
+                            <div class="label-flexModalInfo">
+                                <span id="nomeAnimal"></span>   
+                            </div>
+                        </div> 
 
-                    <div class="flex">
-                        <div class="label-flexModal">
-                            <span>Dono:</span>
-                        </div>
-                        <div class="label-flexModalInfo">
-                            <span id="dono"></span>   
-                        </div>
-                    </div> 
+                        <div class="flex">
+                            <div class="label-flexModal">
+                                <span>Dono:</span>
+                            </div>
+                            <div class="label-flexModalInfo">
+                                <span id="dono"></span>   
+                            </div>
+                        </div> 
 
-                    <div class="flex">
-                        <div class="label-flexModal">
-                            <span>Descrição:</span>
-                        </div>
-                        <div class="label-flexModalInfo fim">
-                            <span id="descricao"></span>   
-                        </div>
-                    </div> 
+                        <div class="flex">
+                            <div class="label-flexModal">
+                                <span>Descrição:</span>
+                            </div>
+                            <div class="label-flexModalInfo fim">
+                                <span id="descricao"></span>   
+                            </div>
+                        </div> 
 
                     </div>
                 </div>
@@ -107,6 +108,7 @@
     </body>
 
     <script>
+
         // Função para adicionar event listeners
         function adicionarEventListeners() {
             const dias = document.querySelectorAll('.dia');
@@ -116,17 +118,13 @@
                     var mesSelecionado = mesAtual + 1; // Adicionado 1 para corresponder ao formato do mês (janeiro = 1)
                     var anoSelecionado = anoAtual;
 
-                    var diaConsulta = diaSelecionado + "-" + mesSelecionado + "-" + anoSelecionado;
-
-                    // Certifique-se de que diaSelecionado, mesSelecionado e anoSelecionado sejam números inteiros.
-                    // Você pode usar parseInt para garantir isso.
+                    var diaTotal = diaSelecionado + "/" + mesSelecionado + "/" + anoSelecionado;
 
                     diaSelecionado = parseInt(diaSelecionado);
                     mesSelecionado = parseInt(mesSelecionado);
                     anoSelecionado = parseInt(anoSelecionado);
 
-                    // Use padStart para adicionar zeros à esquerda, se necessário.
-
+                    // Script para adicionar zeros à esquerda, se necessário.
                     var diaString = diaSelecionado.toString().padStart(2, '0');
                     var mesString = mesSelecionado.toString().padStart(2, '0');
                     var anoString = anoSelecionado.toString();
@@ -135,6 +133,21 @@
 
                     document.querySelector('.add').href = "./novaConsulta.php?paraAgendar=" + diaConsulta;
 
+                    // Script para remover o botão 'Agendar nova consulta' caso o dia selecionado seja menor que o dia atual
+                    let diaAtualConf = new Date().getDate();
+                    let mesAtualConf = new Date().getMonth();
+                    let anoAtualConf = new Date().getFullYear();
+
+                    dataAtualConf = new Date(anoAtualConf, mesAtualConf, diaAtualConf)
+                    dataSelecionadaConf = new Date(anoSelecionado, mesSelecionado - 1, diaSelecionado)
+
+                    if (dataSelecionadaConf < dataAtualConf){
+                        document.querySelector('.add').classList.add('escondido')
+                    }
+                    else(
+                        document.querySelector('.add').classList.remove('escondido')
+                    )
+                    
                 });
             });
         }
@@ -143,6 +156,7 @@
         let elemento = document.querySelector('.numeroDias');   
         let mesAtual = new Date().getMonth();
         let anoAtual = new Date().getFullYear();
+
 
         // Script para calcular o primeiro dia do mês
         function calcularPrimeiroDiaDoMes(mes, ano) {
@@ -177,6 +191,19 @@
                     span.classList.add('fim-de-semana');
                     }
                 elemento.appendChild(span);
+
+                // Adiciona quantidade de consultas e suas cores-legenda
+                if (!span.classList.contains('fim-de-semana')){
+
+                    const innerSpan = document.createElement('div')
+                    innerSpan.classList.add('quantConsulta')
+                    span.appendChild(innerSpan);
+                    elemento.appendChild(span);
+
+                    const spanQuant = document.createElement('span')
+                    spanQuant.classList.add('quant')
+                    innerSpan.appendChild(spanQuant)
+                }
             }   
             document.getElementById('mes-atual').textContent = `${mes + 1}/${ano}`;
 
@@ -231,6 +258,7 @@
 
             $result = mysqli_query($conexao, $query);
             $linhas = [];
+            $numLinhas = mysqli_num_rows($result);
             while($linha = $result->fetch_row()) {
                 $linhas[] = $linha;
             } 
@@ -239,30 +267,45 @@
         ?>
 
         // Abre o modal 
-        function abrirModal(dia, mesSelecionado, anoAtual){
-            dataSelecionada = anoAtual + "-" + mesSelecionado + "-" + dia
-            dataExibida = dia + "/" + mesSelecionado + "/" + anoAtual
-            document.getElementById('dataConsulta').innerHTML = dataExibida
-            agenda.forEach(r=>{
-                if (dataSelecionada == r[7]){
-                    var clone = document.querySelector('.container-agenda').cloneNode(true)
-                    clone.querySelector("#idConsulta").innerHTML =  r[0];
+        function abrirModal(dia, mesSelecionado, anoAtual) {
+            dataSelecionada = anoAtual + "-" + mesSelecionado + "-" + dia.toString().padStart(2, '0');
+            dataExibida = dia.toString().padStart(2, '0') + "/" + mesSelecionado + "/" + anoAtual;
+            document.getElementById('dataConsulta').innerHTML = dataExibida;
+
+            var consultasDoDia = agenda.filter(r => dataSelecionada === r[7]);
+            var num = 0
+            // Script para identificar se há consultas para o dia selecionado
+            if (consultasDoDia.length === 0) {
+                var divAviso = document.querySelector('.divAviso');
+                var aviso = document.createElement('span');
+                aviso.classList.remove('escondido')
+                aviso.textContent = "Não há consultas para este dia.";
+                divAviso.appendChild(aviso);
+            } else {
+                consultasDoDia.forEach(r => {
+                    num++
+                    var clone = document.querySelector('.container-agenda').cloneNode(true);
+                    clone.querySelector("#idConsulta").innerHTML = r[0];
                     clone.querySelector("#horaConsulta").innerHTML = r[8];
-                    clone.querySelector("#nomeAnimal").innerHTML =  r[3];
-                    clone.querySelector("#dono").innerHTML = r[6]
-                    clone.querySelector("#descricao").innerHTML =  r[1];
-                    
+                    clone.querySelector("#nomeAnimal").innerHTML = r[3];
+                    clone.querySelector("#dono").innerHTML = r[6];
+                    clone.querySelector("#descricao").innerHTML = r[1];
 
-                    clone.classList.remove('escondido')
-                    
-                    document.querySelector('.modal-content').appendChild(clone)
-                }
-                })
+                    clone.classList.remove('escondido');
+                    document.querySelector('.modal-content').appendChild(clone);
+                });
+            }
 
+            console.log(num)
+            if (num <= 7){
+                document.querySelector('.quant').textContent = num
+            }
+            
             var modalBackdrop = document.getElementById("modalBackdrop");
             modal.style.display = "block";
             modalBackdrop.style.display = "block";
         }
+
 
         // Fecha o modal
         function fecharModal(){
@@ -270,7 +313,11 @@
                     if (!div.classList.contains('escondido')) {
                         div.outerHTML = ""
                     }
-                })
+            })
+            var aviso = document.querySelector('.divAviso');
+            if (aviso) {
+                aviso.innerHTML = "";
+            }
 
             var span = document.getElementsByClassName("close");
             var modalBackdrop = document.getElementById("modalBackdrop");
