@@ -242,9 +242,8 @@ body{
     font-size: 1.3vw;
     color: #2c476e;
     font-weight: bold;
-    position:fixed;
-    top: 15px;
-    text-align: center;
+    text-align: start;
+
 }
 .fim{
     margin-bottom: 25px;
@@ -259,13 +258,21 @@ body{
 }
 
 /* Botões do modal */
+.headerModal{
+    justify-content: space-between;
+    box-sizing: border-box;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    background-color: #ffffff;
+    height: 5%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
 .btn-close{
     display: flex;
     justify-content: end;
-    position: sticky;
-    top: 11px;
-    right: 9px;
-    height: 40px;
 }
 .close{
     display: flex;
@@ -387,23 +394,4 @@ img{
     height: 200px;
     position: fixed;
     
-}
-
-/* Quantidade de consultas (acima dos dias) */
-.quantConsulta{
-    width: 100% !important;
-    pointer-events: none;
-    display: flex;
-    margin-left: 5px;
-    margin-top: 1px;
-}
-
-.quant{
-    height: 20px !important;
-    width: 20px !important;
-    border-radius: 100%;
-    font-size: 100% !important;
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
 }

@@ -48,11 +48,13 @@
             <!-- Seção Modal -->
             <div id="modal" class="modal">
                 <div class="modal-content" id="modal-content">
-                    <div class="btn-close" id="btn-close">
-                        <a href="./novaConsulta.php?data=" class="close add">Agendar nova consulta</a>
-                        <span class="close" onclick="fecharModal()">&times;</span>
+                    <div class="headerModal">
+                        <span id="dataConsulta" class="dataConsulta"></span>  
+                        <div class="btn-close" id="btn-close">
+                            <a href="./novaConsulta.php?data=" class="close add">Agendar nova consulta</a>
+                            <span class="close" onclick="fecharModal()">&times;</span>
+                        </div>
                     </div>
-                    <span id="dataConsulta" class="dataConsulta"></span>  
                     <div class='divAviso'></div>
                     <div class="container-agenda escondido"> 
 
@@ -108,13 +110,12 @@
     </body>
 
     <script>
-
         // Função para adicionar event listeners
         function adicionarEventListeners() {
             const dias = document.querySelectorAll('.dia');
             dias.forEach(dia => {
                 dia.addEventListener('click', () => {
-                    var diaSelecionado = dia.textContent;
+                    var diaSelecionado = dia.childNodes[0].textContent.replace(/\D/g, ''); // Identifica o primeiro filho do elemento dia e remove caracteres não numéricos
                     var mesSelecionado = mesAtual + 1; // Adicionado 1 para corresponder ao formato do mês (janeiro = 1)
                     var anoSelecionado = anoAtual;
 
@@ -157,7 +158,6 @@
         let mesAtual = new Date().getMonth();
         let anoAtual = new Date().getFullYear();
 
-
         // Script para calcular o primeiro dia do mês
         function calcularPrimeiroDiaDoMes(mes, ano) {
                 const primeiroDiaDoMes = new Date(ano, mes, 1).getDay();
@@ -192,16 +192,16 @@
                     }
                 elemento.appendChild(span);
 
-                // Adiciona quantidade de consultas e suas cores-legenda
+                // Adiciona div para quantidade de consultas em cada dia do mês
                 if (!span.classList.contains('fim-de-semana')){
 
                     const innerSpan = document.createElement('div')
-                    innerSpan.classList.add('quantConsulta')
+                    innerSpan.classList.add('quantConsulta' + i)
                     span.appendChild(innerSpan);
                     elemento.appendChild(span);
 
                     const spanQuant = document.createElement('span')
-                    spanQuant.classList.add('quant')
+                    spanQuant.classList.add('quant' + i)
                     innerSpan.appendChild(spanQuant)
                 }
             }   
@@ -219,6 +219,7 @@
                 anoAtual--;
             }
             atualizarCalendario(mesAtual, anoAtual);
+            quantAgendados(mesAtual, anoAtual)
             semanaVazia()
         });
 
@@ -230,6 +231,7 @@
                 anoAtual++;
             }
             atualizarCalendario(mesAtual, anoAtual);
+            quantAgendados(mesAtual, anoAtual)
             semanaVazia()
         });
 
@@ -239,12 +241,12 @@
         // Identifica o dia selecionado
         document.addEventListener('click', function(event) {
             if (event.target.classList.contains('dia')) {
-                var dia = event.target.textContent;
+                var dia = event.target.firstChild.textContent.trim();
                 var mesAtualStr = mesAtual.toString().padStart(2, '0');
                 var mesSelecionado = (mesAtual + 1).toString().padStart(2, '0');
                 abrirModal(dia, mesSelecionado, anoAtual);
             }
-        }); 
+        });
            
         // Script para o modal
         <?php
@@ -273,7 +275,6 @@
             document.getElementById('dataConsulta').innerHTML = dataExibida;
 
             var consultasDoDia = agenda.filter(r => dataSelecionada === r[7]);
-            var num = 0
             // Script para identificar se há consultas para o dia selecionado
             if (consultasDoDia.length === 0) {
                 var divAviso = document.querySelector('.divAviso');
@@ -283,7 +284,6 @@
                 divAviso.appendChild(aviso);
             } else {
                 consultasDoDia.forEach(r => {
-                    num++
                     var clone = document.querySelector('.container-agenda').cloneNode(true);
                     clone.querySelector("#idConsulta").innerHTML = r[0];
                     clone.querySelector("#horaConsulta").innerHTML = r[8];
@@ -295,12 +295,6 @@
                     document.querySelector('.modal-content').appendChild(clone);
                 });
             }
-
-            console.log(num)
-            if (num <= 7){
-                document.querySelector('.quant').textContent = num
-            }
-            
             var modalBackdrop = document.getElementById("modalBackdrop");
             modal.style.display = "block";
             modalBackdrop.style.display = "block";
@@ -342,9 +336,8 @@
                 setTimeout(stopTremor, 500);
             }
         }
-       
 
-        function obterPrimeiraSemanaEMaisDiasDoMes(mes, ano) {
+        function PrimeiraSemanaVazia(mes, ano) {
             const primeiroDiaDoMes = new Date(ano, mes, 1);
             const diaDaSemanaDoPrimeiroDia = primeiroDiaDoMes.getDay(); // 0 para domingo, 1 para segunda, etc
 
@@ -367,7 +360,6 @@
             };
         }
 
-
         // Script para remover fileira da semana vazia
         function semanaVazia(){
             i = 0
@@ -384,8 +376,9 @@
                         
                     }
                 }
-        });
+            });
         }
+
         i = 0
         const elementosSpan = document.querySelectorAll('.dia');
         elementosSpan.forEach(elemento => {
@@ -401,6 +394,59 @@
             }
 
         });
+
+
+        // Script para adicionar quantidade de agendamentos aos dias do mês
+        function quantAgendados(mesAtual, anoAtual){
+            mesAtual = mesAtual + 1
+            const elementosSpan = document.querySelectorAll('.dia');
+            i = 0;
+            elementosSpan.forEach(() => {
+                i++;
+                const elementoQuant = document.querySelector('.quant' + i);
+                const divConsulta = document.querySelector('.quantConsulta' + i)
+                if (elementoQuant) {
+                    dataSelecionada = anoAtual + "-" + mesAtual.toString().padStart(2, '0') + "-" + i.toString().padStart(2, '0');
+                    var consultasDoDia = agenda.filter(r => dataSelecionada === r[7]);
+
+                    var dataSplit = dataSelecionada.split("-")
+                    var diaSplit = dataSplit[2]
+                    var mesSplit = dataSplit[1]
+                    var anoSplit = dataSplit[0]
+
+                    quantidade = consultasDoDia.length;
+                    divConsulta.textContent = quantidade;
+                    divConsulta.style.pointerEvents = 'none'
+                    divConsulta.style.width = '20px'
+                    divConsulta.style.height = '20px'
+                    divConsulta.style.borderRadius = '100%'
+                    divConsulta.style.display = 'flex'
+                    divConsulta.style.justifyContent = 'center'
+                    divConsulta.style.alignItems = 'center'
+                    divConsulta.style.marginLeft = '5px'
+                    divConsulta.style.marginTop = '1px'
+                    divConsulta.style.color = 'black'
+                    divConsulta.style.fontWeight = 'normal'
+                    
+
+                    if (divConsulta) {
+                        if (quantidade === 0) {
+                            divConsulta.style.backgroundColor = '#bbbdbf';
+                        } else if (quantidade <= 7) {
+                            divConsulta.style.backgroundColor = '#95c99b';
+                        } else if (quantidade <= 16) {
+                            divConsulta.style.backgroundColor = '#f9ffa6';
+                        } else {
+                            divConsulta.style.backgroundColor = '#fc7c7c';
+                        }
+                    }
+
+                }
+
+            })
+
+        }
+        quantAgendados(mesAtual, anoAtual)
 
     </script>
 </html>
