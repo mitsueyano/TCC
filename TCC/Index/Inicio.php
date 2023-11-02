@@ -107,6 +107,7 @@
                 <div class="modal-content modal-content-reg" id="modal-content">
                     <div class="btn-close" id="btn-close"><span class="close" onclick="fecharModal()">&times;</span></div>
                     <div class="container-registros escondido">
+                        <div class="divAviso"></div>
                         <div class="flex dataConsulta">
                             <div class="label-flexModal">
                                 <span id="infoDataConsulta"></span>   
@@ -285,8 +286,6 @@
                 $agenda = json_encode($linhas);
                 echo "var agenda = " . $agenda . ";\n";
 
-
-
                 $queryRegistros = "SELECT historicoMedico.* , Usuarios.nome FROM historicoMedico
                 JOIN Animais ON historicoMedico.idAnimal = Animais.idAnimal
                 JOIN Usuarios ON historicoMedico.veterinario = Usuarios.idUsuario
@@ -301,6 +300,10 @@
 
             ?>
 
+            modalReg = document.querySelector('.modal-content-reg')
+            semRegistro = document.createElement('span')
+            semRegistro.classList.add('semRegistro')
+            modalReg.appendChild(semRegistro)
             // Abre o modal com as informações
             function abrirModal(id){
                 agendaRegistros.forEach(r=>{
@@ -311,12 +314,23 @@
                         clone.querySelector("#infoDiagnostico").innerHTML = r[6];
                         clone.querySelector("#infoTratamento").innerHTML =  r[7];
                         clone.querySelector("#infoObservacoes").innerHTML =  r[8];
+                        clone.classList.add('cloneDiv')
 
                         clone.classList.remove('escondido')
                         
                         document.querySelector('.modal-content-reg').appendChild(clone)
                     }
                 })
+
+                existeRegistro = document.querySelector('.cloneDiv')
+                if (existeRegistro == null){
+                        semRegistro.textContent = 'O ANIMAL NÃO POSSUI REGISTROS'                     
+                }
+                else{
+                    if (document.querySelector('.semRegistro')){
+                        semRegistro.textContent = 'HISTÓRICO MÉDICO'
+                    }
+                }
 
                 var btn = document.querySelector(".more-btn");
                 var modalBackdrop = document.getElementById("modalBackdrop");
@@ -370,7 +384,6 @@
                         document.querySelector("#nomeCO").innerHTML = g[3];
                         document.querySelector("#idConsultaCO").value = g[0];
                         document.getElementById("idCliente").value = g[7];
-                        console.log(g)
                     }
                 })
 
@@ -415,14 +428,8 @@
 
 
         // Seção MODAL Aviso
-        var modal = document.getElementById('modalAviso')
+        var modalAviso = document.getElementById('modalAviso')
 
-        // Abre o modal Aviso
-        function abrirModalAviso(){
-            var modalBackdrop = document.getElementById("modalBackdrop");
-            modalAviso.style.display = "block";
-            modalBackdrop.style.display = "block";          
-        }
         // Fecha o modal
         function fecharModalAviso(){
             var span = document.getElementsByClassName("close");
@@ -455,8 +462,8 @@
 
                             // Preenche a tabela com os novos dados
                             data.forEach(function(item) { // Itera pelas linhas de dados retornados
-                                $("tbody").append(
-                                    "<tr id='" + item.idConsulta + "' onmouseenter='mostrarInfo(this.id)'>" +
+                                $("tbody").append(      
+                                    "<tr id='" + item.idAnimal + "' onmouseenter='mostrarInfo(this.id)'>" +
                                     "<input type='hidden' value='" + item.idCliente + "' name='idCliente' id='idCliente'>" +
                                     "<td>" + item.idConsulta + "</td>" +
                                     "<td>" + item.horaConsulta + "</td>" +
@@ -471,7 +478,7 @@
                                     "</td>" +
                                     "<td class='more-list-container'>" +
                                     "<div class='list-box'>" +
-                                    "<button class='more-btn registros' onclick='abrirModal(" + item.idConsulta + ")'><img src='../img/registros.png' alt=''></button>" +
+                                    "<button class='more-btn registros' onclick='abrirModal(" + item.idAnimal+ ")'><img src='../img/registros.png' alt=''></button>" +
                                     "</div>" +
                                     "</td>" +
                                     "</tr>"

@@ -330,6 +330,14 @@ tbody>tr:hover {
     margin-top: 10px;
     margin-bottom: 10px;
 }
+.divAviso{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    font-weight: bold;
+}
 .modal-content > span{
     width: 100%;
     display: flex;
