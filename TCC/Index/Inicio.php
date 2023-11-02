@@ -181,7 +181,7 @@
 
             <!-- Seção Modal 'Aviso' -->
             <div id="modalAviso" class="modalAviso">
-                <div class="modal-content" id="modal-content">
+                <div class="modal-contentAviso" id="modal-content">
                     <div class="btn-close" id="btn-close">
                         <span class="close" onclick="fecharModalAviso()">&times;</span>
                     </div>
@@ -195,7 +195,7 @@
             document.addEventListener("DOMContentLoaded", function(){
                 <?php
                     if (isset($_GET['ConsultaFinalizada']) && $_GET['ConsultaFinalizada'] === 'sucesso') {
-                        $msg = "CHECK-OUT REALZIADO COM SUCESSO."
+                        $msg = "CHECK-OUT REALIZADO COM SUCESSO."
                         ?>
                         abrirModal()
                         document.getElementById('msg').textContent = '<?php echo $msg ?>'

@@ -164,7 +164,7 @@ tbody>tr:hover {
 }   
 .center{
     position:absolute;
-    top: 45%;
+    top: 50%;
     right: 0;
     width: 100%;
     display: flex;
@@ -339,6 +339,15 @@ tbody>tr:hover {
     color: #2c476e;
     font-weight: bold;
 }
+.modal-contentAviso > span{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    align-items: center ;
+    color: #2c476e;
+    font-weight: bold;
+}
 .modalAviso{
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;   
     display: none;
@@ -374,7 +383,7 @@ tbody>tr:hover {
     position: absolute;
     z-index: 4;
     width: 20%;
-    height: 40%;
+    height: 45%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -385,6 +394,18 @@ tbody>tr:hover {
     color: #2c476e;
     font-weight: bold;
     text-transform: uppercase;
+}
+.modal-contentAviso{
+    position: relative;
+    background-color: #ffffff;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #97a9d1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.3vw;
 }
 .modal-content{
     position: relative;
@@ -407,9 +428,8 @@ tbody>tr:hover {
 }
 .checkoutConfirmar{
     height: 100%;
-    margin-top: 30px;
     width: 100%;
-    text-align: center;
+    margin-bottom: 35px;
 }
 
 /* Botões do modal */

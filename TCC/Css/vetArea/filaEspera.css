@@ -130,7 +130,7 @@ tbody>tr:hover {
     align-items: center;
     font-size: 3vh;
     font-weight: bold;
-    text-decoration:underline;
+    color: #2c476e;
 }
 
 /* Botão da tabela */
