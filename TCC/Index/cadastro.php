@@ -345,7 +345,7 @@
 
         //Animação do modal
         window.onclick = function(event) {
-            if (!event.target.closest(".more-btn, #modalContent, #modal, #modalCOAnimal, img, #modalCOCliente")) {
+            if (!event.target.closest(".more-btn, #modalContent, #modal, #modalCOAnimal, img, #modalCOCliente, #modalAviso")) {
 
                 const divTremor = document.getElementById('modal');
                 const divTremorCOAnimal = document.getElementById('modalCOAnimal');

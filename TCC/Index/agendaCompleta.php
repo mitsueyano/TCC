@@ -417,8 +417,8 @@
                     quantidade = consultasDoDia.length;
                     divConsulta.textContent = quantidade;
                     divConsulta.style.pointerEvents = 'none'
-                    divConsulta.style.width = '20px'
-                    divConsulta.style.height = '20px'
+                    divConsulta.style.width = '17px'
+                    divConsulta.style.height = '17px'
                     divConsulta.style.borderRadius = '100%'
                     divConsulta.style.display = 'flex'
                     divConsulta.style.justifyContent = 'center'
@@ -427,6 +427,7 @@
                     divConsulta.style.marginTop = '1px'
                     divConsulta.style.color = 'black'
                     divConsulta.style.fontWeight = 'normal'
+                    divConsulta.style.fontSize = '15px'
                     
 
                     if (divConsulta) {

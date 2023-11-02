@@ -29,15 +29,15 @@ if (!$resultData){
             $query = "UPDATE Agenda SET idStatus = '1'
                       WHERE dataConsulta = '$dataConsultaRow' AND idAnimal = $idAnimal";
             $result = mysqli_query($conexao, $query);
+            header('Location: ../Index/Inicio.php');
 
             if (!$result) {
                 echo "ERRO AO ATUALIZAR STATUS";
             }                                    
         }
         else {
-            echo "Não há consultas agendadas para hoje";
+            header('Location: ../Index/Inicio.php?Consulta=inexistente');
         }
     } 
 }
-header('Location: ../Index/Inicio.php')
 ?>

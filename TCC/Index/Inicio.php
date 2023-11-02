@@ -179,13 +179,34 @@
                 </div>
             </div>
 
+            <!-- Seção Modal 'Aviso' -->
+            <div id="modalAviso" class="modalAviso">
+                <div class="modal-content" id="modal-content">
+                    <div class="btn-close" id="btn-close">
+                        <span class="close" onclick="fecharModalAviso()">&times;</span>
+                    </div>
+                    <span id="msg"></span>
+                </div>
+            </div>
+
         </div>
         <div id="modalBackdrop"></div>
         <script>
             document.addEventListener("DOMContentLoaded", function(){
                 <?php
                     if (isset($_GET['ConsultaFinalizada']) && $_GET['ConsultaFinalizada'] === 'sucesso') {
-                        echo 'alert("Check-out realizado com sucesso.")';
+                        $msg = "CHECK-OUT REALZIADO COM SUCESSO."
+                        ?>
+                        abrirModal()
+                        document.getElementById('msg').textContent = '<?php echo $msg ?>'
+                <?php
+                    }
+                    if (isset($_GET['Consulta']) && $_GET['Consulta'] === 'inexistente') {
+                        $msg = "O ANIMAL NÃO POSSUI CONSULTAS PARA HOJE"
+                        ?>
+                        abrirModal()
+                        document.getElementById('msg').textContent = '<?php echo $msg ?>'
+                <?php
                     }
                 ?>
             });
@@ -317,22 +338,25 @@
 
             //Animação do modal
             window.onclick = function(event) {
-                if (!event.target.closest("#modal, .more-btn, #modalContent, #modalCO, #modalScan, .scanBtn")) {
+                if (!event.target.closest("#modal, .more-btn, #modalContent, #modalCO, #modalScan, .scanBtn, #modalAviso")) {
 
                     const divTremor = document.getElementById('modal');
                     const divTremorCO = document.getElementById('modalCO');
                     const divTremorScan = document.getElementById('modalScan');
+                    const divTremorAviso = document.getElementById('modalAviso');
 
                     function startTremor() {
                         divTremor.classList.add('shake');
                         divTremorCO.classList.add('shake');
                         divTremorScan.classList.add('shake');
+                        divTremorAviso.classList.add('shake');
                     }
 
                     function stopTremor() {
                         divTremor.classList.remove('shake');
                         divTremorCO.classList.remove('shake');
                         divTremorScan.classList.remove('shake');
+                        divTremorAviso.classList.remove('shake');
                     }
                     startTremor();
                     setTimeout(stopTremor, 500);
@@ -388,6 +412,24 @@
                 modalBackdrop.style.display = "none";
                 pararScanner();
             }
+
+
+        // Seção MODAL Aviso
+        var modal = document.getElementById('modalAviso')
+
+        // Abre o modal Aviso
+        function abrirModalAviso(){
+            var modalBackdrop = document.getElementById("modalBackdrop");
+            modalAviso.style.display = "block";
+            modalBackdrop.style.display = "block";          
+        }
+        // Fecha o modal
+        function fecharModalAviso(){
+            var span = document.getElementsByClassName("close");
+            var modalBackdrop = document.getElementById("modalBackdrop");
+            modalAviso.style.display = "none";
+            modalBackdrop.style.display = "none";
+        }
 
             // Script Check-out
             function confirmar(){

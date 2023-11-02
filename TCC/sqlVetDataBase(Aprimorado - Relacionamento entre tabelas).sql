@@ -909,7 +909,9 @@ values ('2023-10-24', '14:00', 1, 1, 'Consulta de saúde preventiva', 1),
 ('2024-01-31', '16:30', 1, 18, 'Vacinação anual', 2);
 
 
-
+SET SQL_SAFE_UPDATES = 0;
+UPDATE Agenda
+SET idStatus = 0;
 
 select * from Usuarios;
 select * from Clientes;
