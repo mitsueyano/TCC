@@ -134,7 +134,7 @@
                         </div>
                         
                         <div class="form-containerAnimais">  
-                            <span class="form-title">ANIMAIS</span>
+                            <span class="form-title animais-title">ANIMAIS</span>
                             <div class="lista-animais">           
                                 <?php
                                     $queryAnimais = "SELECT * FROM Animais WHERE idCliente = " . $clienteId;

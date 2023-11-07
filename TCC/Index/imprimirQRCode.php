@@ -12,6 +12,9 @@
                 <div class="logo">
                     <img src="../img/logo.png" alt="">
                 </div>
+                <div class="bar print-hidden">
+                    <div class="button"><a href="./cadastro.php">VOLTAR</a></div>
+                </div>
                 <div class="contato">
                     <span>Entre em contato conosco:</span>
                     <div class="flex">

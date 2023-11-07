@@ -10,6 +10,9 @@
     <body>
         <div class="border-page"></div>
         <div class="page">
+            <div class="logo">
+                <img src="../../img/CA.png" alt="logo">
+            </div>
             <div class="bar">
                 <div class="button"><a href="./InicioVet.php">INÍCIO</a></div>
                 <div class="button selected"><a href="./filaEspera.php">FILA DE ESPERA</a></div>
@@ -98,15 +101,6 @@
                 <div class="data">
                     <div class="dia" id="data-atual"></div> 
                     <div class="hora" id="hora-atual"></div>
-                </div>
-                <!--  Seção tela de chamada -->
-                <div class="tela-container">
-                    <div class="chamada-atual-container">
-                        <span id="chamada-atual">blablalba</span>
-                    </div>
-                    <div class="ultimas-chamadas-container">
-                        <span id="ultimas-chamadas">blabla</span>
-                    </div>
                 </div>
             </div>
         </div>

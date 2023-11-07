@@ -48,13 +48,13 @@
                     <div id="modalBackdrop"></div>
                     <?php
                         include '../php/conectaBD.php';
-
+                        $termo_pesquisa = "";
                         if (isset($_POST["termo_pesquisa"])) {
                             $termo_pesquisa = $_POST["termo_pesquisa"];
-
+                        }
                             // Consulta SQL para buscar animais com base no termo de pesquisa
                             $sql = "SELECT Agenda.idConsulta, Agenda.dataConsulta, Agenda.horaConsulta, Agenda.veterinario, Agenda.descricao, Agenda.idAnimal FROM Agenda
-                                    WHERE agenda.idConsulta = '$termo_pesquisa'";
+                                    WHERE agenda.idConsulta LIKE '%$termo_pesquisa%'";
 
                             $result = $conexao->query($sql);
 
@@ -72,9 +72,14 @@
                                 <th></th>
                                 <th></th>
                             </tr>
-                            <?php while ($array = $result->fetch_assoc()): ?>
+                            <?php 
+                            $i = 0;
+                            while ($array = $result->fetch_assoc()):
+                            $i++; 
+                            ?>
+
                                 <tr class="table-rows">
-                                    <td><?php echo $array["idConsulta"]; ?></td>
+                                    <td class="consultaPesquisa<?php echo $i?> consultaConfere"><?php echo $array["idConsulta"]; ?></td>
                                     <td><?php echo $array["dataConsulta"]; ?></td>
                                     <td><?php echo $array["horaConsulta"]; ?></td>
                                     <td><?php echo $array["veterinario"]; ?></td>
@@ -89,6 +94,8 @@
                                     </td>
                                     <td class="btnTabelaContainer"></td>
                                 </tr>
+                                <script>
+                                </script>
                             <?php endwhile; ?>
                         </table>
                     </div>
@@ -97,7 +104,6 @@
                             echo "Nenhum resultado encontrado.";
                         endif;
                         $conexao->close();
-                    }
                     ?>
                 </div>
                 <!-- Seção Modal -->
@@ -124,6 +130,20 @@
     </body>
 </html>
 <script>
+    var i = 1
+    const linhas = document.querySelectorAll('.consultaConfere');
+        linhas.forEach(linhas => {
+            var consultaPesquisa = document.querySelector('.consultaPesquisa' + i).textContent
+            if (consultaPesquisa == <?php echo $termo_pesquisa?>){
+                linha = document.querySelector('.consultaPesquisa' + i)
+                elemento = linha.parentElement
+                elemento.style.fontWeight = 'bold'
+                elemento.style.fontSize = '2.6vh'
+
+            }
+            i++
+        });
+
     document.addEventListener('DOMContentLoaded', function() {
         <?php
             if (isset($_GET['consultaDeletada']) && $_GET['consultaDeletada'] === 'sucesso') {

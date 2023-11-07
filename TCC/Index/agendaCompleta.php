@@ -142,7 +142,7 @@
                     dataAtualConf = new Date(anoAtualConf, mesAtualConf, diaAtualConf)
                     dataSelecionadaConf = new Date(anoSelecionado, mesSelecionado - 1, diaSelecionado)
 
-                    if (dataSelecionadaConf < dataAtualConf){
+                    if (dataSelecionadaConf <= dataAtualConf){
                         document.querySelector('.add').classList.add('escondido')
                     }
                     else(
@@ -423,7 +423,7 @@
                     divConsulta.style.display = 'flex'
                     divConsulta.style.justifyContent = 'center'
                     divConsulta.style.alignItems = 'center'
-                    divConsulta.style.marginLeft = '5px'
+                    divConsulta.style.marginLeft = '10px'
                     divConsulta.style.marginTop = '1px'
                     divConsulta.style.color = 'black'
                     divConsulta.style.fontWeight = 'normal'

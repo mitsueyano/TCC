@@ -161,7 +161,8 @@
                         <input type="hidden" id="idConsultaCO" name="idConsulta">
                     </form>
                     <div class="btn-close" id="btn-close"><span class="close" onclick="fecharModalCO()">&times;</span></div>
-                    <span id="checkoutConfirmar" class="checkoutConfirmar">Deseja confirmar o checkout de <span id="nomeCO" class="nomeCO"></span>?</span>
+                    <span class="avisoCO" id="avisoCO">O animal ainda não foi liberado!</span>
+                    <span id="checkoutConfirmar" class="checkoutConfirmar">Deseja confirmar o checkout de&nbsp<span id="nomeCO" class="nomeCO"></span>?</span>
                     <div class="btn-modal-div-co">
                         <span class="btn-modal agendar" onclick="agendar()">Agendar retorno</span>
                         <span class="btn-modal" onclick="confirmar()">Confirmar</span>
@@ -271,7 +272,7 @@
             // Script para o modal
             <?php
                 include '../php/conectaBD.php';
-                $query = "SELECT Agenda.idConsulta, Agenda.descricao, Usuarios.nome AS veterinario, Animais.nome AS nomeanimal, Animais.especie, Animais.raca, Clientes.nome AS nomecliente, clientes.idCliente
+                $query = "SELECT Agenda.idConsulta, Agenda.descricao, Usuarios.nome AS veterinario, Animais.nome AS nomeanimal, Animais.especie, Animais.raca, Clientes.nome AS nomecliente, clientes.idCliente, Agenda.idStatus
                         FROM Animais
                         INNER JOIN Agenda ON Animais.idAnimal = Agenda.idAnimal
                         INNER JOIN Usuarios ON Agenda.veterinario = Usuarios.idUsuario
@@ -381,6 +382,15 @@
             function abrirModalCO(id){
                 agenda.forEach(g=>{
                     if (g[0] == id){
+                       avisoCO =  document.querySelector("#avisoCO")
+
+                        if (g[8] != 3){
+                           avisoCO.classList.remove('escondido')
+                        }
+                        else{
+                            avisoCO.classList.add('escondido')
+                        }
+
                         document.querySelector("#nomeCO").innerHTML = g[3];
                         document.querySelector("#idConsultaCO").value = g[0];
                         document.getElementById("idCliente").value = g[7];
