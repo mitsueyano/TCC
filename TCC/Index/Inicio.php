@@ -259,7 +259,7 @@
 
             function mostrarInfo(id){
                 animal.forEach(g=>{
-                    if (g[0] == id){
+                    if (g[5] == id){
                         document.querySelector("#infoId").innerHTML =  g[5];    
                         document.querySelector("#infoDono").innerHTML =  g[9];
                         document.querySelector("#infoNome").innerHTML =   g[8];    
@@ -304,6 +304,7 @@
             modalReg = document.querySelector('.modal-content-reg')
             semRegistro = document.createElement('span')
             semRegistro.classList.add('semRegistro')
+            semRegistro.style.textAlign = 'center'
             modalReg.appendChild(semRegistro)
             // Abre o modal com as informações
             function abrirModal(id){
@@ -321,17 +322,18 @@
                         
                         document.querySelector('.modal-content-reg').appendChild(clone)
                     }
+                    existeRegistro = document.querySelector('.cloneDiv')
+                    if (existeRegistro == null){
+                            semRegistro.textContent = 'O ANIMAL NÃO POSSUI REGISTROS'                     
+                    }
+                    else{
+                        if (document.querySelector('.semRegistro')){
+                            semRegistro.textContent = 'HISTÓRICO MÉDICO'
+                        }
+                    }
                 })
 
-                existeRegistro = document.querySelector('.cloneDiv')
-                if (existeRegistro == null){
-                        semRegistro.textContent = 'O ANIMAL NÃO POSSUI REGISTROS'                     
-                }
-                else{
-                    if (document.querySelector('.semRegistro')){
-                        semRegistro.textContent = 'HISTÓRICO MÉDICO'
-                    }
-                }
+                
 
                 var btn = document.querySelector(".more-btn");
                 var modalBackdrop = document.getElementById("modalBackdrop");
@@ -382,14 +384,6 @@
             function abrirModalCO(id){
                 agenda.forEach(g=>{
                     if (g[0] == id){
-                       avisoCO =  document.querySelector("#avisoCO")
-
-                        if (g[8] != 3){
-                           avisoCO.classList.remove('escondido')
-                        }
-                        else{
-                            avisoCO.classList.add('escondido')
-                        }
 
                         document.querySelector("#nomeCO").innerHTML = g[3];
                         document.querySelector("#idConsultaCO").value = g[0];
@@ -493,6 +487,14 @@
                                     "</td>" +
                                     "</tr>"
                                 );
+                                avisoCO =  document.querySelector("#avisoCO")
+                                if (item.statusCosulta === 'Liberado'){
+                                    avisoCO.classList.remove('escondido')
+                                }
+                                else{
+                                    avisoCO.classList.add('escondido')
+                                }
+                                
                             });
                         }
                     },

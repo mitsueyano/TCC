@@ -188,7 +188,7 @@ values (1, '2023-08-20', '13:00', 1, '3kg', '38°C', 'Exame físico normal', 'Ne
 (27, '2023-09-23', '14:30', 1, '2.8kg', '38.5°C', 'Exame físico normal', 'Nenhum tratamento necessário', 'Animal saudável', 26),
 (28, '2023-09-24', '10:50', 2, '4.7kg', '39.4°C', 'Problema de pele', 'Prescrição de creme tópico', 'Retorno em uma semana para reavaliação', 27),
 (29, '2023-09-25', '13:40', 1, '3.3kg', '38.6°C', 'Exame físico normal', 'Nenhum tratamento necessário', 'Animal saudável', 28),
-(30, '2023-09-26', '16:20', 2, '5.2kg', '40.1°C', 'Problema dental', 'Limpeza dental e extração necessárias', 'Retorno em duas semanas para procedimento', 29),
+(30, '2023-09-26', '16:20', 2, '5.2kg', '40.1°C', 'Problema dental', 'Limpeza dental e extração necessárias', 'Retorno em duas semanas para procedimento', 27),
 (31, '2023-09-27', '12:00', 1, '3.9kg', '38.7°C', 'Exame físico normal', 'Nenhum tratamento necessário', 'Animal saudável', 30),
 (32, '2023-09-28', '15:10', 2, '4.8kg', '39.7°C', 'Problema de ouvido', 'Limpeza e medicação necessárias', 'Retorno em cinco dias para verificação', 31),
 (33, '2023-09-29', '10:15', 1, '3.1kg', '38.4°C', 'Exame físico normal', 'Nenhum tratamento necessário', 'Animal saudável', 32),
@@ -320,11 +320,14 @@ values ('2023-10-24', '14:00', 1, 1, 'Exame de sangue', 1),
 ('2023-11-07', '10:00', 1, 26, 'Ecocardiograma', 2),
 ('2023-11-07', '10:30', 1, 27, 'Vacinação', 1),
 ('2023-11-07', '12:30', 1, 28, 'Avaliação de saúde', 1),
-('2023-11-08', '13:00', 1, 29, 'Exame de rotina', 1),
-('2023-11-08', '13:30', 1, 30, 'Vacinação', 2),
-('2023-11-08', '14:00', 1, 31, 'Vacinação', 1),
 
+
+('2023-11-08', '13:00', 1, 29, 'Exame de rotina', 0),
+('2023-11-08', '13:30', 1, 30, 'Vacinação', 0),
+('2023-11-08', '14:00', 1, 31, 'Vacinação', 0),
 ('2023-11-08', '14:30', 1, 32, 'Ecocardiograma', 1),
+
+
 ('2023-11-09', '15:00', 1, 33, 'Avaliação da função pulmonar', 1),
 ('2023-11-09', '15:30', 1, 34, 'Acompanhamento de gestação e parto', 2),
 ('2023-11-09', '16:00', 1, 35, 'Radiografia', 1),
@@ -812,7 +815,10 @@ UPDATE Agenda
 SET idStatus = 0;
 
 UPDATE Agenda
-SET idStatus = 1 WHERE dataConsulta = '2023-11-02';
+SET idStatus = 0 WHERE dataConsulta = '2023-11-08';
+
+
+
 
 select * from Usuarios;
 select * from Clientes;
@@ -821,7 +827,4 @@ select * from Agenda;
 select * from HistoricoMedico;
 select * from Acesso;
 select * from statusConsulta;
-
-
-
 

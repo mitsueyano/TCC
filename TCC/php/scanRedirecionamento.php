@@ -14,9 +14,12 @@ if (!$resultData) {
 
         if (count($partes) === 3) {
             $dataConsulta = date("Y-m-d", strtotime($dataConsultaRow));
+            date_default_timezone_set('America/Sao_Paulo');
             $hoje = date("Y-m-d");
 
+
             if ($dataConsulta == $hoje) {
+
                 $idAnimal = $_GET['idAnimal'];
                 $query = "UPDATE Agenda SET idStatus = '1' WHERE dataConsulta = '$dataConsultaRow' and idAnimal = '$idAnimal'";
                 $result = mysqli_query($conexao, $query);
@@ -31,6 +34,8 @@ if (!$resultData) {
             echo "Formato de data inválido.";
         }
     }
+
+
 
     if ($consultasAgendadas) {
         header('Location: ../Index/Inicio.php');
