@@ -532,6 +532,11 @@ img{
     padding: 4px;
     padding-left: 8px;
 }
+.semRegistro{
+    color: #2c476e;
+    font-weight: bold;
+    
+}
 
  /* Funções do modal (animação) */
 #modalBackdrop {

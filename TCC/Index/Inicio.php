@@ -489,10 +489,10 @@
                                 );
                                 avisoCO =  document.querySelector("#avisoCO")
                                 if (item.statusCosulta === 'Liberado'){
-                                    avisoCO.classList.remove('escondido')
+                                    avisoCO.classList.add('escondido')
                                 }
                                 else{
-                                    avisoCO.classList.add('escondido')
+                                    avisoCO.classList.remove('escondido')
                                 }
                                 
                             });
