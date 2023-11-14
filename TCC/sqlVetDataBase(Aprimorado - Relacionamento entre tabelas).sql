@@ -105,8 +105,8 @@ create table Animais
 	foreign key (idCliente) references Clientes(idCliente) on delete cascade
 );
 insert into Animais (nome, especie, raca, datanascto, idCliente)
-values ('Bumi', 'Cachorro', 'Golden Retriever', '2018-03-15', 1),
-('Sett', 'Gato', 'Siamês', '2019-06-10', 2),
+values ('Totó', 'Cachorro', 'Golden Retriever', '2018-03-15', 1),
+('Bolinha', 'Gato', 'Siamês', '2019-06-10', 2),
 ('Tico', 'Pássaro', 'Canário', '2020-02-01', 1),
 ('Faisca', 'Gato', 'Siamês', '2019-05-10', 2),
 ('Rex', 'Cachorro', 'Labrador', '2017-08-20', 12),
@@ -141,7 +141,7 @@ values ('Bumi', 'Cachorro', 'Golden Retriever', '2018-03-15', 1),
 ('Bentley', 'Cachorro', 'Shih Tzu', '2018-03-18', 12),
 ('Ruby', 'Gato', 'British Shorthair', '2019-08-07', 26),
 ('Milo', 'Cachorro', 'Poodle', '2017-06-30', 32),
-('Leo', 'Gato', 'Exotic Shorthair', '2018-12-12', 1),
+('Leo', 'Gato', 'Persa', '2018-12-12', 1),
 ('Lola', 'Cachorro', 'Dachshund', '2019-02-08', 9);
 
 
@@ -412,7 +412,6 @@ values ('2023-10-24', '14:00', 1, 1, 'Exame de sangue', 1),
 ('2023-11-13', '19:00', 1, 19, 'Vacinação', 2),
 ('2023-11-13', '19:30', 1, 20, 'Exame de rotina', 1),
 ('2023-11-13', '20:00', 1, 21, 'Vacinação anual', 2),
-('2023-11-13', '15:30', 1, 12, 'Acompanhamento de gestação e parto', 1),
 ('2023-11-14', '16:00', 1, 13, 'Radioterapia', 1),
 ('2023-11-14', '16:30', 1, 14, 'Avaliação da função pulmonar', 2),
 ('2023-11-14', '17:00', 1, 15, 'Teste de alergia', 1),
@@ -814,11 +813,28 @@ SET SQL_SAFE_UPDATES = 0;
 UPDATE Agenda
 SET idStatus = 0;
 
+/* Para apresentar */
+
+insert into Clientes (nome, email, contato, enderecoE, enderecoC, enderecoB, enderecoRN)
+values ('Diego Gael Duarte', 'diego.gael.duarte@msds.com.br', '(69) 38714257', 'RO', 'Porto Velho', 'Cohab', 'Rua Trombone, 525' ); /* ID: 33 */
+
+insert into Animais (nome, especie, raca, datanascto, idCliente)
+values ('Bumi', 'Cachorro', 'Maltês', '2018-03-15', 33), /* ID: 39 */
+('Sett', 'Gato', 'SRD', '2021-06-18', 33); /* ID: 40 */
+
+insert into HistoricoMedico (idConsulta, dataconsulta, horaConsulta, veterinario, peso, temperatura, diagnostico, tratamento, observacoes, idAnimal)
+values (41, '2023-10-05', '13:00', 1, '3kg', '39°C', 'Exame físico normal', 'Infecção no ouvido', 'Retorno em dez dias', 39),
+(42, '2023-10-15', '15:00', 1, '3kg', '38°C', 'Exame físico normal', 'Nenhum tratamento necessário', 'Animal saudável', 39),
+(43, '2023-11-02', '16:30', 1, '4kg', '38°C', 'Exame físico normal', 'Nenhum tratamento necessário', 'Animal saudável', 40);
+
+insert into Agenda (dataConsulta, horaConsulta, veterinario, idAnimal, descricao, idStatus)
+values ('2023-11-14', '14:00', 1, 39, 'Teste de alergia', 0),
+('2023-11-14', '15:30', 1, 40, 'Exame de sangue', 0);
+
+
 UPDATE Agenda
-SET idStatus = 0 WHERE dataConsulta = '2023-11-08';
-
-
-
+SET idStatus = 1 WHERE dataConsulta = '2023-11-14'
+AND idAnimal = 39 OR idAnimal = 40;
 
 select * from Usuarios;
 select * from Clientes;
@@ -827,4 +843,6 @@ select * from Agenda;
 select * from HistoricoMedico;
 select * from Acesso;
 select * from statusConsulta;
+
+
 

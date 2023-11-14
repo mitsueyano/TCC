@@ -154,22 +154,6 @@
                 </div>
             </div>
 
-            <!-- Seção Modal 'Check-out' -->
-            <div id="modalCO" class="modalCO">
-                <div class="modal-content" id="modal-content">
-                    <form action="../php/checkOut.php" method="POST" id="formCO">
-                        <input type="hidden" id="idConsultaCO" name="idConsulta">
-                    </form>
-                    <div class="btn-close" id="btn-close"><span class="close" onclick="fecharModalCO()">&times;</span></div>
-                    <span class="avisoCO" id="avisoCO">O animal ainda não foi liberado!</span>
-                    <span id="checkoutConfirmar" class="checkoutConfirmar">Deseja confirmar o checkout de&nbsp<span id="nomeCO" class="nomeCO"></span>?</span>
-                    <div class="btn-modal-div-co">
-                        <span class="btn-modal agendar" onclick="agendar()">Agendar retorno</span>
-                        <span class="btn-modal" onclick="confirmar()">Confirmar</span>
-                    </div>  
-                </div>
-            </div>
-
             <!-- Seção Modal 'Scan' -->
             <div id="modalScan" class="modalScan">
                 <div class="modal-content" id="modal-content">
@@ -353,44 +337,18 @@
                 modalBackdrop.style.display = "none";
             }
 
-            //Animação do modal
-            window.onclick = function(event) {
-                if (!event.target.closest("#modal, .more-btn, #modalContent, #modalCO, #modalScan, .scanBtn, #modalAviso")) {
-
-                    const divTremor = document.getElementById('modal');
-                    const divTremorCO = document.getElementById('modalCO');
-                    const divTremorScan = document.getElementById('modalScan');
-                    const divTremorAviso = document.getElementById('modalAviso');
-
-                    function startTremor() {
-                        divTremor.classList.add('shake');
-                        divTremorCO.classList.add('shake');
-                        divTremorScan.classList.add('shake');
-                        divTremorAviso.classList.add('shake');
-                    }
-
-                    function stopTremor() {
-                        divTremor.classList.remove('shake');
-                        divTremorCO.classList.remove('shake');
-                        divTremorScan.classList.remove('shake');
-                        divTremorAviso.classList.remove('shake');
-                    }
-                    startTremor();
-                    setTimeout(stopTremor, 500);
-                }              
-            }
-
             // Abre o modal CHECK-OUT
             function abrirModalCO(id){
                 agenda.forEach(g=>{
                     if (g[0] == id){
 
-                        document.querySelector("#nomeCO").innerHTML = g[3];
-                        document.querySelector("#idConsultaCO").value = g[0];
+                        
+                        document.querySelector("#nomeCO_" + id).innerHTML = g[3];
+                        document.querySelector("#idConsultaCO_" + id).value = g[0];
                         document.getElementById("idCliente").value = g[7];
                     }
                 })
-
+                var modalCO = document.querySelector("#modalCO_" + id)
 
                 var btn = document.querySelector(".more-btn");
                 var modalBackdrop = document.getElementById("modalBackdrop");
@@ -405,7 +363,8 @@
                 window.location.href = "../index/novaConsulta.php" + '?data=%7B"id"%3A'+ idCliente +'%2C"nome"%3A""%7D&idCampo=' + idCliente + '&idResposta=' + idCliente
             }
             // Fecha o modal CHECK-OUT
-            function fecharModalCO(){
+            function fecharModalCO(id){
+                var modalCO = document.querySelector("#modalCO_" + id)
                 var span = document.getElementsByClassName("close");
                 var modalBackdrop = document.getElementById("modalBackdrop");
                 modalCO.style.display = "none";
@@ -487,15 +446,75 @@
                                     "</td>" +
                                     "</tr>"
                                 );
-                                avisoCO =  document.querySelector("#avisoCO")
-                                if (item.statusCosulta === 'Liberado'){
-                                    avisoCO.classList.add('escondido')
-                                }
-                                else{
-                                    avisoCO.classList.remove('escondido')
-                                }
+
+                                var modalCOId = "modalCO_" + item.idConsulta;
+
+                                // Verifique se o modal já existe
+                                if (!document.getElementById(modalCOId)) {
+                                    // Se não existir, crie o modalCO
+                                    var modalCO = document.createElement('div');
+                                    modalCO.id = modalCOId;
+                                    modalCO.classList.add('modalCO');
+                                    modalCO.innerHTML = `
+                                        <div class="modal-content" id="modal-content">
+                                            <form action="../php/checkOut.php" method="POST" id="formCO_${item.idConsulta}">
+                                                <input type="hidden" id="idConsultaCO_${item.idConsulta}" name="idConsulta">
+                                            </form> 
+                                            <div class="btn-close" id="btn-close_${item.idConsulta}">
+                                                <span class="close" onclick="fecharModalCO('${item.idConsulta}')">&times;</span>
+                                            </div>
+                                            <span class="avisoCO" id="avisoCO_${item.idConsulta}">O animal ainda não foi liberado!</span>
+                                            <span id="checkoutConfirmar_${item.idConsulta}" class="checkoutConfirmar">
+                                                Deseja confirmar o checkout de&nbsp<span id="nomeCO_${item.idConsulta}" class="nomeCO"></span>?
+                                            </span>
+                                            <div class="btn-modal-div-co">
+                                                <span class="btn-modal agendar" onclick="agendar('${item.idConsulta}')">Agendar retorno</span>
+                                                <span class="btn-modal" onclick="confirmar('${item.idConsulta}')">Confirmar</span>
+                                            </div>  
+                                        </div>
+                                    `;
+
+                                    // Adicione o modalCO ao corpo do documento
+                                    document.body.appendChild(modalCO);
+
+                                    var avisoCO = document.querySelector("#avisoCO_" + item.idConsulta);
+                                    if (item.statusConsulta === 'Liberado') {
+                                        avisoCO.classList.add('escondido');
+                                    } else {
+                                        avisoCO.classList.remove('escondido');
+                                    }
+                                    }
                                 
-                            });
+                            });                                               
+        
+                            window.onclick = function(event) {
+                                data.forEach(function(item) {
+                                if (!event.target.closest(`#modal, .more-btn, #modalContent, #modalScan, .scanBtn, #modalAviso, #modalCO_${item.idConsulta}`)) {
+                                    
+                                            const divTremor = document.getElementById('modal');
+                                            const divTremorCO = document.getElementById('modalCO_' + item.idConsulta);
+                                            const divTremorScan = document.getElementById('modalScan');
+                                            const divTremorAviso = document.getElementById('modalAviso');
+
+                                            function startTremor() {
+                                                divTremor.classList.add('shake');
+                                                divTremorCO.classList.add('shake');
+                                                divTremorScan.classList.add('shake');
+                                                divTremorAviso.classList.add('shake');
+                                            }
+
+                                            function stopTremor() {
+                                                divTremor.classList.remove('shake');
+                                                divTremorCO.classList.remove('shake');
+                                                divTremorScan.classList.remove('shake');
+                                                divTremorAviso.classList.remove('shake');   
+                                            }
+                                            startTremor();
+                                            setTimeout(stopTremor, 500);
+                                    
+                                }
+                                });
+                            }
                         }
                     },
                     complete: function() {

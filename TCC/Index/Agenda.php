@@ -130,19 +130,7 @@
     </body>
 </html>
 <script>
-    var i = 1
-    const linhas = document.querySelectorAll('.consultaConfere');
-        linhas.forEach(linhas => {
-            var consultaPesquisa = document.querySelector('.consultaPesquisa' + i).textContent
-            if (consultaPesquisa == <?php echo $termo_pesquisa?>){
-                linha = document.querySelector('.consultaPesquisa' + i)
-                elemento = linha.parentElement
-                elemento.style.fontWeight = 'bold'
-                elemento.style.fontSize = '2.6vh'
-
-            }
-            i++
-        });
+   
 
     document.addEventListener('DOMContentLoaded', function() {
         <?php
@@ -154,6 +142,19 @@
         <?php
             }
         ?>
+
+        var i = 1
+            const linhas = document.querySelectorAll('.consultaConfere');
+            linhas.forEach(linhas => {
+                var consultaPesquisa = document.querySelector('.consultaPesquisa' + i).textContent
+                if (consultaPesquisa == '<?php echo $termo_pesquisa?>'){
+                    linha = document.querySelector('.consultaPesquisa' + i)
+                    elemento = linha.parentElement
+                    elemento.style.fontWeight = 'bold'
+                    elemento.style.fontSize = '2.6vh'
+                }
+                i++
+            });
     })
 
     function confirmarConsulta(idConsulta){

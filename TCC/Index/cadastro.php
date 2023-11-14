@@ -60,6 +60,7 @@
                                     WHERE animais.nome LIKE '%$termo_pesquisa%'
                                     OR animais.especie LIKE '%$termo_pesquisa%'
                                     OR animais.raca LIKE '%$termo_pesquisa%'
+                                    OR clientes.nome LIKE '%$termo_pesquisa%'
                                     OR animais.idAnimal = '$termo_pesquisa'";
                             $resultAnimais = $conexao->query($sqlAnimais);
                             if ($resultAnimais->num_rows > 0):
