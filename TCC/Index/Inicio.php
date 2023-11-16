@@ -183,14 +183,14 @@
                     if (isset($_GET['ConsultaFinalizada']) && $_GET['ConsultaFinalizada'] === 'sucesso') {
                         $msg = "CHECK-OUT REALIZADO COM SUCESSO."
                         ?>
-                        abrirModal()
+                        abrirModalAviso()
                         document.getElementById('msg').textContent = '<?php echo $msg ?>'
                 <?php
                     }
                     if (isset($_GET['Consulta']) && $_GET['Consulta'] === 'inexistente') {
                         $msg = "O ANIMAL NÃO POSSUI CONSULTAS PARA HOJE"
                         ?>
-                        abrirModal()
+                        abrirModalAviso()
                         document.getElementById('msg').textContent = '<?php echo $msg ?>'
                 <?php
                     }
@@ -389,10 +389,24 @@
                 pararScanner();
             }
 
+            // Script Check-out
+            function confirmar(id){
+            document.querySelector('#formCO_' + id).submit();
+
+            }
 
         // Seção MODAL Aviso
         var modalAviso = document.getElementById('modalAviso')
 
+        // Abre o modal
+            function abrirModalAviso(){
+
+                var btn = document.querySelector(".more-btn");
+                var modalBackdrop = document.getElementById("modalBackdrop");
+                modalAviso.style.display = "block";
+                modalBackdrop.style.display = "block";
+            }
+        
         // Fecha o modal
         function fecharModalAviso(){
             var span = document.getElementsByClassName("close");
@@ -400,11 +414,6 @@
             modalAviso.style.display = "none";
             modalBackdrop.style.display = "none";
         }
-
-            // Script Check-out
-            function confirmar(){
-                formCO.submit()
-            }
 
             // Script para atualizar a tabela automaticamente
             function atualizarTabela() {
@@ -476,13 +485,12 @@
 
                                     // Adicione o modalCO ao corpo do documento
                                     document.body.appendChild(modalCO);
-
-                                    var avisoCO = document.querySelector("#avisoCO_" + item.idConsulta);
-                                    if (item.statusConsulta === 'Liberado') {
+                                }
+                                var avisoCO = document.querySelector("#avisoCO_" + item.idConsulta);
+                                    if (item.statusConsulta == 'Liberado') {
                                         avisoCO.classList.add('escondido');
                                     } else {
                                         avisoCO.classList.remove('escondido');
-                                    }
                                     }
                                 
                             });                                               
@@ -513,8 +521,10 @@
                                             setTimeout(stopTremor, 500);
                                     
                                 }
+                                                             
                                 });
                             }
+
                         }
                     },
                     complete: function() {
