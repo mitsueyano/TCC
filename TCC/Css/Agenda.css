@@ -221,6 +221,11 @@ th{
 tbody>tr:hover {
     background-color: #fef5e4;
 }  
+thead th {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+}
 
 
 /* Botões da tabela */

@@ -178,6 +178,18 @@
                         </div>  
 
                     </form> 
+
+                    <!-- Seção Modal -->
+                    <div id="modal" class="modal">
+                        <div class="modal-content" id="modal-content">
+                            <div class="btn-close" id="btn-close">
+                                <span class="close" onclick="fecharModal()">&times;</span>
+                            </div>
+                            <span id="msg"></span>
+                        </div>
+                    </div>
+                    <div id="modalBackdrop"></div>
+
                 </div>
             </div>
     </body>
@@ -264,7 +276,8 @@
             }
         })
         .catch(err =>{
-            window.alert("CEP inválido");
+            abrirModal()
+            document.getElementById('msg').textContent = 'CEP INVÁLIDO.'
             document.getElementById("cep").value = "";
 
             const Estado = document.getElementById("estado");
@@ -420,23 +433,28 @@
             verificar = true;
         }
         if (verificar) {
-            window.alert("Dados incompletos.");
+            abrirModal()
+            document.getElementById('msg').textContent = 'DADOS INCOMPLETOS.'
             return false;
+           
         }
         const animaisJson = document.getElementById("animaisJson").value;
         if (animaisJson.trim() === "") {
-            window.alert("Nenhum animal adicionado.");
+            abrirModal()
+            document.getElementById('msg').textContent = 'NENHUM ANIMAL ADICIONADO.'
             return false;
         }
         var contatoTipo = document.getElementById("contatoTipo");
         if (document.getElementById("contatoTipoTelefone").checked){  
             if(contato.length != 13){
-            window.alert("Número de contato inválido");
+            abrirModal()
+            document.getElementById('msg').textContent = 'NÚMERO DE CONTATO INVÁLIDO.'
             return false;
         }}
         if (document.getElementById("contatoTipoCelular").checked){  
             if(contato.length != 14){
-            window.alert("Número de contato inválido");
+            abrirModal()
+            document.getElementById('msg').textContent = 'NÚMERO DE CONTATO INVÁLIDO.'
             return false;
         }}
 
@@ -463,4 +481,37 @@
         bairro.readOnly = false;
         rua.readOnly = false;
     }
+    
+     // Seção MODAL
+     var modal = document.getElementById('modal')
+        // Abre o modal
+        function abrirModal(){
+            var modalBackdrop = document.getElementById("modalBackdrop");
+            modal.style.display = "block";
+            modalBackdrop.style.display = "block";          
+        }
+        // Fecha o modal
+        function fecharModal(){
+            var span = document.getElementsByClassName("close");
+            var modalBackdrop = document.getElementById("modalBackdrop");
+            modal.style.display = "none";
+            modalBackdrop.style.display = "none";
+        }
+         //Animação do modal
+         window.onclick = function(event) {
+            if (!event.target.closest(".more-btn, #modalContent, #modal, img, .btnSubmitDiv, .pesquisar")) {
+
+                const divTremor = document.getElementById('modal');
+
+                function startTremor() {
+                    divTremor.classList.add('shake');
+                }
+
+                function stopTremor() {
+                    divTremor.classList.remove('shake');
+                }
+                startTremor();
+                setTimeout(stopTremor, 500);
+            }   
+        }
 </script>

@@ -357,10 +357,10 @@
             }
 
             // Script agendar retorno
-            function agendar(id){
+            function agendar(id, animal){
                 var idCliente
                 idCliente = document.getElementById('idCliente').value
-                window.location.href = "../index/novaConsulta.php" + '?data=%7B"id"%3A'+ idCliente +'%2C"nome"%3A""%7D&idCampo=' + idCliente + '&idResposta=' + idCliente
+                window.location.href = "../php/pesquisarID.php?id=" + idCliente + "&animalCO=" + animal + "&idCO=" + id
             }
             // Fecha o modal CHECK-OUT
             function fecharModalCO(id){
@@ -477,7 +477,7 @@
                                                 Deseja confirmar o checkout de&nbsp<span id="nomeCO_${item.idConsulta}" class="nomeCO"></span>?
                                             </span>
                                             <div class="btn-modal-div-co">
-                                                <span class="btn-modal agendar" onclick="agendar('${item.idConsulta}')">Agendar retorno</span>
+                                                <span class="btn-modal agendar" onclick="agendar('${item.idConsulta}', '${item.nome_animal}')">Agendar retorno</span>
                                                 <span class="btn-modal" onclick="confirmar('${item.idConsulta}')">Confirmar</span>
                                             </div>  
                                         </div>

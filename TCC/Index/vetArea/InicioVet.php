@@ -52,7 +52,7 @@
                                     <label>Descrição da consulta:</label>
                             </div>
                             <div class="input-dados">
-                                <input type="text" name="descricao" id="descricao">
+                                <textarea name="descricao" id="descricao"></textarea>
                             </div>
                         </div>
                     </div>

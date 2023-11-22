@@ -19,7 +19,7 @@ body{
 .login-box{
     position: relative;
     width: 100%;
-    height: 85%;
+    height: 80%;
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -41,7 +41,7 @@ body{
     border-bottom: 2px #2c476e solid;
 }
 .span-form{
-    font-size: 1.5vw;
+    font-size: 1.3vw;
     width: 70%;
     margin-bottom: 5px;
 }
@@ -67,7 +67,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    bottom: 5px; 
+    bottom: -70px; 
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 2.5vh;
@@ -84,7 +84,7 @@ input::placeholder{
     width: 20px;
     position: absolute;
     left: 9vh;
-    bottom: 2%;
+    bottom: -63px;
     transform: translateY(-50%);
 }
 
@@ -106,7 +106,7 @@ input::placeholder{
 .logo{
     width: 55%;
     position: absolute;
-    top: -15%;
+    top: -20%;
     z-index: 3;
 }
 .logo > img{

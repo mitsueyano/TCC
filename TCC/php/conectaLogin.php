@@ -25,10 +25,12 @@
 
         // Mensagem de erro - Login-Senha incorretos
         if ($login === $loginCorreto && password_verify($senha, $senhaCriptografada)) {
+            echo $login;
+            echo $senha;
             if ($idUsuario == '3'){
                 header("Location: " . $urlRecep);
             }
-            else if ($idUsuario == '4'){
+            else if ($idUsuario == '1'){
                 header("Location: " . $urlVetArea);
             }
             exit();

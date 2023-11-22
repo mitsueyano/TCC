@@ -159,7 +159,7 @@
                     </form> 
                 </div>
 
-                 <!-- Seção Modal -->
+                <!-- Seção Modal -->
                 <div id="modal" class="modal">
                     <div class="modal-content" id="modal-content">
                         <div class="btn-close" id="btn-close">
@@ -192,7 +192,6 @@
                     echo "var paraAgendar = '';";
                 }
             ?>
-
 
             var campoId = document.getElementById("idCliente").value;
             window.location.href = "../php/pesquisarID.php?id=" + campoId + "&paraAgendar=" + paraAgendar;
@@ -245,22 +244,45 @@
                 verificar = true;
             }
             var idCliente = document.getElementById("idCliente").value;
-             if (idCliente.trim() === "") {
+            if (idCliente.trim() === "") {
                 document.getElementById("idCliente").placeholder = "Campo obrigatório.";
                 verificar = true;
             }
+            var nomeCliente = document.getElementById("nomeCliente").value;
+            if (nomeCliente.trim() === "") {
+                document.getElementById("nomeCliente").placeholder = "Campo obrigatório.";
+                verificar = true;
+            }
+            var idAnimal = document.getElementById("idAnimal").value;
+            if (idAnimal.trim() === "") {
+                document.getElementById("idAnimal").placeholder = "Campo obrigatório.";
+                verificar = true;
+            }
+            var especie = document.getElementById("especie").value;
+            if (especie.trim() === "") {
+                document.getElementById("especie").placeholder = "Campo obrigatório.";
+                verificar = true;
+            }
+            var raca = document.getElementById("raca").value;
+            if (raca.trim() === "") {
+                document.getElementById("raca").placeholder = "Campo obrigatório.";
+                verificar = true;
+            }
             if (verificar) {
-                window.alert("Dados incompletos.");
+                abrirModal()
+                document.getElementById('msg').textContent = 'DADOS INCOMPLETOS'
                 return false;
             }
             if (document.getElementById("animal").value == "Selecione") {
-                window.alert("Nenhum animal selecionado.");
+                abrirModal()
+                document.getElementById('msg').textContent = 'NENHUM ANIMAL SELECIONADO.'
                 return false;
             }
             var dataConsulta = document.getElementById("dataConsulta").value;
             var horaConsulta = document.getElementById("horaConsulta").value;
             if (dataConsulta.trim() === "" || horaConsulta.trim() === "" ) {
-                window.alert("Data/Hora inválida.");
+                abrirModal()
+                document.getElementById('msg').textContent = 'DATA/HORA INVÁLIDA.'
                 return false;
             }
 
@@ -289,6 +311,34 @@
             <?php
                 } else {
                     echo "var paraAgendar = '';";
+                }
+            ?>
+
+            <?php
+                if (isset($_GET['cliente']) && ($_GET['cliente'] === "inexistente")){
+            ?>
+                   abrirModal()
+                    document.getElementById('msg').textContent = 'CLIENTE NÃO ENCONTRADO.'
+            <?php
+                }
+            ?>
+
+            <?php
+                if (isset($_GET['animalCO'])){
+                    $animalCO = $_GET['animalCO'];
+            ?>
+                if('<?php echo $animalCO?>'.trim() === ""){
+                    document.querySelector("#animal").value = "Selecione"
+                }else{
+                    document.querySelector("#animal").value = '<?php echo $animalCO?>'
+                    animalSelecionado()
+                }
+                    
+            <?php
+                }else{
+            ?>
+                document.querySelector("#animal").value = "Selecione"
+            <?php
                 }
             ?>
 
@@ -518,8 +568,8 @@
             }
         });
 
-         // Seção MODAL
-         var modal = document.getElementById('modal')
+        // Seção MODAL
+        var modal = document.getElementById('modal')
         // Abre o modal
         function abrirModal(){
             var modalBackdrop = document.getElementById("modalBackdrop");
@@ -535,7 +585,7 @@
         }
          //Animação do modal
          window.onclick = function(event) {
-            if (!event.target.closest(".more-btn, #modalContent, #modal, img")) {
+            if (!event.target.closest(".more-btn, #modalContent, #modal, img, .btnSubmitDiv")) {
 
                 const divTremor = document.getElementById('modal');
 

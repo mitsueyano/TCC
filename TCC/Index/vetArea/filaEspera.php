@@ -39,9 +39,10 @@
                                 $currentDateTime = new DateTime('now', $timezone);
                                 $currentDate = $currentDateTime->format('Y-m-d');
 
-                                $queryAgenda = "SELECT Agenda.*, Usuarios.nome, Animais.nome, statusConsulta.statusConsulta, Animais.idCliente
+                                $queryAgenda = "SELECT Agenda.*, Usuarios.nome, Animais.nome, statusConsulta.statusConsulta, Animais.idCliente, Clientes.nome
                                                 FROM Animais
                                                 INNER JOIN Agenda ON Animais.idAnimal = Agenda.idAnimal
+                                                INNER JOIN Clientes ON Animais.idCliente = Clientes.idCliente
                                                 INNER JOIN Usuarios ON Agenda.veterinario = Usuarios.idUsuario
                                                 INNER JOIN statusConsulta ON Agenda.idStatus = statusConsulta.idStatus
                                                 WHERE dataConsulta = '$currentDate'
@@ -61,7 +62,7 @@
                                 <td><?php echo $arrayAgenda[9];?></td>
                                 <td class="more-list-container"> 
                                     <div class="list-box">
-                                        <button class="more-btn" onclick="abrirModal(`<?php echo $arrayAgenda[0]?>`, `<?php echo $arrayAgenda[8]?>`, `<?php echo $arrayAgenda[7]?>`)">Chamar</button>
+                                        <button class="more-btn" onclick="abrirModal(`<?php echo $arrayAgenda[0]?>`, `<?php echo $arrayAgenda[8]?>`, `<?php echo $arrayAgenda[11]?>`)">Chamar</button>
                                     </div>
                                 </td>
                             </tr>
@@ -69,7 +70,7 @@
                             <div id="modal" class="modal">
                                 <div class="modal-content" id="modal-content">
                                     <form action="../../php/vetArea/confirmarPresenca.php" method="POST" id="formulario">
-                                        <input type="hidden" id="idConsulta" name="idConsulta" value="<?php echo $arrayAgenda[0]?>">
+                                        <input type="hidden" id="idConsulta" name="idConsulta" value="">
                                     </form>
                                     <span id="confirmar" class="confirmar"></span>
                                     <span id="id" class="id"></span>
@@ -157,6 +158,7 @@
             document.getElementById('id').textContent = "ID: " + idConsulta
             document.getElementById('nomeAnimal').textContent = "Nome do animal: " + nomeAnimal
             document.getElementById('nomeDono').textContent = "Dono: " + nomeDono
+            document.querySelector("#idConsulta").value = idConsulta
 
         }
         // Fecha o modal

@@ -140,6 +140,9 @@ input{
 .veterinario{
     pointer-events: none;
 }
+input::placeholder{
+    color: red;
+}
 
 /* Botões do formulário */
 .center{
@@ -237,7 +240,7 @@ input{
     box-sizing: border-box;
     position: absolute;
     width: 30%;
-    height: 15%;
+    height: 10%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
