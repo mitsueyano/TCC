@@ -120,23 +120,23 @@ values ('Totó', 'Cachorro', 'Golden Retriever', '2018-03-15', 1),
 ('Lucy', 'Cachorro', 'Pug', '2018-05-17', 31),
 ('Charlie', 'Cachorro', 'Dachshund', '2019-10-08', 23),
 ('Oscar', 'Cachorro', 'Golden Retriever', '2017-07-03', 19),
-('Bella', 'Gato', 'Siames', '2018-11-20', 8),
+('Bella', 'Gato', 'Siamês', '2018-11-20', 8),
 ('Lola', 'Cachorro', 'Bulldog Inglês', '2019-01-14', 5),
 ('Simba', 'Gato', 'Persa', '2020-04-06', 14),
 ('Teddy', 'Cachorro', 'Cocker Spaniel', '2017-12-25', 30),
-('Zoe', 'Cachorro', 'Dalmatian', '2018-03-11', 10),
+('Zoe', 'Cachorro', 'Dálmata', '2018-03-11', 10),
 ('Mia', 'Gato', 'Maine Coon', '2019-05-29', 6),
 ('Bailey', 'Cachorro', 'Yorkshire Terrier', '2020-01-08', 28),
 ('Chloe', 'Cachorro', 'Chihuahua', '2017-08-01', 24),
-('Loki', 'Cachorro', 'Siberian Husky', '2018-06-17', 2),
+('Loki', 'Cachorro', 'Husky Siberiano', '2018-06-17', 2),
 ('Daisy', 'Cachorro', 'Beagle', '2019-09-30', 15),
-('Sophie', 'Gato', 'Bengal', '2017-03-14', 11),
+('Sophie', 'Gato', 'Gato de Bengala', '2017-03-14', 11),
 ('Molly', 'Cachorro', 'Doberman', '2018-12-02', 21),
 ('Lily', 'Gato', 'Ragdoll', '2020-02-15', 3),
-('Mochi', 'Cachorro', 'Pomeranian', '2019-04-27', 20),
+('Mochi', 'Cachorro', 'Lulu da Pomerânia', '2019-04-27', 20),
 ('Oliver', 'Gato', 'Scottish Fold', '2018-07-14', 29),
-('Lulu', 'Cachorro', 'Bichon Frise', '2019-11-09', 22),
-('Misty', 'Gato', 'Russian Blue', '2017-09-04', 27),
+('Lulu', 'Cachorro', 'Bichon frisé', '2019-11-09', 22),
+('Misty', 'Gato', 'Azul Russo', '2017-09-04', 27),
 ('Rocky', 'Cachorro', 'Boxer', '2020-01-22', 16),
 ('Bentley', 'Cachorro', 'Shih Tzu', '2018-03-18', 12),
 ('Ruby', 'Gato', 'British Shorthair', '2019-08-07', 26),
@@ -828,12 +828,12 @@ values (41, '2023-10-05', '13:00', 1, '3kg', '39°C', 'Exame físico normal', 'I
 (43, '2023-11-02', '16:30', 1, '4kg', '38°C', 'Exame físico normal', 'Nenhum tratamento necessário', 'Animal saudável', 40);
 
 insert into Agenda (dataConsulta, horaConsulta, veterinario, idAnimal, descricao, idStatus)
-values ('2023-11-16', '14:00', 1, 39, 'Teste de alergia', 0),
-('2023-11-16', '15:30', 1, 40, 'Exame de sangue', 0);
+values ('2023-11-21', '14:00', 1, 39, 'Teste de alergia', 0),
+('2023-11-21', '15:30', 1, 40, 'Exame de sangue', 0);
 
 
 UPDATE Agenda
-SET idStatus = 1 WHERE dataConsulta = '2023-11-16'
+SET idStatus = 1 WHERE dataConsulta = '2023-11-21'
 AND idAnimal = 39 OR idAnimal = 40;
 
 select * from Usuarios;
