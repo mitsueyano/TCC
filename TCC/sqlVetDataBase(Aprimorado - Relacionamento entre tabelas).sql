@@ -828,13 +828,17 @@ values (41, '2023-10-05', '13:00', 1, '3kg', '39°C', 'Exame físico normal', 'I
 (43, '2023-11-02', '16:30', 1, '4kg', '38°C', 'Exame físico normal', 'Nenhum tratamento necessário', 'Animal saudável', 40);
 
 insert into Agenda (dataConsulta, horaConsulta, veterinario, idAnimal, descricao, idStatus)
-values ('2023-11-21', '14:00', 1, 39, 'Teste de alergia', 0),
-('2023-11-21', '15:30', 1, 40, 'Exame de sangue', 0);
+values ('2023-11-22', '14:00', 1, 39, 'Teste de alergia', 0),
+('2023-11-22', '15:30', 1, 40, 'Exame de sangue', 0);
 
 
 UPDATE Agenda
-SET idStatus = 1 WHERE dataConsulta = '2023-11-21'
-AND idAnimal = 39 OR idAnimal = 40;
+SET idStatus = 1 WHERE dataConsulta = '2023-11-22'
+AND idAnimal = 39;
+
+UPDATE Agenda
+SET idStatus = 0 WHERE dataConsulta = '2023-11-22'
+AND idAnimal = 40; 
 
 select * from Usuarios;
 select * from Clientes;

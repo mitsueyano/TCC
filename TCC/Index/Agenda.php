@@ -62,16 +62,18 @@
                     ?>
                     <div class="table-container">
                         <table>
-                            <tr class="table-rows">
-                                <th>ID da consulta</th>
-                                <th>Data</th>
-                                <th>Hora</th>
-                                <th>Veterinário</th>
-                                <th>Descrição</th>
-                                <th>ID do Animal</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
+                            <thead>
+                                <tr class="table-rows">
+                                    <th>ID da consulta</th>
+                                    <th>Data</th>
+                                    <th>Hora</th>
+                                    <th>Veterinário</th>
+                                    <th>Descrição</th>
+                                    <th>ID do Animal</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
                             <?php 
                             $i = 0;
                             while ($array = $result->fetch_assoc()):
