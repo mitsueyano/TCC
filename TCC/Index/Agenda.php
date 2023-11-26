@@ -77,12 +77,14 @@
                             <?php 
                             $i = 0;
                             while ($array = $result->fetch_assoc()):
+                                $data = explode('-', $array["dataConsulta"]);
+                                $dataCompleta = $data[2] . "/" . $data[1] . "/" . $data[0];
                             $i++; 
                             ?>
 
                                 <tr class="table-rows">
                                     <td class="consultaPesquisa<?php echo $i?> consultaConfere"><?php echo $array["idConsulta"]; ?></td>
-                                    <td><?php echo $array["dataConsulta"]; ?></td>
+                                    <td><?php echo $dataCompleta; ?></td>
                                     <td><?php echo $array["horaConsulta"]; ?></td>
                                     <td><?php echo $array["veterinario"]; ?></td>
                                     <td><?php echo $array["descricao"]; ?></td>
@@ -96,8 +98,6 @@
                                     </td>
                                     <td class="btnTabelaContainer"></td>
                                 </tr>
-                                <script>
-                                </script>
                             <?php endwhile; ?>
                         </table>
                     </div>
