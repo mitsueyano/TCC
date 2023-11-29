@@ -230,8 +230,7 @@
                                     FROM Animais
                                     INNER JOIN Clientes ON Clientes.idCliente = Animais.idCliente
                                     INNER JOIN Agenda ON Animais.idAnimal = Agenda.idAnimal
-                                    INNER JOIN Usuarios ON Agenda.veterinario = Usuarios.idUsuario
-                                    GROUP BY Agenda.dataConsulta, Agenda.horaConsulta;";
+                                    INNER JOIN Usuarios ON Agenda.veterinario = Usuarios.idUsuario";
                 $result = mysqli_query($conexao, $queryAnimalInfo);
                 $linhas = [];
                 while($linha = $result->fetch_row()) {

@@ -197,8 +197,8 @@ values (1, '2023-08-20', '13:00', 1, '3kg', '38°C', 'Exame físico normal', 'Ne
 (36, '2023-10-02', '11:55', 2, '4.9kg', '39.3°C', 'Problema respiratório', 'Prescrição de medicação', 'Retorno em uma semana para reavaliação', 35),
 (37, '2023-10-03', '15:35', 1, '3.5kg', '38.5°C', 'Exame físico normal', 'Nenhum tratamento necessário', 'Animal saudável', 36),
 (38, '2023-10-04', '10:25', 2, '4.6kg', '39.0°C', 'Problema de pele', 'Prescrição de creme tópico', 'Retorno em uma semana para reavaliação', 37),
-(39, '2023-10-05', '14:15', 1, '3.2kg', '38.9°C', 'Exame físico normal', 'Nenhum tratamento necessário', 'Animal saudável', 38),
-(40, '2023-10-06', '11:45', 2, '4.7kg', '39.6°C', 'Problema digestivo', 'Prescrição de dieta e medicação', 'Retorno em uma semana para reavaliação', 38);
+(39, '2023-10-05', '14:15', 1, '3.2kg', '38.9°C', 'Exame físico normal', 'Nenhum tratamento necessário', 'Animal saudável', 38);
+
 
 
 
@@ -828,17 +828,23 @@ values (41, '2023-10-05', '13:00', 1, '3kg', '39°C', 'Exame físico normal', 'I
 (43, '2023-11-02', '16:30', 1, '4kg', '38°C', 'Exame físico normal', 'Nenhum tratamento necessário', 'Animal saudável', 40);
 
 insert into Agenda (dataConsulta, horaConsulta, veterinario, idAnimal, descricao, idStatus)
-values ('2023-11-22', '14:00', 1, 39, 'Teste de alergia', 0),
-('2023-11-22', '15:30', 1, 40, 'Exame de sangue', 0);
+values ('2023-11-29', '13:00', 1, 39, 'Teste de alergia', 0), /* MUDAR AQUI*/
+('2023-11-29', '13:30', 1, 22, 'Ultrassonografia', 0), /* MUDAR AQUI*/
+('2023-11-29', '14:00', 1, 20, 'Endoscopia', 0), /* MUDAR AQUI*/
+('2023-11-29', '14:30', 1, 2, 'Transfusão de sangue', 0), /* MUDAR AQUI*/
+('2023-11-29', '15:00', 1, 40, 'Exame de sangue', 0); /* MUDAR AQUI*/
 
 
 UPDATE Agenda
-SET idStatus = 1 WHERE dataConsulta = '2023-11-22'
-AND idAnimal = 39;
+SET idStatus = 1 WHERE dataConsulta = '2023-11-29' /* MUDAR AQUI*/
+AND idAnimal = 40
+OR idAnimal = 2
+OR idAnimal = 20
+OR idAnimal = 22;
 
 UPDATE Agenda
-SET idStatus = 0 WHERE dataConsulta = '2023-11-22'
-AND idAnimal = 40; 
+SET idStatus = 0 WHERE dataConsulta = '2023-11-29' /* MUDAR AQUI*/
+AND idAnimal = 39; 
 
 select * from Usuarios;
 select * from Clientes;
@@ -847,6 +853,3 @@ select * from Agenda;
 select * from HistoricoMedico;
 select * from Acesso;
 select * from statusConsulta;
-
-
-
